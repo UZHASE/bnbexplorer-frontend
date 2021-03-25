@@ -18,10 +18,7 @@ function App() {
                 <p>
                     Welcome to BnB Explorer
                 </p>
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-                <button onClick={loadListings}>GET /listings</button>
+                <button onClick={loadListings} style={{fontSize: '28px'}}>GET /listings</button>
                 <div>
                     {
                         listings.map((listing) =>
@@ -29,6 +26,9 @@ function App() {
                         )
                     }
                 </div>
+                <p>
+                    Edit <code>src/App.js</code> and save to reload.
+                </p>
             </header>
         </div>
     );
