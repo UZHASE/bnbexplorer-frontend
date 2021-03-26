@@ -3,7 +3,6 @@ import './App.css';
 import Api from './lib/Http/Api';
 import {useState} from 'react';
 
-
 function App() {
     const [listings, setListings] = useState([]);
     const loadListings = async () => {
