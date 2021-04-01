@@ -6,7 +6,7 @@ import {useState} from 'react';
 function App() {
     const [listings, setListings] = useState([]);
     const loadListings = async () => {
-        const response = await Api.get('/listing');
+        const response = await Api.get('/listings');
         setListings(response.data);
     }
 
@@ -21,7 +21,7 @@ function App() {
                 <div>
                     {
                         listings.map((listing) =>
-                          <p>{listing}</p>
+                          <p>{`Listing id: ${listing.id}`}</p>
                         )
                     }
                 </div>
