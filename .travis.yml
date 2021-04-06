@@ -1,6 +1,6 @@
-language: node_js
-node_js:
-  - lts
+language: node__js
+node__js:
+  - "lts/*"
 cache:
   directories:
     - node_modules
