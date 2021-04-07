@@ -1,17 +1,16 @@
 import React from 'react';
 import GoogleMapReact from 'google-map-react';
 import RoomIcon from '@material-ui/icons/Room';
-import Log from "../helper/Log";
-
 
 const AnyReactComponent = (props) => {
   // RoomIcon has size 24x24px, so need to offset that, s.t. the icon is in the right location
-  //TODO does not work well with zoom
-  const { text, id, setListing } = props;
+  //=> does not work well with zoom
+  const { text, id, setListing, key } = props;
   return (
-    <>
+    <React.Fragment key={key}>
       <RoomIcon
         color="secondary"
+        key={key}
         style={{
           position: 'absolute',
           left: '-24px',
@@ -20,13 +19,12 @@ const AnyReactComponent = (props) => {
         }}
         onClick={() => setListing(id)}
       />
-    </>
+    </React.Fragment>
   );
 };
 
 const Map = (props) => {
-    const Logger = new Log('map.js');
-    const defaultProps = {
+  const defaultProps = {
     center: { lat: 40.796, lng: -73.85 },
     zoom: 11,
   };
