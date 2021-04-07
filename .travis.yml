@@ -10,7 +10,7 @@ install:
 script:
   # yarn
   - yarn test
-  - yarn run build
+  - yarn run build CI=false
   # sonar
   - sonar-scanner
 
