@@ -10,7 +10,7 @@ import {
   // Toolbar,
   Accordion,
   AccordionDetails,
-  // Grid,
+  Grid,
   CircularProgress,
   AccordionSummary,
 } from '@material-ui/core';
@@ -18,6 +18,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Map from './components/map';
 import ListingDetails from './components/listingDetails';
 import background from './img/oliver-niblett-wh-7GeXxItI-unsplash.jpg';
+import Searchbar from "./components/searchbar";
 
 function App() {
   const Logger = new Log('App.js');
@@ -36,9 +37,15 @@ function App() {
 
   const clickListing = async (key) => {
     const response = await Api.get('listings/' + key);
-    Logger.log('res', response);
+    Logger.log('clicked on listing: ', response);
     setListing(response.data);
   };
+
+  const doSearch = (searchTerm) => {
+    Logger.log('searchterm', searchTerm)
+    // const response = await Api.get('listings/' + key);
+    // setListings(response.data);
+  }
 
   return (
     <div
@@ -81,11 +88,21 @@ function App() {
             <Typography>Details</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            {listing ? (
-              <ListingDetails listing={listing} />
-            ) : (
-              <CircularProgress />
-            )}
+            <Grid
+              container
+              spacing={3}
+              style={{ padding: '0px 12px 0px 0px', marginBottom: '12px' }}
+            >
+              <Grid item xs={12}>
+                <Searchbar doSearch={doSearch}/>
+              </Grid>
+              <Grid item xs={3}>
+                Filter
+              </Grid>
+              <Grid item xs={9}>
+                {listing ? <ListingDetails listing={listing} /> : null}
+              </Grid>
+            </Grid>
           </AccordionDetails>
         </Accordion>
       </Container>
