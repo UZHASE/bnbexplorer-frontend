@@ -1,6 +1,8 @@
 import React from 'react';
 import GoogleMapReact from 'google-map-react';
 import RoomIcon from '@material-ui/icons/Room';
+import Log from "../helper/Log";
+
 
 const AnyReactComponent = (props) => {
   // RoomIcon has size 24x24px, so need to offset that, s.t. the icon is in the right location
@@ -23,7 +25,8 @@ const AnyReactComponent = (props) => {
 };
 
 const Map = (props) => {
-  const defaultProps = {
+    const Logger = new Log('map.js');
+    const defaultProps = {
     center: { lat: 40.796, lng: -73.85 },
     zoom: 11,
   };
@@ -37,7 +40,6 @@ const Map = (props) => {
         defaultZoom={defaultProps.zoom}
       >
         {listings.map((e) => {
-          console.log('listing: ', e);
           return (
             <AnyReactComponent
               lat={e.latitude}

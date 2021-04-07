@@ -7,10 +7,10 @@ import {
   Container,
   Typography,
   AppBar,
-  Toolbar,
+  // Toolbar,
   Accordion,
   AccordionDetails,
-  Grid,
+  // Grid,
   CircularProgress,
   AccordionSummary,
 } from '@material-ui/core';
@@ -35,9 +35,8 @@ function App() {
   }, []);
 
   const clickListing = async (key) => {
-    console.log('e', key);
     const response = await Api.get('listings/' + key);
-    console.log('res', response);
+    Logger.log('res', response);
     setListing(response.data);
   };
 
