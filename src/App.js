@@ -1,13 +1,8 @@
-import './App.css';
-import Api from './lib/Http/Api';
 import React, { useState, useEffect } from 'react';
-import Log from './helper/Log.js';
-
 import {
   Container,
   Typography,
   AppBar,
-  // Toolbar,
   Accordion,
   AccordionDetails,
   Grid,
@@ -15,10 +10,14 @@ import {
   AccordionSummary,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Map from './components/map';
-import ListingDetails from './components/listingDetails';
+
+import Map from './components/Map';
+import ListingDetails from './components/ListingDetails';
 import background from './img/oliver-niblett-wh-7GeXxItI-unsplash.jpg';
-import Searchbar from "./components/searchbar";
+import Searchbar from "./components/Searchbar";
+import Log from './helper/Log.js';
+import './App.css';
+import Api from './lib/Http/Api';
 
 function App() {
   const Logger = new Log('App.js');
@@ -41,8 +40,9 @@ function App() {
     setListing(response.data);
   };
 
-  const doSearch = (searchTerm) => {
-    Logger.log('searchterm', searchTerm)
+  const doSearch = async (searchResults) => {
+    Logger.log('searchResults', searchResults)
+    setListings(searchResults)
     // const response = await Api.get('listings/' + key);
     // setListings(response.data);
   }
@@ -60,17 +60,10 @@ function App() {
       <Container maxWidth="lg">
         <AppBar position="static">
           <Typography variant="h3" align="center">
-            AirBnB Explorer
+            BnB Explorer
           </Typography>
         </AppBar>
-        <Accordion defaultExpanded>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography>Details</Typography>
-          </AccordionSummary>
+        <Accordion >
           <AccordionDetails>
             {listings ? (
               <Map listings={listings} setListing={clickListing} />
@@ -94,7 +87,7 @@ function App() {
               style={{ padding: '0px 12px 0px 0px', marginBottom: '12px' }}
             >
               <Grid item xs={12}>
-                <Searchbar doSearch={doSearch}/>
+                <Searchbar setResults={doSearch} url={process.env.REACT_APP_API_URL+'listings'}/>
               </Grid>
               <Grid item xs={3}>
                 Filter
