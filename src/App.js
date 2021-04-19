@@ -63,15 +63,11 @@ function App() {
             BnB Explorer
           </Typography>
         </AppBar>
-        <Accordion >
-          <AccordionDetails>
             {listings ? (
               <Map listings={listings} setListing={clickListing} />
             ) : (
               <CircularProgress />
             )}
-          </AccordionDetails>
-        </Accordion>
         <Accordion defaultExpanded>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
