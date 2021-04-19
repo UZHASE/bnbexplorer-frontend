@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Typography, CircularProgress } from '@material-ui/core';
-import ListingInfoItem from './listingInfoItem';
+import ListingInfoItem from './ListingInfoItem';
 
 const ListingDetails = (props) => {
   const { listing } = props;
