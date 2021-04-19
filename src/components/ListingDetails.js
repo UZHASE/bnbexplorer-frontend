@@ -5,7 +5,6 @@ import ListingInfoItem from './ListingInfoItem';
 
 const ListingDetails = (props) => {
   const { listing } = props;
-
   return (
     <Grid
       container
