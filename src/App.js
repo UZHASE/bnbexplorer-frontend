@@ -37,7 +37,7 @@ function App() {
   const clickListing = async (key) => {
     const response = await Api.get('listings/' + key);
     Logger.log('clicked on listing: ', response);
-    setListing(response.data[0]);
+    setListing(response.data);
   };
 
   const doSearch = async (searchResults) => {
