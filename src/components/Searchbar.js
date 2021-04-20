@@ -31,8 +31,8 @@ const Searchbar = (props) => {
   return (
     <TextField
       fullWidth
-      variant="outlined"
-      placeholder="Search"
+      variant='outlined'
+      placeholder='Search'
       value={val}
       onChange={(e) => setVal(e.target.value)}
     />

@@ -14,7 +14,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Map from './components/Map';
 import ListingDetails from './components/ListingDetails';
 import background from './img/oliver-niblett-wh-7GeXxItI-unsplash.jpg';
-import Searchbar from "./components/Searchbar";
+import Searchbar from './components/Searchbar';
 import Log from './helper/Log.js';
 import './App.css';
 import Api from './lib/Http/Api';
@@ -41,11 +41,11 @@ function App() {
   };
 
   const doSearch = async (searchResults) => {
-    Logger.log('searchResults', searchResults)
-    setListings(searchResults)
+    Logger.log('searchResults', searchResults);
+    setListings(searchResults);
     // const response = await Api.get('listings/' + key);
     // setListings(response.data);
-  }
+  };
 
   return (
     <div
@@ -57,22 +57,22 @@ function App() {
         margin: 0,
       }}
     >
-      <Container maxWidth="lg">
-        <AppBar position="static">
-          <Typography variant="h3" align="center">
+      <Container maxWidth='lg'>
+        <AppBar position='static'>
+          <Typography variant='h3' align='center'>
             BnB Explorer
           </Typography>
         </AppBar>
-            {listings ? (
-              <Map listings={listings} setListing={clickListing} />
-            ) : (
-              <CircularProgress />
-            )}
+        {listings ? (
+          <Map listings={listings} setListing={clickListing} />
+        ) : (
+          <CircularProgress />
+        )}
         <Accordion defaultExpanded>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
+            aria-controls='panel1a-content'
+            id='panel1a-header'
           >
             <Typography>Details</Typography>
           </AccordionSummary>
@@ -83,7 +83,10 @@ function App() {
               style={{ padding: '0px 12px 0px 0px', marginBottom: '12px' }}
             >
               <Grid item xs={12}>
-                <Searchbar setResults={doSearch} url={process.env.REACT_APP_API_URL+'listings'}/>
+                <Searchbar
+                  setResults={doSearch}
+                  url={process.env.REACT_APP_API_URL + 'listings'}
+                />
               </Grid>
               <Grid item xs={3}>
                 Filter

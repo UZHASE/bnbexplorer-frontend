@@ -3,7 +3,8 @@ class Log {
     this.component = component;
   }
 
-  log(msg, prefix='') {
+  log(msg, prefix = '') {
+    // eslint-disable-next-line no-console
     console.log(this.component, ': ', prefix, msg);
   }
 }

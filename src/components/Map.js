@@ -14,22 +14,21 @@ import Log from '../helper/Log';
 https://blaipratdesaba.com/how-to-use-an-npm-node-module-that-has-been-forked-b7dd522fdd08
 if when deployed the map does not work, need to add post install script
  */
-
 const AnyReactComponent = (props) => {
   // RoomIcon has size 24x24px, so need to offset that, s.t. the icon is in the right location
   //=> does not work well with zoom
-  const { text, id, setListing, key } = props;
+  const { id, setListing, key } = props;
   return (
     <React.Fragment key={key}>
       <RoomIcon
-        color="secondary"
+        color='secondary'
         key={key}
         style={{
           position: 'absolute',
           left: '-24px',
           top: '-24px',
           cursor: 'pointer',
-            color:'rgba(225,1,1,0.8)',
+          color: 'rgba(225,1,1,0.8)',
         }}
         onClick={() => setListing(id)}
       />
@@ -87,14 +86,15 @@ const Map = (props) => {
   ];
 
   const Switches = (props) => {
-    return props.inputs.map((e) => {
+    return props.inputs.map((e, idx) => {
       return (
         <FormControlLabel
+          key={idx}
           control={
             <Switch checked={toggle[e]} onChange={handleChange} name={e} />
           }
-          label={e.charAt(0).toUpperCase()+e.slice(1)}
-          style={{marginLeft:'16px'}}
+          label={e.charAt(0).toUpperCase() + e.slice(1)}
+          style={{ marginLeft: '16px' }}
         />
       );
     });
@@ -141,7 +141,7 @@ const Map = (props) => {
                 <AnyReactComponent
                   lat={e.latitude}
                   lng={e.longitude}
-                  text="My Marker"
+                  text='My Marker'
                   key={e.id}
                   setListing={setListing}
                   id={e.id}
@@ -151,8 +151,8 @@ const Map = (props) => {
           </GoogleMapReact>
         </div>
       </Accordion>
-      <Accordion style={{display:'flex'}}>
-        <FormGroup row style={{ marginLeft: 'auto', marginRight:'16px' }}>
+      <Accordion style={{ display: 'flex' }}>
+        <FormGroup row style={{ marginLeft: 'auto', marginRight: '16px' }}>
           <Switches inputs={['crime', 'cleanliness', 'transit']} />
         </FormGroup>
       </Accordion>

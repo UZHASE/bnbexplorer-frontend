@@ -24,7 +24,7 @@ const ListingDetails = (props) => {
           borderBottom: '1px solid grey',
         }}
       >
-        <Typography variant="h6" align="center">
+        <Typography variant='h6' align='center'>
           {listing.name}
         </Typography>
       </Grid>
@@ -60,7 +60,7 @@ const ListingDetails = (props) => {
             }}
           >
             {listing.img ? (
-              <img alt="img" source={listing.img} />
+              <img alt='img' source={listing.img} />
             ) : (
               <CircularProgress />
             )}
