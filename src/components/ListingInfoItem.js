@@ -6,7 +6,7 @@ const ListingInfoItem = (props) => {
   const { listing } = props;
 
   const lst = [
-    { Host: listing.host },
+    { Host: listing.host.name },
     { Area: listing.area },
     { Neighbourhood: listing.neighbourhood },
     { Price: listing.price },

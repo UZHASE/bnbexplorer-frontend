@@ -1,11 +1,10 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Typography, CircularProgress } from '@material-ui/core';
-import ListingInfoItem from './listingInfoItem';
+import ListingInfoItem from './ListingInfoItem';
 
 const ListingDetails = (props) => {
   const { listing } = props;
-
   return (
     <Grid
       container
@@ -24,7 +23,7 @@ const ListingDetails = (props) => {
           borderBottom: '1px solid grey',
         }}
       >
-        <Typography variant="h6" align="center">
+        <Typography variant='h6' align='center'>
           {listing.name}
         </Typography>
       </Grid>
@@ -60,7 +59,7 @@ const ListingDetails = (props) => {
             }}
           >
             {listing.img ? (
-              <img alt="img" source={listing.img} />
+              <img alt='img' source={listing.img} />
             ) : (
               <CircularProgress />
             )}
