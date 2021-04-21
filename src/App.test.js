@@ -3,6 +3,6 @@ import App from './App';
 
 test('renders header', () => {
   render(<App />);
-  const linkElement = screen.getByText('AirBnB Explorer');
+  const linkElement = screen.getByText('BnB Explorer');
   expect(linkElement).toBeInTheDocument();
 });

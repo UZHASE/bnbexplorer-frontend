@@ -4,6 +4,6 @@ ADD . /bnbexplorer-frontend/
 
 WORKDIR /bnbexplorer-frontend
 
-RUN yarn install
+RUN npm install
 
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
