@@ -7,6 +7,6 @@ WORKDIR /bnbexplorer-frontend
 FROM alpine:3.5
 RUN apk update
 RUN apk add git
-RUN apk add --update npm
+RUN apk add npm
 
 CMD ["npm", "start"]
