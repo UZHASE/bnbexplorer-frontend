@@ -42,7 +42,7 @@ const Map = (props) => {
   const Logger = new Log('Map.js');
 
   const defaultProps = {
-    center: { lat: 40.796, lng: -73.85 },
+    center: { lat: 40.72, lng: -74 },
     zoom: 11,
   };
   const { listings, setListing } = props;
@@ -67,7 +67,7 @@ const Map = (props) => {
       }
     : [];
 
-  const cleanData = cleanliness
+  const cleanlinessData = cleanliness
     ? {
         positions: cleanliness.map((e) => {
           return { lat: e.latitude, lng: e.longitude };
@@ -82,7 +82,7 @@ const Map = (props) => {
 
   const data = [
     toggle.crime ? crimeData : emptyProp,
-    toggle.cleanliness ? cleanData : emptyProp,
+    toggle.cleanliness ? cleanlinessData : emptyProp,
   ];
 
   const Switches = (props) => {
@@ -95,24 +95,22 @@ const Map = (props) => {
           }
           label={e.charAt(0).toUpperCase() + e.slice(1)}
           style={{ marginLeft: '16px' }}
+          disabled={!crime && !cleanliness}
         />
       );
     });
   };
 
   useEffect(() => {
-    const loadCrime = async () => {
-      const response = await Api.get('layers/crime');
-      Logger.log(response, 'res crime');
-      setCrime(response.data.entries);
+    const loadData = async () => {
+      const crimeRes = await Api.get('layers/crime');
+      Logger.log(crimeRes, 'res crime');
+      const healtRes = await Api.get('layers/health');
+      Logger.log(healtRes, 'res health');
+      setCrime(crimeRes.data.entries);
+      setCleanliness(healtRes.data.entries);
     };
-    loadCrime();
-    const loadCleanliness = async () => {
-      const response = await Api.get('layers/health');
-      Logger.log(response, 'res health');
-      setCleanliness(response.data.entries);
-    };
-    loadCleanliness();
+    loadData();
   }, []);
 
   const handleChange = (e) => {
