@@ -1,12 +1,9 @@
-FROM node:14-alpine
+FROM node:14
 
 ADD . /bnbexplorer-frontend/
 
 WORKDIR /bnbexplorer-frontend
 
-FROM alpine:3.5
-RUN apk update
-RUN apk add git
-RUN apk add npm
+RUN npm install
 
 CMD ["npm", "start"]
