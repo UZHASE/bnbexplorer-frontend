@@ -30,9 +30,8 @@ const Map = (props) => {
   const [apiData, setApiData] = useState();
   const [places, setPlaces] = useState([]);
 
-  const crimeData = !crime
-    ? []
-    : {
+  const crimeData = Boolean(crime)
+    ? {
         positions: crime.map((e) => {
           return { lat: e.latitude, lng: e.longitude };
         }),
@@ -41,11 +40,11 @@ const Map = (props) => {
           opacity: 0.6,
           gradient: ['rgba(255,255,0,0)', 'rgba(255,255,0,1)'],
         },
-      };
+      }
+    : [];
 
-  const cleanlinessData = !cleanliness
-    ? []
-    : {
+  const cleanlinessData = Boolean(cleanliness)
+    ? {
         positions: cleanliness.map((e) => {
           return { lat: e.latitude, lng: e.longitude };
         }),
@@ -54,7 +53,8 @@ const Map = (props) => {
           opacity: 0.6,
           gradient: ['rgba(0,0,255,0)', 'rgba(0, 0, 255, 1)'],
         },
-      };
+      }
+    : [];
 
   const data = [
     toggle.crime ? crimeData : emptyProp,
