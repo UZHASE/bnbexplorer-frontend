@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import RoomIcon from '@material-ui/icons/Room';
 import GoogleMapReact from 'google-map-react';
 import {
   FormGroup,
@@ -92,17 +91,17 @@ const Map = (props) => {
 
   useEffect(() => {
     if (placeSearch) {
-      console.log(placeSearch);
       const { map, maps } = apiData;
       const service = new maps.places.PlacesService(map);
       const request = {
         query: placeSearch,
         fields: ['name', 'geometry'],
-        location: { lat: 40.72, lng: -74 },
+        location: { lat: 40, lng: -74 },
+        radius: '50000',
       };
       service.textSearch(request, (results, status) => {
         if (status === 200 || status === 'OK') {
-          console.log(results, status);
+          setPlaces(results);
         }
       });
     }
@@ -113,8 +112,12 @@ const Map = (props) => {
   };
 
   const apiHasLoaded = (map, maps) => {
-    console.log(map, maps);
     setApiData({ map, maps });
+  };
+
+  const getMiddlePosition = (values) => {
+    const { g, i } = values;
+    return (g + i) / 2;
   };
 
   return (
@@ -135,21 +138,29 @@ const Map = (props) => {
             style={{ height: '500px', paddingBottom: '50px' }}
             onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
           >
-            {listings
-              .filter((e) => e.area === 'Chinatown')
-                // TODO remove filter
-              .map((e) => {
-                return (
-                  <AnyReactComponent
-                    lat={e.latitude}
-                    lng={e.longitude}
-                    text='My Marker'
-                    key={e.id}
-                    setListing={setListing}
-                    id={e.id}
-                  />
-                );
-              })}
+            {listings.map((e) => {
+              return (
+                <AnyReactComponent
+                  lat={e.latitude}
+                  lng={e.longitude}
+                  text='My Marker'
+                  key={e.id}
+                  setListing={setListing}
+                  id={e.id}
+                />
+              );
+            })}
+            {places.map((e) => {
+              return (
+                <AnyReactComponent
+                  lng={getMiddlePosition(e.geometry.viewport.La)}
+                  lat={getMiddlePosition(e.geometry.viewport.Ua)}
+                  key={e.place_id}
+                  id={e.place_id}
+                  type={'marker'}
+                />
+              );
+            })}
           </GoogleMapReact>
         </div>
       </Accordion>
