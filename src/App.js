@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import Map from './components/Map';
+import Map from './components/Map/Map';
 import ListingDetails from './components/ListingDetails';
 import background from './img/oliver-niblett-wh-7GeXxItI-unsplash.jpg';
 import Searchbar from './components/Searchbar';
@@ -24,6 +24,7 @@ function App() {
 
   const [listings, setListings] = useState([]);
   const [listing, setListing] = useState();
+  const [placeSearch, setPlaceSearch] = useState();
 
   useEffect(() => {
     const loadListings = async () => {
@@ -40,11 +41,8 @@ function App() {
     setListing(response.data);
   };
 
-  const doSearch = async (searchResults) => {
-    Logger.log('searchResults', searchResults);
-    setListings(searchResults);
-    // const response = await Api.get('listings/' + key);
-    // setListings(response.data);
+  const onSearchValueChange = async (searchResults) => {
+    setPlaceSearch(searchResults);
   };
 
   return (
@@ -64,7 +62,11 @@ function App() {
           </Typography>
         </AppBar>
         {listings ? (
-          <Map listings={listings} setListing={clickListing} />
+          <Map
+            listings={listings}
+            setListing={clickListing}
+            placeSearch={placeSearch}
+          />
         ) : (
           <CircularProgress />
         )}
@@ -83,10 +85,7 @@ function App() {
               style={{ padding: '0px 12px 0px 0px', marginBottom: '12px' }}
             >
               <Grid item xs={12}>
-                <Searchbar
-                  setResults={doSearch}
-                  url={process.env.REACT_APP_API_URL + 'listings'}
-                />
+                <Searchbar onSearchValueChange={onSearchValueChange} />
               </Grid>
               <Grid item xs={3}>
                 Filter

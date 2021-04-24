@@ -7,34 +7,9 @@ import {
   Accordion,
   Switch,
 } from '@material-ui/core';
-import Api from '../lib/Http/Api';
-import Log from '../helper/Log';
-
-/*
-https://blaipratdesaba.com/how-to-use-an-npm-node-module-that-has-been-forked-b7dd522fdd08
-if when deployed the map does not work, need to add post install script
- */
-const AnyReactComponent = (props) => {
-  // RoomIcon has size 24x24px, so need to offset that, s.t. the icon is in the right location
-  //=> does not work well with zoom
-  const { id, setListing, key } = props;
-  return (
-    <React.Fragment key={key}>
-      <RoomIcon
-        color='secondary'
-        key={key}
-        style={{
-          position: 'absolute',
-          left: '-24px',
-          top: '-24px',
-          cursor: 'pointer',
-          color: 'rgba(225,1,1,0.8)',
-        }}
-        onClick={() => setListing(id)}
-      />
-    </React.Fragment>
-  );
-};
+import Api from '../../lib/Http/Api';
+import Log from '../../helper/Log';
+import AnyReactComponent from './Marker';
 
 const emptyProp = { positions: [], options: {} };
 
@@ -45,7 +20,7 @@ const Map = (props) => {
     center: { lat: 40.72, lng: -74 },
     zoom: 11,
   };
-  const { listings, setListing } = props;
+  const { listings, setListing, placeSearch } = props;
   const [toggle, setToggle] = useState({
     crime: false,
     transit: false,
@@ -53,6 +28,8 @@ const Map = (props) => {
   });
   const [crime, setCrime] = useState();
   const [cleanliness, setCleanliness] = useState();
+  const [apiData, setApiData] = useState();
+  const [places, setPlaces] = useState([]);
 
   const crimeData = crime
     ? {
@@ -113,8 +90,31 @@ const Map = (props) => {
     loadData();
   }, []);
 
+  useEffect(() => {
+    if (placeSearch) {
+      console.log(placeSearch);
+      const { map, maps } = apiData;
+      const service = new maps.places.PlacesService(map);
+      const request = {
+        query: placeSearch,
+        fields: ['name', 'geometry'],
+        location: { lat: 40.72, lng: -74 },
+      };
+      service.textSearch(request, (results, status) => {
+        if (status === 200 || status === 'OK') {
+          console.log(results, status);
+        }
+      });
+    }
+  }, [placeSearch]);
+
   const handleChange = (e) => {
     setToggle({ ...toggle, [e.target.name]: e.target.checked });
+  };
+
+  const apiHasLoaded = (map, maps) => {
+    console.log(map, maps);
+    setApiData({ map, maps });
   };
 
   return (
@@ -125,7 +125,7 @@ const Map = (props) => {
             yesIWantToUseGoogleMapApiInternals
             bootstrapURLKeys={{
               key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-              libraries: ['visualization'],
+              libraries: ['visualization', 'places', 'geometry'],
             }}
             defaultCenter={defaultProps.center}
             defaultZoom={defaultProps.zoom}
@@ -133,19 +133,23 @@ const Map = (props) => {
             heatmap={data}
             layerTypes={toggle.transit ? ['TransitLayer'] : []}
             style={{ height: '500px', paddingBottom: '50px' }}
+            onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
           >
-            {listings.map((e) => {
-              return (
-                <AnyReactComponent
-                  lat={e.latitude}
-                  lng={e.longitude}
-                  text='My Marker'
-                  key={e.id}
-                  setListing={setListing}
-                  id={e.id}
-                />
-              );
-            })}
+            {listings
+              .filter((e) => e.area === 'Chinatown')
+                // TODO remove filter
+              .map((e) => {
+                return (
+                  <AnyReactComponent
+                    lat={e.latitude}
+                    lng={e.longitude}
+                    text='My Marker'
+                    key={e.id}
+                    setListing={setListing}
+                    id={e.id}
+                  />
+                );
+              })}
           </GoogleMapReact>
         </div>
       </Accordion>

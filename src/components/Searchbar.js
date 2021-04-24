@@ -1,6 +1,5 @@
 import { TextField } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
 const Searchbar = (props) => {
   /*
@@ -9,7 +8,7 @@ const Searchbar = (props) => {
 
   const [val, setVal] = useState('');
   const [debouncedVal, setDebouncedVal] = useState('');
-  const { setResults, url } = props;
+  const { onSearchValueChange } = props;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -21,11 +20,7 @@ const Searchbar = (props) => {
   }, [val]);
 
   useEffect(() => {
-    const search = async () => {
-      const { data } = await axios.get(url); //TODO check what we will search)
-      setResults(data.filter((e) => e.area === 'Chinatown')); //TODO adjust
-    };
-    if (val) search();
+    if (val) onSearchValueChange(debouncedVal);
   }, [debouncedVal]);
 
   return (
