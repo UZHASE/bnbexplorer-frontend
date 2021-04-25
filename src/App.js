@@ -15,7 +15,7 @@ import Map from './components/Map/Map';
 import ListingDetails from './components/ListingDetails';
 import background from './img/oliver-niblett-wh-7GeXxItI-unsplash.jpg';
 import Searchbar from './components/Searchbar';
-import Log from './helper/Log.js';
+import Log from './services/helper/Log.js';
 import './App.css';
 import Api from './lib/Http/Api';
 

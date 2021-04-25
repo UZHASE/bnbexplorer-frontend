@@ -7,8 +7,12 @@ import {
   Switch,
 } from '@material-ui/core';
 import Api from '../../lib/Http/Api';
-import Log from '../../helper/Log';
+import Log from '../../services/helper/Log';
 import AnyReactComponent from './Marker';
+import {
+  getMappedCleanlinessData,
+  getMappedCrimeData,
+} from '../../services/MapService';
 
 const emptyProp = { positions: [], options: {} };
 
@@ -30,33 +34,8 @@ const Map = (props) => {
   const [apiData, setApiData] = useState();
   const [places, setPlaces] = useState([]);
 
-  const crimeData =
-    typeof crime !== 'undefined' && crime //verbose checking to make SonarQube happy ...
-      ? {
-          positions: crime.map((e) => {
-            return { lat: e.latitude, lng: e.longitude };
-          }),
-          options: {
-            radius: 20,
-            opacity: 0.6,
-            gradient: ['rgba(255,255,0,0)', 'rgba(255,255,0,1)'],
-          },
-        }
-      : [];
-
-  const cleanlinessData =
-    typeof cleanliness !== 'undefined' && cleanliness //verbose checking to make SonarQube happy ...
-      ? {
-          positions: cleanliness.map((e) => {
-            return { lat: e.latitude, lng: e.longitude };
-          }),
-          options: {
-            radius: 20,
-            opacity: 0.6,
-            gradient: ['rgba(0,0,255,0)', 'rgba(0, 0, 255, 1)'],
-          },
-        }
-      : [];
+  const crimeData = getMappedCrimeData(crime);
+  const cleanlinessData = getMappedCleanlinessData(cleanliness);
 
   const data = [
     toggle.crime ? crimeData : emptyProp,
