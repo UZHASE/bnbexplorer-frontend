@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import RoomIcon from '@material-ui/icons/Room';
 import GoogleMapReact from 'google-map-react';
 import {
   FormGroup,
@@ -7,34 +6,9 @@ import {
   Accordion,
   Switch,
 } from '@material-ui/core';
-import Api from '../lib/Http/Api';
-import Log from '../helper/Log';
-
-/*
-https://blaipratdesaba.com/how-to-use-an-npm-node-module-that-has-been-forked-b7dd522fdd08
-if when deployed the map does not work, need to add post install script
- */
-const AnyReactComponent = (props) => {
-  // RoomIcon has size 24x24px, so need to offset that, s.t. the icon is in the right location
-  //=> does not work well with zoom
-  const { id, setListing, key } = props;
-  return (
-    <React.Fragment key={key}>
-      <RoomIcon
-        color='secondary'
-        key={key}
-        style={{
-          position: 'absolute',
-          left: '-24px',
-          top: '-24px',
-          cursor: 'pointer',
-          color: 'rgba(225,1,1,0.8)',
-        }}
-        onClick={() => setListing(id)}
-      />
-    </React.Fragment>
-  );
-};
+import Api from '../../lib/Http/Api';
+import Log from '../../helper/Log';
+import AnyReactComponent from './Marker';
 
 const emptyProp = { positions: [], options: {} };
 
@@ -45,7 +19,7 @@ const Map = (props) => {
     center: { lat: 40.72, lng: -74 },
     zoom: 11,
   };
-  const { listings, setListing } = props;
+  const { listings, setListing, placeSearch } = props;
   const [toggle, setToggle] = useState({
     crime: false,
     transit: false,
@@ -53,32 +27,36 @@ const Map = (props) => {
   });
   const [crime, setCrime] = useState();
   const [cleanliness, setCleanliness] = useState();
+  const [apiData, setApiData] = useState();
+  const [places, setPlaces] = useState([]);
 
-  const crimeData = crime
-    ? {
-        positions: crime.map((e) => {
-          return { lat: e.latitude, lng: e.longitude };
-        }),
-        options: {
-          radius: 20,
-          opacity: 0.6,
-          gradient: ['rgba(255,255,0,0)', 'rgba(255,255,0,1)'],
-        },
-      }
-    : [];
+  const crimeData =
+    typeof crime !== 'undefined' && crime //verbose checking to make SonarQube happy ...
+      ? {
+          positions: crime.map((e) => {
+            return { lat: e.latitude, lng: e.longitude };
+          }),
+          options: {
+            radius: 20,
+            opacity: 0.6,
+            gradient: ['rgba(255,255,0,0)', 'rgba(255,255,0,1)'],
+          },
+        }
+      : [];
 
-  const cleanlinessData = cleanliness
-    ? {
-        positions: cleanliness.map((e) => {
-          return { lat: e.latitude, lng: e.longitude };
-        }),
-        options: {
-          radius: 20,
-          opacity: 0.6,
-          gradient: ['rgba(0,0,255,0)', 'rgba(0, 0, 255, 1)'],
-        },
-      }
-    : [];
+  const cleanlinessData =
+    typeof cleanliness !== 'undefined' && cleanliness //verbose checking to make SonarQube happy ...
+      ? {
+          positions: cleanliness.map((e) => {
+            return { lat: e.latitude, lng: e.longitude };
+          }),
+          options: {
+            radius: 20,
+            opacity: 0.6,
+            gradient: ['rgba(0,0,255,0)', 'rgba(0, 0, 255, 1)'],
+          },
+        }
+      : [];
 
   const data = [
     toggle.crime ? crimeData : emptyProp,
@@ -113,8 +91,35 @@ const Map = (props) => {
     loadData();
   }, []);
 
+  useEffect(() => {
+    if (placeSearch) {
+      const { map, maps } = apiData;
+      const service = new maps.places.PlacesService(map);
+      const request = {
+        query: placeSearch,
+        fields: ['name', 'geometry'],
+        location: { lat: 40, lng: -74 },
+        radius: '50000',
+      };
+      service.textSearch(request, (results, status) => {
+        if (status === 200 || status === 'OK') {
+          setPlaces(results);
+        }
+      });
+    }
+  }, [placeSearch]);
+
   const handleChange = (e) => {
     setToggle({ ...toggle, [e.target.name]: e.target.checked });
+  };
+
+  const apiHasLoaded = (map, maps) => {
+    setApiData({ map, maps });
+  };
+
+  const getMiddlePosition = (values) => {
+    const { g, i } = values;
+    return (g + i) / 2;
   };
 
   return (
@@ -125,7 +130,7 @@ const Map = (props) => {
             yesIWantToUseGoogleMapApiInternals
             bootstrapURLKeys={{
               key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-              libraries: ['visualization'],
+              libraries: ['visualization', 'places', 'geometry'],
             }}
             defaultCenter={defaultProps.center}
             defaultZoom={defaultProps.zoom}
@@ -133,6 +138,7 @@ const Map = (props) => {
             heatmap={data}
             layerTypes={toggle.transit ? ['TransitLayer'] : []}
             style={{ height: '500px', paddingBottom: '50px' }}
+            onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
           >
             {listings.map((e) => {
               return (
@@ -143,6 +149,17 @@ const Map = (props) => {
                   key={e.id}
                   setListing={setListing}
                   id={e.id}
+                />
+              );
+            })}
+            {places.map((e) => {
+              return (
+                <AnyReactComponent
+                  lng={getMiddlePosition(e.geometry.viewport.La)}
+                  lat={getMiddlePosition(e.geometry.viewport.Ua)}
+                  key={e.place_id}
+                  id={e.place_id}
+                  type={'marker'}
                 />
               );
             })}
