@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import GoogleMapReact from 'google-map-react';
 import {
   FormGroup,
   FormControlLabel,
   Accordion,
   Switch,
 } from '@material-ui/core';
+import GoogleMapReact from '../../GoogleMapReact/src';
 import Api from '../../lib/Http/Api';
-import Log from '../../helper/Log';
+import Log from '../../services/helper/Log';
 import AnyReactComponent from './Marker';
+import {
+  getMappedCleanlinessData,
+  getMappedCrimeData,
+} from '../../services/MapService';
 
 const emptyProp = { positions: [], options: {} };
 
@@ -30,33 +34,8 @@ const Map = (props) => {
   const [apiData, setApiData] = useState();
   const [places, setPlaces] = useState([]);
 
-  const crimeData =
-    typeof crime !== 'undefined' && crime //verbose checking to make SonarQube happy ...
-      ? {
-          positions: crime.map((e) => {
-            return { lat: e.latitude, lng: e.longitude };
-          }),
-          options: {
-            radius: 20,
-            opacity: 0.6,
-            gradient: ['rgba(255,255,0,0)', 'rgba(255,255,0,1)'],
-          },
-        }
-      : [];
-
-  const cleanlinessData =
-    typeof cleanliness !== 'undefined' && cleanliness //verbose checking to make SonarQube happy ...
-      ? {
-          positions: cleanliness.map((e) => {
-            return { lat: e.latitude, lng: e.longitude };
-          }),
-          options: {
-            radius: 20,
-            opacity: 0.6,
-            gradient: ['rgba(0,0,255,0)', 'rgba(0, 0, 255, 1)'],
-          },
-        }
-      : [];
+  const crimeData = getMappedCrimeData(crime);
+  const cleanlinessData = getMappedCleanlinessData(cleanliness);
 
   const data = [
     toggle.crime ? crimeData : emptyProp,
@@ -140,18 +119,20 @@ const Map = (props) => {
             style={{ height: '500px', paddingBottom: '50px' }}
             onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
           >
-            {listings.map((e) => {
-              return (
-                <AnyReactComponent
-                  lat={e.latitude}
-                  lng={e.longitude}
-                  text='My Marker'
-                  key={e.id}
-                  setListing={setListing}
-                  id={e.id}
-                />
-              );
-            })}
+            {listings
+              .filter((e) => e.area === 'Chinatown')
+              .map((e) => {
+                return (
+                  <AnyReactComponent
+                    lat={e.latitude}
+                    lng={e.longitude}
+                    text='My Marker'
+                    key={e.id}
+                    setListing={setListing}
+                    id={e.id}
+                  />
+                );
+              })}
             {places.map((e) => {
               return (
                 <AnyReactComponent
