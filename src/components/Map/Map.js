@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import GoogleMapReact from 'google-map-react';
 import {
   FormGroup,
   FormControlLabel,
   Accordion,
   Switch,
 } from '@material-ui/core';
+import GoogleMapReact from '../../google-map-react/src';
 import Api from '../../lib/Http/Api';
 import Log from '../../services/helper/Log';
 import AnyReactComponent from './Marker';
