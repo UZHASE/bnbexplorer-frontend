@@ -8,6 +8,7 @@ import {
   Grid,
   CircularProgress,
   AccordionSummary,
+  Slider,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
@@ -18,6 +19,7 @@ import Searchbar from './components/Searchbar';
 import Log from './services/helper/Log.js';
 import './App.css';
 import Api from './lib/Http/Api';
+import FilterBox from './components/FilterBox';
 
 function App() {
   const Logger = new Log('App.js');
@@ -25,6 +27,7 @@ function App() {
   const [listings, setListings] = useState([]);
   const [listing, setListing] = useState();
   const [placeSearch, setPlaceSearch] = useState();
+  const [filterSettings, setFilterSettings] = useState();
 
   useEffect(() => {
     const loadListings = async () => {
@@ -33,7 +36,7 @@ function App() {
       setListings(response.data);
     };
     loadListings();
-  }, []);
+  }, [filterSettings]);
 
   const clickListing = async (key) => {
     const response = await Api.get('listings/' + key);
@@ -41,8 +44,12 @@ function App() {
     setListing(response.data);
   };
 
-  const onSearchValueChange = async (searchResults) => {
+  const onSearchValueChange = (searchResults) => {
     setPlaceSearch(searchResults);
+  };
+
+  const onFilterSettingsChange = () => {
+    console.log('adfa');
   };
 
   return (
@@ -84,13 +91,16 @@ function App() {
               spacing={3}
               style={{ padding: '0px 12px 0px 0px', marginBottom: '12px' }}
             >
-              <Grid item xs={12}>
+              <Grid item xs={12} style={{ paddingRight: '0' }}>
                 <Searchbar onSearchValueChange={onSearchValueChange} />
               </Grid>
-              <Grid item xs={3}>
-                Filter
+              <Grid item xs={4}>
+                <FilterBox
+                  listings={listings}
+                  setFilters={onFilterSettingsChange}
+                />
               </Grid>
-              <Grid item xs={9}>
+              <Grid item xs={8}>
                 {listing ? <ListingDetails listing={listing} /> : null}
               </Grid>
             </Grid>
