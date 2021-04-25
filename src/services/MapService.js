@@ -10,7 +10,7 @@ export const getMappedCrimeData = (crimeData) => {
           gradient: ['rgba(255,255,0,0)', 'rgba(255,255,0,1)'],
         },
       }
-    : [];
+    : {};
 };
 
 export const getMappedCleanlinessData = (cleanlinessData) => {
@@ -25,5 +25,5 @@ export const getMappedCleanlinessData = (cleanlinessData) => {
           gradient: ['rgba(0,0,255,0)', 'rgba(0, 0, 255, 1)'],
         },
       }
-    : [];
+    : {};
 };
