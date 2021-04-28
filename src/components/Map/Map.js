@@ -117,19 +117,18 @@ const Map = (props) => {
             style={{ height: '500px', paddingBottom: '50px' }}
             onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
           >
-            {listings
-              .map((e) => {
-                return (
-                  <AnyReactComponent
-                    lat={e.latitude}
-                    lng={e.longitude}
-                    text='My Marker'
-                    key={e.id}
-                    setListing={setListing}
-                    id={e.id}
-                  />
-                );
-              })}
+            {listings.map((e) => {
+              return (
+                <AnyReactComponent
+                  lat={e.latitude}
+                  lng={e.longitude}
+                  text='My Marker'
+                  key={e.id}
+                  setListing={setListing}
+                  id={e.id}
+                />
+              );
+            })}
             {places.map((e) => {
               return (
                 <AnyReactComponent
