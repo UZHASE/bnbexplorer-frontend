@@ -14,7 +14,7 @@ TODO:
  */
 
 const FilterBox = ({ listings, setFilters }) => {
-  const [priceRange, setPriceRange] = useState([50, 150]);
+  const [priceRange, setPriceRange] = useState([50, 100]);
 
   useEffect(() => {
     const filterSettings = {
@@ -35,6 +35,7 @@ const FilterBox = ({ listings, setFilters }) => {
     propagateValue: setPriceRange,
   };
 
+  // TODO: refactor title as optional render into the different filter-components
   return (
     <>
       <Typography variant={'overline'}>Price Range</Typography>
