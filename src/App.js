@@ -8,7 +8,6 @@ import {
   Grid,
   CircularProgress,
   AccordionSummary,
-  Slider,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
