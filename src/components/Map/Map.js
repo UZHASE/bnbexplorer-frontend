@@ -61,9 +61,7 @@ const Map = (props) => {
   useEffect(() => {
     const loadData = async () => {
       const crimeRes = await Api.get('layers/crime');
-      Logger.log(crimeRes, 'res crime');
       const healtRes = await Api.get('layers/health');
-      Logger.log(healtRes, 'res health');
       setCrime(crimeRes.data.entries);
       setCleanliness(healtRes.data.entries);
     };
@@ -120,7 +118,7 @@ const Map = (props) => {
             onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
           >
             {listings
-              .filter((e) => e.area === 'Chinatown')
+              // .filter((e) => e.area === 'Chinatown')
               .map((e) => {
                 return (
                   <AnyReactComponent

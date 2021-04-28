@@ -31,7 +31,11 @@ function App() {
 
   useEffect(() => {
     const loadListings = async () => {
-      const response = await Api.get('listings');
+      const response = await Api.get('listings', {
+        params: {
+          ...filterSettings,
+        },
+      });
       Logger.log(response, 'res');
       setListings(response.data);
     };
@@ -48,8 +52,8 @@ function App() {
     setPlaceSearch(searchResults);
   };
 
-  const onFilterSettingsChange = () => {
-    console.log('adfa');
+  const onFilterSettingsChange = (filterSettings) => {
+    setFilterSettings(filterSettings);
   };
 
   return (
