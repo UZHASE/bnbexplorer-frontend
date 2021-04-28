@@ -1,13 +1,9 @@
-import { useEffect, useState } from 'react';
-import { Slider } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { Slider, Typography } from '@material-ui/core';
 
-const RangeSlider = ({ min, max, valueA, valueB, propagateValue }) => {
+const RangeSlider = ({ min, max, valueA, valueB, propagateValue, text }) => {
   const [range, setRange] = useState([valueA, valueB]);
   const [debouncedRange, setDebouncedRange] = useState([valueA, valueB]);
-
-  const rangeText = (range) => {
-    return `${range}$`;
-  };
 
   const handleRangeChange = (event, value) => {
     setRange(value);
@@ -27,17 +23,16 @@ const RangeSlider = ({ min, max, valueA, valueB, propagateValue }) => {
   }, [debouncedRange]);
 
   return (
-    <>
+    <div className={'range-slider'}>
+      {text ? <Typography variant={'overline'}>{text}</Typography> : null}
       <Slider
         value={range}
         onChange={handleRangeChange}
         valueLabelDisplay='auto'
-        aria-labelledby='range-slider'
-        getAriaValueText={rangeText}
         min={min}
         max={max}
       />
-    </>
+    </div>
   );
 };
 
