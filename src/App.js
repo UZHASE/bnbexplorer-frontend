@@ -38,7 +38,7 @@ function App() {
       Logger.log(response, 'res');
       setListings(response.data);
     };
-    loadListings();
+    if (filterSettings) loadListings();
   }, [filterSettings]);
 
   const clickListing = async (key) => {

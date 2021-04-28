@@ -1,10 +1,10 @@
 export const DEFAULT_FILTER_SETTINGS = {
   minPrice: 50,
   maxPrice: 100,
-  minNights: 3,
+  minDuration: 3,
 };
 
-export const MIN_NIGHT_SCALE = {
+export const DURATION_SCALE = {
   1: 1,
   2: 3,
   3: 5,
@@ -16,11 +16,11 @@ export const MIN_NIGHT_SCALE = {
   9: 180,
 };
 
-export const MIN_NIGHT_MARKS = () => {
-  return Object.keys(MIN_NIGHT_SCALE).map((e) => {
+export const DURATION_MARKS = () => {
+  return Object.keys(DURATION_SCALE).map((e) => {
     return {
       value: e,
-      label: e % 2 === 0 ? MIN_NIGHT_SCALE[e].toString() : '',
+      label: e % 2 === 0 ? DURATION_SCALE[e].toString() : '',
     };
   });
 };

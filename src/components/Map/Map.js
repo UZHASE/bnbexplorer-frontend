@@ -118,7 +118,6 @@ const Map = (props) => {
             onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
           >
             {listings
-              .filter((e) => e.area === 'Chinatown')
               .map((e) => {
                 return (
                   <AnyReactComponent
