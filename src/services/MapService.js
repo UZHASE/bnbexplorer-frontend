@@ -31,5 +31,5 @@ export const getMappedRodentData = (rodentData) => {
 export const switchesTooltips = {
   rodent: 'Rat encounters in New York',
   transit: 'Transit options in New York',
-  crime: 'Locations of crime occurences in New York',
+  crime: 'Locations of crime occurrences in New York',
 };
