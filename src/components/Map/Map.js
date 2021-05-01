@@ -4,14 +4,16 @@ import {
   FormControlLabel,
   Accordion,
   Switch,
+  Tooltip,
 } from '@material-ui/core';
 import GoogleMapReact from '../../GoogleMapReact/src';
 import Api from '../../lib/Http/Api';
 import Log from '../../services/helper/Log';
 import AnyReactComponent from './Marker';
 import {
-  getMappedCleanlinessData,
+  getMappedRodentData,
   getMappedCrimeData,
+  switchesTooltips,
 } from '../../services/MapService';
 
 const emptyProp = { positions: [], options: {} };
@@ -27,33 +29,34 @@ const Map = (props) => {
   const [toggle, setToggle] = useState({
     crime: false,
     transit: false,
-    cleanliness: false,
+    rodent: false,
   });
   const [crime, setCrime] = useState();
-  const [cleanliness, setCleanliness] = useState();
+  const [rodent, setRodent] = useState();
   const [apiData, setApiData] = useState();
   const [places, setPlaces] = useState([]);
 
   const crimeData = getMappedCrimeData(crime);
-  const cleanlinessData = getMappedCleanlinessData(cleanliness);
+  const rodentData = getMappedRodentData(rodent);
 
   const data = [
     toggle.crime ? crimeData : emptyProp,
-    toggle.cleanliness ? cleanlinessData : emptyProp,
+    toggle.rodent ? rodentData : emptyProp,
   ];
 
   const Switches = (props) => {
     return props.inputs.map((e, idx) => {
       return (
-        <FormControlLabel
-          key={idx}
-          control={
-            <Switch checked={toggle[e]} onChange={handleChange} name={e} />
-          }
-          label={e.charAt(0).toUpperCase() + e.slice(1)}
-          style={{ marginLeft: '16px' }}
-          disabled={!crime && !cleanliness}
-        />
+        <Tooltip title={switchesTooltips[e]} key={idx}>
+          <FormControlLabel
+            control={
+              <Switch checked={toggle[e]} onChange={handleChange} name={e} />
+            }
+            label={e.charAt(0).toUpperCase() + e.slice(1)}
+            style={{ marginLeft: '16px' }}
+            disabled={!crime && !rodent}
+          />
+        </Tooltip>
       );
     });
   };
@@ -63,7 +66,7 @@ const Map = (props) => {
       const crimeRes = await Api.get('layers/crime');
       const healtRes = await Api.get('layers/health');
       setCrime(crimeRes.data.entries);
-      setCleanliness(healtRes.data.entries);
+      setRodent(healtRes.data.entries);
     };
     loadData();
   }, []);
@@ -145,7 +148,7 @@ const Map = (props) => {
       </Accordion>
       <Accordion style={{ display: 'flex' }}>
         <FormGroup row style={{ marginLeft: 'auto', marginRight: '16px' }}>
-          <Switches inputs={['crime', 'cleanliness', 'transit']} />
+          <Switches inputs={['crime', 'rodent', 'transit']} />
         </FormGroup>
       </Accordion>
     </>
