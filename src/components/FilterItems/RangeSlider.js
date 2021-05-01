@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Slider, Typography } from '@material-ui/core';
+import { RANGEMAX } from '../../constants/FilterSettings';
 
 const RangeSlider = ({ min, max, valueA, valueB, propagateValue, text }) => {
   const [range, setRange] = useState([valueA, valueB]);
@@ -22,6 +23,10 @@ const RangeSlider = ({ min, max, valueA, valueB, propagateValue, text }) => {
     if (range) propagateValue(debouncedRange);
   }, [debouncedRange]);
 
+  const labelReturner = (value) => {
+    return value === RANGEMAX ? <div>{value}+</div> : <div>{value}</div>;
+  };
+
   return (
     <div className={'range-slider'}>
       {text ? <Typography variant={'overline'}>{text}</Typography> : null}
@@ -31,6 +36,7 @@ const RangeSlider = ({ min, max, valueA, valueB, propagateValue, text }) => {
         valueLabelDisplay='auto'
         min={min}
         max={max}
+        valueLabelFormat={labelReturner}
       />
     </div>
   );
