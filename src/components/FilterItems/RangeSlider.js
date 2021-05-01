@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Slider, Typography } from '@material-ui/core';
+import { RANGEMAX } from '../../constants/FilterSettings';
 
 const RangeSlider = ({ min, max, valueA, valueB, propagateValue, text }) => {
   const [range, setRange] = useState([valueA, valueB]);
@@ -23,7 +24,7 @@ const RangeSlider = ({ min, max, valueA, valueB, propagateValue, text }) => {
   }, [debouncedRange]);
 
   const labelReturner = (value) => {
-    return value === 500 ? <div>{value}+</div> : <div>{value}</div>;
+    return value === RANGEMAX ? <div>{value}+</div> : <div>{value}</div>;
   };
 
   return (

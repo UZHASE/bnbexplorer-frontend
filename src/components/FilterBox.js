@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import RangeSlider from './FilterItems/RangeSlider';
 import SimpleSlider from './FilterItems/SimpleSlider';
 import {
+  CURRENCY,
   DEFAULT_FILTER_SETTINGS,
   DURATION_MARKS,
   DURATION_SCALE,
@@ -65,7 +66,7 @@ const FilterBox = ({ listings, setFilters, metaListingsData }) => {
     valueA: DEFAULT_FILTER_SETTINGS.minPrice,
     valueB: DEFAULT_FILTER_SETTINGS.maxPrice,
     propagateValue: setPriceRange,
-    text: 'Price Range ($)',
+    text: 'Price Range (' + CURRENCY + ')',
   };
 
   const minNightsProps = {
@@ -83,18 +84,17 @@ const FilterBox = ({ listings, setFilters, metaListingsData }) => {
     max: 9,
     initialValue: DEFAULT_FILTER_SETTINGS.minDuration,
     propagateValue: setAvailability,
-    text: 'Availability',
+    text: 'Min. Availability',
     enableMarks: DURATION_MARKS(),
     scale: (x) => DURATION_SCALE[x],
   };
 
   const listingsPerHostProps = {
     min: 1,
-    max: 10, // TODO: wait for endpoint
+    max: 10,
     initialValue: 1,
     propagateValue: setListingsPerHost,
-    text: 'Number of listings per host',
-    // TODO: enableMarks scale etc. if needed
+    text: 'Min. Number of listings per host',
   };
 
   return (
