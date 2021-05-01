@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import _ from 'lodash';
 import RangeSlider from './FilterItems/RangeSlider';
 import SimpleSlider from './FilterItems/SimpleSlider';
 import {
@@ -8,6 +9,8 @@ import {
   DURATION_SCALE,
   RANGEMAX,
 } from '../constants/FilterSettings';
+import SimpleSelect from './FilterItems/SimpleSelect';
+import { CircularProgress } from '@material-ui/core';
 
 // TODO: maybe set default filters with a low/high min-nights or price to have fewer initial points at the start, whilst
 // 	keeping them somewhat distributed over the entire map
@@ -37,6 +40,8 @@ const FilterBox = ({ listings, setFilters, metaListingsData }) => {
 
   const [listingsPerHost, setListingsPerHost] = useState();
 
+  const [neighbourhoods, setNeighbourhoods] = useState();
+
   const getMaxPrice = (currentPrice) => {
     return currentPrice === RANGEMAX ? metaListingsData.maxPrice : currentPrice;
   };
@@ -50,15 +55,26 @@ const FilterBox = ({ listings, setFilters, metaListingsData }) => {
 
   useEffect(() => {
     // NOTE: availability and minNights share scales
+    // console.log('neighb', neighbourhoods);
+    // const t = neighbourhoods
+    //   ? neighbourhoods.map((e) => {
+    //       return { neighbourhood: e };
+    //     })
+    //   : {};
+    // Object.keys(obj).reduce(function(a,k){a.push(k+'='+encodeURIComponent(obj[k]));return a},[]).join('&')
+    // const f = t ? new URLSearchParams(neighbourhoods).toString() : '';
+    // https://stackoverflow.com/questions/52482203/axios-multiple-values-comma-separated-in-a-parameter TODO
     const filterSettings = {
       priceMin: priceRange[0],
       priceMax: getMaxPrice(priceRange[1]),
       minNights: DURATION_SCALE[minNights],
       availability: DURATION_SCALE[availability],
-      listingsPerHost: listingsPerHost,
+      listingsPerHost,
     };
+
+    console.log('filtersettings', filterSettings);
     setFilters(filterSettings);
-  }, [priceRange, minNights, availability, listingsPerHost]);
+  }, [priceRange, minNights, availability, listingsPerHost, neighbourhoods]);
 
   const priceRangeProps = {
     min: metaListingsData.minPrice,
@@ -97,12 +113,27 @@ const FilterBox = ({ listings, setFilters, metaListingsData }) => {
     text: 'Min. Number of listings per host',
   };
 
+  const neighbourhoodProps = {
+    values:
+      metaListingsData && metaListingsData.neighbourhoods
+        ? metaListingsData.neighbourhoods
+        : [],
+    text: 'Neighbourhoods',
+    propagateValue: setNeighbourhoods,
+  };
   return (
     <>
-      <RangeSlider {...priceRangeProps} />
-      <SimpleSlider {...minNightsProps} />
-      <SimpleSlider {...availabilityProps} />
-      <SimpleSlider {...listingsPerHostProps} />
+      {metaListingsData && !_.isEmpty(metaListingsData) ? (
+        <>
+          <RangeSlider {...priceRangeProps} />
+          <SimpleSlider {...minNightsProps} />
+          <SimpleSlider {...availabilityProps} />
+          <SimpleSlider {...listingsPerHostProps} />
+          <SimpleSelect {...neighbourhoodProps} />
+        </>
+      ) : (
+        <CircularProgress />
+      )}
     </>
   );
 };

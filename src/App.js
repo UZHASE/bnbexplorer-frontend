@@ -27,7 +27,7 @@ function App() {
   const [listing, setListing] = useState();
   const [placeSearch, setPlaceSearch] = useState();
   const [filterSettings, setFilterSettings] = useState();
-  const [metaListingsData, setMetaListingsData] = useState([]);
+  const [metaListingsData, setMetaListingsData] = useState({});
 
   useEffect(() => {
     const loadListings = async () => {
