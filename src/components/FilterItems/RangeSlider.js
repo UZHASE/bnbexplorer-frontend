@@ -22,6 +22,10 @@ const RangeSlider = ({ min, max, valueA, valueB, propagateValue, text }) => {
     if (range) propagateValue(debouncedRange);
   }, [debouncedRange]);
 
+  const labelReturner = (value) => {
+    return value === 500 ? <div>{value}+</div> : <div>{value}</div>;
+  };
+
   return (
     <div className={'range-slider'}>
       {text ? <Typography variant={'overline'}>{text}</Typography> : null}
@@ -31,6 +35,7 @@ const RangeSlider = ({ min, max, valueA, valueB, propagateValue, text }) => {
         valueLabelDisplay='auto'
         min={min}
         max={max}
+        valueLabelFormat={labelReturner}
       />
     </div>
   );

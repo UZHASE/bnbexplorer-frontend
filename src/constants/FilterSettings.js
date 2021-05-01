@@ -24,3 +24,5 @@ export const DURATION_MARKS = () => {
     };
   });
 };
+
+export const RANGEMAX = 500;
