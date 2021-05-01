@@ -47,9 +47,8 @@ const Map = (props) => {
   const Switches = (props) => {
     return props.inputs.map((e, idx) => {
       return (
-        <Tooltip title={switchesTooltips[e]}>
+        <Tooltip title={switchesTooltips[e]} key={idx}>
           <FormControlLabel
-            key={idx}
             control={
               <Switch checked={toggle[e]} onChange={handleChange} name={e} />
             }
