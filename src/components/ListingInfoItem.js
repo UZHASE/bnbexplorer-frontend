@@ -3,7 +3,7 @@ import React from 'react';
 import { Typography } from '@material-ui/core';
 
 const ListingInfoItem = (props) => {
-  const { listing } = props;
+  const { listing, onClick } = props;
 
   const lst = [
     { Host: listing.host.name },
@@ -14,7 +14,7 @@ const ListingInfoItem = (props) => {
     { 'Min. Nights': listing.minNights },
   ];
 
-  return lst.map((e, idx) => {
+  const renderListings = lst.map((e, idx) => {
     return (
       <React.Fragment key={Object.keys(e)}>
         <Grid item xs={4}>
@@ -30,5 +30,23 @@ const ListingInfoItem = (props) => {
       </React.Fragment>
     );
   });
+  return (
+    <React.Fragment>
+      {renderListings}
+      <Grid item xs={4}>
+        <Typography
+          style={{
+            fontWeight: '900',
+            color: '#66ccff',
+            textDecoration: 'underline',
+            cursor: 'pointer',
+          }}
+          onClick={onClick}
+        >
+          Reviews
+        </Typography>
+      </Grid>
+    </React.Fragment>
+  );
 };
 export default ListingInfoItem;
