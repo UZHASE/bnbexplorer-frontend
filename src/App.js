@@ -27,7 +27,6 @@ function App() {
   const [listing, setListing] = useState();
   const [placeSearch, setPlaceSearch] = useState();
   const [filterSettings, setFilterSettings] = useState();
-  const [metaListingsData, setMetaListingsData] = useState({});
 
   useEffect(() => {
     const loadListings = async () => {
@@ -36,11 +35,8 @@ function App() {
           ...filterSettings,
         },
       });
-      const metaListingsData = await Api.get('listings/metadata');
-      Logger.log(metaListingsData);
       Logger.log(response, 'res');
       setListings(response.data);
-      setMetaListingsData(metaListingsData.data);
     };
     if (filterSettings) loadListings();
   }, [filterSettings]);
@@ -105,7 +101,6 @@ function App() {
                 <FilterBox
                   listings={listings}
                   setFilters={onFilterSettingsChange}
-                  metaListingsData={metaListingsData}
                 />
               </Grid>
               <Grid item xs={8}>

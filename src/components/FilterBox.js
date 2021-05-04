@@ -11,6 +11,8 @@ import {
 } from '../constants/FilterSettings';
 import SimpleSelect from './FilterItems/SimpleSelect';
 import { CircularProgress } from '@material-ui/core';
+import Api from '../lib/Http/Api';
+import Log from '../services/helper/Log';
 
 // TODO: maybe set default filters with a low/high min-nights or price to have fewer initial points at the start, whilst
 // 	keeping them somewhat distributed over the entire map
@@ -23,7 +25,9 @@ TODO:
 - textSearch (host, listing)
  */
 
-const FilterBox = ({ listings, setFilters, metaListingsData }) => {
+const FilterBox = ({ listings, setFilters }) => {
+  const Logger = new Log('FilterBox.js');
+
   const [priceRange, setPriceRange] = useState([
     DEFAULT_FILTER_SETTINGS.minPrice,
     DEFAULT_FILTER_SETTINGS.maxPrice,
@@ -38,9 +42,28 @@ const FilterBox = ({ listings, setFilters, metaListingsData }) => {
     DEFAULT_FILTER_SETTINGS.minDuration
   );
 
-  const [listingsPerHost, setListingsPerHost] = useState();
+  const [listingsPerHost, setListingsPerHost] = useState(
+    DEFAULT_FILTER_SETTINGS.listingsPerHost
+  );
 
-  const [neighbourhoods, setNeighbourhoods] = useState();
+  const [metaListingsData, setMetaListingsData] = useState({});
+
+  useEffect(() => {
+    const loadMetaListingData = async () => {
+      const metaListingsData = await Api.get('listings/metadata');
+      Logger.log(metaListingsData);
+      setMetaListingsData(metaListingsData.data);
+      setRoomTypes(metaListingsData.data.roomTypes);
+      setNeighbourhoods(metaListingsData.data.neighbourhoods);
+    };
+    loadMetaListingData();
+  }, []);
+
+  const [neighbourhoods, setNeighbourhoods] = useState(
+    metaListingsData.neighbourhoods
+  );
+
+  const [roomTypes, setRoomTypes] = useState(metaListingsData.roomTypes);
 
   const getMaxPrice = (currentPrice) => {
     return currentPrice === RANGEMAX ? metaListingsData.maxPrice : currentPrice;
@@ -54,16 +77,11 @@ const FilterBox = ({ listings, setFilters, metaListingsData }) => {
   };
 
   useEffect(() => {
-    // NOTE: availability and minNights share scales
-    // console.log('neighb', neighbourhoods);
-    // const t = neighbourhoods
-    //   ? neighbourhoods.map((e) => {
-    //       return { neighbourhood: e };
-    //     })
-    //   : {};
-    // Object.keys(obj).reduce(function(a,k){a.push(k+'='+encodeURIComponent(obj[k]));return a},[]).join('&')
-    // const f = t ? new URLSearchParams(neighbourhoods).toString() : '';
+    // TODO: roomtypes and neighbourhoods once answer from backend
     // https://stackoverflow.com/questions/52482203/axios-multiple-values-comma-separated-in-a-parameter TODO
+    console.log('room types filter:', roomTypes);
+    console.log('neighbourhood filter:', neighbourhoods);
+    // TODO CLEANUP console
     const filterSettings = {
       priceMin: priceRange[0],
       priceMax: getMaxPrice(priceRange[1]),
@@ -71,10 +89,15 @@ const FilterBox = ({ listings, setFilters, metaListingsData }) => {
       availability: DURATION_SCALE[availability],
       listingsPerHost,
     };
-
-    console.log('filtersettings', filterSettings);
-    setFilters(filterSettings);
-  }, [priceRange, minNights, availability, listingsPerHost, neighbourhoods]);
+    if (metaListingsData) setFilters(filterSettings);
+  }, [
+    priceRange,
+    minNights,
+    availability,
+    listingsPerHost,
+    neighbourhoods,
+    roomTypes,
+  ]);
 
   const priceRangeProps = {
     min: metaListingsData.minPrice,
@@ -121,6 +144,16 @@ const FilterBox = ({ listings, setFilters, metaListingsData }) => {
     text: 'Neighbourhoods',
     propagateValue: setNeighbourhoods,
   };
+
+  const roomTypeProps = {
+    values:
+      metaListingsData && metaListingsData.roomTypes
+        ? metaListingsData.roomTypes
+        : [],
+    text: 'Room Types',
+    propagateValue: setRoomTypes,
+  };
+
   return (
     <>
       {metaListingsData && !_.isEmpty(metaListingsData) ? (
@@ -130,6 +163,7 @@ const FilterBox = ({ listings, setFilters, metaListingsData }) => {
           <SimpleSlider {...availabilityProps} />
           <SimpleSlider {...listingsPerHostProps} />
           <SimpleSelect {...neighbourhoodProps} />
+          <SimpleSelect {...roomTypeProps} />
         </>
       ) : (
         <CircularProgress />

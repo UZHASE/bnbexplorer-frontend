@@ -2,6 +2,7 @@ export const DEFAULT_FILTER_SETTINGS = {
   minPrice: 50,
   maxPrice: 100,
   minDuration: 3,
+  listingsPerHost: 1,
 };
 
 export const DURATION_SCALE = {
