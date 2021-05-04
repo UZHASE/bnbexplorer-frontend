@@ -8,6 +8,7 @@ import {
   Grid,
   CircularProgress,
   AccordionSummary,
+  Modal,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
@@ -19,6 +20,7 @@ import Log from './services/helper/Log.js';
 import './App.css';
 import Api from './lib/Http/Api';
 import FilterBox from './components/FilterBox';
+import ReviewModal from './components/ReviewModal';
 
 function App() {
   const Logger = new Log('App.js');
@@ -27,6 +29,9 @@ function App() {
   const [listing, setListing] = useState();
   const [placeSearch, setPlaceSearch] = useState();
   const [filterSettings, setFilterSettings] = useState();
+  const [metaListingsData, setMetaListingsData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [reviews, setReviews] = useState();
 
   useEffect(() => {
     const loadListings = async () => {
@@ -35,16 +40,34 @@ function App() {
           ...filterSettings,
         },
       });
+      const metaListingsData = await Api.get('listings/metadata');
+      Logger.log(metaListingsData);
       Logger.log(response, 'res');
       setListings(response.data);
+      setMetaListingsData(metaListingsData.data);
     };
     if (filterSettings) loadListings();
   }, [filterSettings]);
 
+  // TODO maybe
+  // useEffect(() => {
+  //   window.addEventListener('keydown', handleEscapeEvent);
+  // }, []);
+  //
+  // const handleEscapeEvent = (e) => {
+  //   if (e.key === 'Escape') {
+  //     setShowModal(false);
+  //     Logger.log('escape press registered');
+  //   }
+  // };
+
   const clickListing = async (key) => {
-    const response = await Api.get('listings/' + key);
-    Logger.log('clicked on listing: ', response);
-    setListing(response.data);
+    const listingResponse = await Api.get(`listings/${key}`);
+    Logger.log('clicked on listing: ', listingResponse);
+    setListing(listingResponse.data);
+    const reviewResponse = await Api.get(`listings/${key}/reviews`);
+    Logger.log('review fetched: ', reviewResponse);
+    setReviews(reviewResponse.data);
   };
 
   const onSearchValueChange = (searchResults) => {
@@ -101,15 +124,26 @@ function App() {
                 <FilterBox
                   listings={listings}
                   setFilters={onFilterSettingsChange}
+                  metaListingsData={metaListingsData}
                 />
               </Grid>
               <Grid item xs={8}>
-                {listing ? <ListingDetails listing={listing} /> : null}
+                {listing ? (
+                  <ListingDetails
+                    listing={listing}
+                    onClick={() => setShowModal(!showModal)}
+                  />
+                ) : null}
               </Grid>
             </Grid>
           </AccordionDetails>
         </Accordion>
       </Container>
+      <ReviewModal
+        showModal={showModal}
+        reviews={reviews}
+        closeModal={() => setShowModal(false)}
+      />
     </div>
   );
 }

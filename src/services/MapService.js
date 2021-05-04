@@ -1,5 +1,5 @@
 export const getMappedCrimeData = (crimeData) => {
-  return typeof crimeData !== 'undefined' && crimeData //verbose checking to make SonarQube happy ...
+  return crimeData
     ? {
         positions: crimeData.map((e) => {
           return { lat: e.latitude, lng: e.longitude };
@@ -13,10 +13,10 @@ export const getMappedCrimeData = (crimeData) => {
     : {};
 };
 
-export const getMappedCleanlinessData = (cleanlinessData) => {
-  return typeof cleanlinessData !== 'undefined' && cleanlinessData //verbose checking to make SonarQube happy ...
+export const getMappedRodentData = (rodentData) => {
+  return rodentData
     ? {
-        positions: cleanlinessData.map((e) => {
+        positions: rodentData.map((e) => {
           return { lat: e.latitude, lng: e.longitude };
         }),
         options: {
@@ -26,4 +26,10 @@ export const getMappedCleanlinessData = (cleanlinessData) => {
         },
       }
     : {};
+};
+
+export const switchesTooltips = {
+  rodent: 'Rat encounters in New York',
+  transit: 'Transit options in New York',
+  crime: 'Locations of crime occurrences in New York',
 };
