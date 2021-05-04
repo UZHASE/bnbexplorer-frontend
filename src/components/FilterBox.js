@@ -28,24 +28,7 @@ TODO:
 const FilterBox = ({ listings, setFilters }) => {
   const Logger = new Log('FilterBox.js');
 
-  const [priceRange, setPriceRange] = useState([
-    DEFAULT_FILTER_SETTINGS.minPrice,
-    DEFAULT_FILTER_SETTINGS.maxPrice,
-  ]);
-
-  // prettier-ignore
-  const [minNights, setMinNights] = useState(
-    DEFAULT_FILTER_SETTINGS.minDuration
-  );
-  // prettier-ignore
-  const [availability, setAvailability] = useState(
-    DEFAULT_FILTER_SETTINGS.minDuration
-  );
-
-  const [listingsPerHost, setListingsPerHost] = useState(
-    DEFAULT_FILTER_SETTINGS.listingsPerHost
-  );
-
+  const [filterSettings, setFilterSettings] = useState(DEFAULT_FILTER_SETTINGS);
   const [metaListingsData, setMetaListingsData] = useState({});
 
   useEffect(() => {
@@ -53,17 +36,9 @@ const FilterBox = ({ listings, setFilters }) => {
       const metaListingsData = await Api.get('listings/metadata');
       Logger.log(metaListingsData);
       setMetaListingsData(metaListingsData.data);
-      setRoomTypes(metaListingsData.data.roomTypes);
-      setNeighbourhoods(metaListingsData.data.neighbourhoods);
     };
     loadMetaListingData();
   }, []);
-
-  const [neighbourhoods, setNeighbourhoods] = useState(
-    metaListingsData.neighbourhoods
-  );
-
-  const [roomTypes, setRoomTypes] = useState(metaListingsData.roomTypes);
 
   const getMaxPrice = (currentPrice) => {
     return currentPrice === RANGEMAX ? metaListingsData.maxPrice : currentPrice;
@@ -76,83 +51,99 @@ const FilterBox = ({ listings, setFilters }) => {
       : metaListingsData.maxPrice;
   };
 
-  useEffect(() => {
-    // TODO: roomtypes and neighbourhoods once answer from backend
-    // https://stackoverflow.com/questions/52482203/axios-multiple-values-comma-separated-in-a-parameter TODO
-    console.log('room types filter:', roomTypes);
-    console.log('neighbourhood filter:', neighbourhoods);
-    // TODO CLEANUP console
-    const filterSettings = {
-      priceMin: priceRange[0],
-      priceMax: getMaxPrice(priceRange[1]),
-      minNights: DURATION_SCALE[minNights],
-      availability: DURATION_SCALE[availability],
-      listingsPerHost,
-    };
-    if (metaListingsData) setFilters(filterSettings);
-  }, [
-    priceRange,
-    minNights,
-    availability,
-    listingsPerHost,
-    neighbourhoods,
-    roomTypes,
-  ]);
+  const changeSettings = (name, value) => {
+    let temp = { ...filterSettings };
+    if (name === 'priceRange') {
+      // since returns array
+      temp = {
+        ...temp,
+        ['minPrice']: value[0],
+        ['maxPrice']: getMaxPrice(value[1]),
+      };
+    } else if (name === 'neighbourhoods' || name === 'roomTypes') {
+      // TODO: figure out how to compose
+      // https://stackoverflow.com/questions/52482203/axios-multiple-values-comma-separated-in-a-parameter TODO
+    } else if (name === 'availability' || name === 'minNights') {
+      temp = {
+        ...temp,
+        [name]: DURATION_SCALE[value],
+      };
+    } else {
+      temp = {
+        ...temp,
+        [name]: value,
+      };
+    }
+    setFilterSettings(temp);
+    setFilters(temp);
+  };
+
+  const defaultProps = {
+    propagateValue: changeSettings,
+  };
 
   const priceRangeProps = {
+    ...defaultProps,
     min: metaListingsData.minPrice,
     max: setPriceRangeMax(),
-    valueA: DEFAULT_FILTER_SETTINGS.minPrice,
-    valueB: DEFAULT_FILTER_SETTINGS.maxPrice,
-    propagateValue: setPriceRange,
+    valueA: filterSettings.minPrice,
+    valueB: filterSettings.maxPrice,
     text: 'Price Range (' + CURRENCY + ')',
+    name: 'priceRange',
   };
 
   const minNightsProps = {
+    ...defaultProps,
     min: 1,
     max: 9,
-    initialValue: DEFAULT_FILTER_SETTINGS.minDuration,
-    propagateValue: setMinNights,
+    initialValue: filterSettings.minDuration,
     text: 'Min. number of nights',
     enableMarks: DURATION_MARKS(),
     scale: (x) => DURATION_SCALE[x],
+    name: 'minNights',
   };
 
   const availabilityProps = {
+    ...defaultProps,
     min: 1,
     max: 9,
-    initialValue: DEFAULT_FILTER_SETTINGS.minDuration,
-    propagateValue: setAvailability,
+    initialValue: filterSettings.minDuration,
     text: 'Min. Availability',
     enableMarks: DURATION_MARKS(),
     scale: (x) => DURATION_SCALE[x],
+    name: 'availability',
   };
 
   const listingsPerHostProps = {
+    ...defaultProps,
     min: 1,
     max: 10,
-    initialValue: 1,
-    propagateValue: setListingsPerHost,
+    initialValue: filterSettings.listingsPerHost,
     text: 'Min. Number of listings per host',
+    name: 'listingsPerHost',
   };
 
   const neighbourhoodProps = {
+    ...defaultProps,
     values:
       metaListingsData && metaListingsData.neighbourhoods
         ? metaListingsData.neighbourhoods
         : [],
     text: 'Neighbourhoods',
-    propagateValue: setNeighbourhoods,
+    name: 'neighbourhoods',
   };
 
   const roomTypeProps = {
+    ...defaultProps,
     values:
       metaListingsData && metaListingsData.roomTypes
         ? metaListingsData.roomTypes
         : [],
     text: 'Room Types',
-    propagateValue: setRoomTypes,
+    name: 'roomTypes',
   };
+
+  console.log(filterSettings);
 
   return (
     <>

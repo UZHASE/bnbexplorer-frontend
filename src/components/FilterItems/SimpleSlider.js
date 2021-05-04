@@ -9,6 +9,7 @@ const SimpleSlider = ({
   text,
   enableMarks = false,
   scale = (x) => x,
+  name,
 }) => {
   const [value, setValue] = useState(initialValue);
   const [debouncedValue, setDebouncedValue] = useState(initialValue);
@@ -27,7 +28,7 @@ const SimpleSlider = ({
   }, [value]);
 
   useEffect(() => {
-    if (value) propagateValue(debouncedValue);
+    if (value) propagateValue(name, debouncedValue);
   }, [debouncedValue]);
 
   return (

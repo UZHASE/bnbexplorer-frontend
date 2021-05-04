@@ -40,14 +40,14 @@ function getStyles(e, values, theme) {
   };
 }
 
-const SimpleSelect = ({ values, text, propagateValue }) => {
+const SimpleSelect = ({ values, text, propagateValue, name }) => {
   const [vals, setVals] = React.useState(values);
   const classes = useStyles();
   const theme = useTheme();
 
   const handleChange = (event) => {
     setVals(event.target.value);
-    propagateValue(event.target.value);
+    propagateValue(name, event.target.value);
   };
 
   return (
