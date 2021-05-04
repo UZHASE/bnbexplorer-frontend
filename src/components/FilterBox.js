@@ -14,9 +14,6 @@ import { CircularProgress } from '@material-ui/core';
 import Api from '../lib/Http/Api';
 import Log from '../services/helper/Log';
 
-// TODO: maybe set default filters with a low/high min-nights or price to have fewer initial points at the start, whilst
-// 	keeping them somewhat distributed over the entire map
-
 /*
 TODO:
 - ranged slider (min/max price) - DONE
@@ -62,7 +59,7 @@ const FilterBox = ({ listings, setFilters }) => {
       };
     } else if (name === 'neighbourhoods' || name === 'roomTypes') {
       // TODO: figure out how to compose
-      // https://stackoverflow.com/questions/52482203/axios-multiple-values-comma-separated-in-a-parameter TODO
+      // https://stackoverflow.com/questions/52482203/axios-multiple-values-comma-separated-in-a-parameter
     } else if (name === 'availability' || name === 'minNights') {
       temp = {
         ...temp,
