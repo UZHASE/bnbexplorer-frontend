@@ -140,6 +140,7 @@ const Map = (props) => {
                   key={e.place_id}
                   id={e.place_id}
                   type={'marker'}
+                  place={e}
                 />
               );
             })}
