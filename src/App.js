@@ -8,7 +8,6 @@ import {
   Grid,
   CircularProgress,
   AccordionSummary,
-  Modal,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
@@ -40,11 +39,8 @@ function App() {
           ...filterSettings,
         },
       });
-      const metaListingsData = await Api.get('listings/metadata');
-      Logger.log(metaListingsData);
       Logger.log(response, 'res');
       setListings(response.data);
-      setMetaListingsData(metaListingsData.data);
     };
     if (filterSettings) loadListings();
   }, [filterSettings]);
@@ -124,7 +120,6 @@ function App() {
                 <FilterBox
                   listings={listings}
                   setFilters={onFilterSettingsChange}
-                  metaListingsData={metaListingsData}
                 />
               </Grid>
               <Grid item xs={8}>
