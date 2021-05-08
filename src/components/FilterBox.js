@@ -8,19 +8,12 @@ import {
   DURATION_MARKS,
   DURATION_SCALE,
   RANGEMAX,
-} from '../constants/FilterSettings';
+  DEFAULT_FILTER_QUERY_SETTINGS,
+} from '../constants/filterSettings';
 import SimpleSelect from './FilterItems/SimpleSelect';
 import { CircularProgress } from '@material-ui/core';
 import Api from '../lib/Http/Api';
 import Log from '../services/helper/Log';
-
-/*
-TODO:
-- ranged slider (min/max price) - DONE
-- slider (min nights, availability (0-365), numberOfListings per host) - DONE-ish
-- selectors (roomtype, location, area)
-- textSearch (host, listing)
- */
 
 const FilterBox = ({ listings, setFilters }) => {
   const Logger = new Log('FilterBox.js');
@@ -54,12 +47,14 @@ const FilterBox = ({ listings, setFilters }) => {
       // since returns array
       temp = {
         ...temp,
-        ['minPrice']: value[0],
-        ['maxPrice']: getMaxPrice(value[1]),
+        ['priceMin']: value[0],
+        ['priceMax']: getMaxPrice(value[1]),
       };
-    } else if (name === 'neighbourhoods' || name === 'roomTypes') {
-      // TODO: figure out how to compose
-      // https://stackoverflow.com/questions/52482203/axios-multiple-values-comma-separated-in-a-parameter
+    } else if (name === 'location' || name === 'roomType') {
+      temp = {
+        ...temp,
+        [name]: value.join(','),
+      };
     } else if (name === 'availability' || name === 'minNights') {
       temp = {
         ...temp,
@@ -75,6 +70,13 @@ const FilterBox = ({ listings, setFilters }) => {
     setFilters(temp);
   };
 
+  // prettier-ignore
+  const calculateReverseScale = (val) => {
+    return parseInt(
+      Object.keys(DURATION_SCALE).find((i) => DURATION_SCALE[i] === val)
+    );
+  };
+
   const defaultProps = {
     propagateValue: changeSettings,
   };
@@ -83,8 +85,8 @@ const FilterBox = ({ listings, setFilters }) => {
     ...defaultProps,
     min: metaListingsData.minPrice,
     max: setPriceRangeMax(),
-    valueA: filterSettings.minPrice,
-    valueB: filterSettings.maxPrice,
+    valueA: filterSettings.priceMin,
+    valueB: filterSettings.priceMax,
     text: 'Price Range (' + CURRENCY + ')',
     name: 'priceRange',
   };
@@ -93,7 +95,7 @@ const FilterBox = ({ listings, setFilters }) => {
     ...defaultProps,
     min: 1,
     max: 9,
-    initialValue: filterSettings.minDuration,
+    initialValue: calculateReverseScale(filterSettings.minNights),
     text: 'Min. number of nights',
     enableMarks: DURATION_MARKS(),
     scale: (x) => DURATION_SCALE[x],
@@ -104,7 +106,7 @@ const FilterBox = ({ listings, setFilters }) => {
     ...defaultProps,
     min: 1,
     max: 9,
-    initialValue: filterSettings.minDuration,
+    initialValue: calculateReverseScale(filterSettings.availablility),
     text: 'Min. Availability',
     enableMarks: DURATION_MARKS(),
     scale: (x) => DURATION_SCALE[x],
@@ -127,7 +129,7 @@ const FilterBox = ({ listings, setFilters }) => {
         ? metaListingsData.neighbourhoods
         : [],
     text: 'Neighbourhoods',
-    name: 'neighbourhoods',
+    name: 'location',
   };
 
   const roomTypeProps = {
@@ -137,10 +139,8 @@ const FilterBox = ({ listings, setFilters }) => {
         ? metaListingsData.roomTypes
         : [],
     text: 'Room Types',
-    name: 'roomTypes',
+    name: 'roomType',
   };
-
-  console.log(filterSettings);
 
   return (
     <>

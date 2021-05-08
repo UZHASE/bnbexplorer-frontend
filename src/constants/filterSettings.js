@@ -1,10 +1,3 @@
-export const DEFAULT_FILTER_SETTINGS = {
-  minPrice: 50,
-  maxPrice: 100,
-  minDuration: 3,
-  listingsPerHost: 1,
-};
-
 export const DURATION_SCALE = {
   1: 1,
   2: 3,
@@ -15,6 +8,14 @@ export const DURATION_SCALE = {
   7: 30,
   8: 90,
   9: 180,
+};
+
+export const DEFAULT_FILTER_SETTINGS = {
+  priceMin: 50,
+  priceMax: 100,
+  minNights: 5,
+  availablility: 5,
+  listingsPerHost: 1,
 };
 
 export const DURATION_MARKS = () => {
