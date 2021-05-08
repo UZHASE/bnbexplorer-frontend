@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import _ from 'lodash';
 import RangeSlider from './FilterItems/RangeSlider';
 import SimpleSlider from './FilterItems/SimpleSlider';
 import {
@@ -7,35 +8,27 @@ import {
   DURATION_MARKS,
   DURATION_SCALE,
   RANGEMAX,
-} from '../constants/FilterSettings';
+  DEFAULT_FILTER_QUERY_SETTINGS,
+} from '../constants/filterSettings';
+import SimpleSelect from './FilterItems/SimpleSelect';
+import { CircularProgress } from '@material-ui/core';
+import Api from '../lib/Http/Api';
+import Log from '../services/helper/Log';
 
-// TODO: maybe set default filters with a low/high min-nights or price to have fewer initial points at the start, whilst
-// 	keeping them somewhat distributed over the entire map
+const FilterBox = ({ listings, setFilters }) => {
+  const Logger = new Log('FilterBox.js');
 
-/*
-TODO:
-- ranged slider (min/max price) - DONE
-- slider (min nights, availability (0-365), numberOfListings per host) - DONE-ish
-- selectors (roomtype, location, area)
-- textSearch (host, listing)
- */
+  const [filterSettings, setFilterSettings] = useState(DEFAULT_FILTER_SETTINGS);
+  const [metaListingsData, setMetaListingsData] = useState({});
 
-const FilterBox = ({ listings, setFilters, metaListingsData }) => {
-  const [priceRange, setPriceRange] = useState([
-    DEFAULT_FILTER_SETTINGS.minPrice,
-    DEFAULT_FILTER_SETTINGS.maxPrice,
-  ]);
-
-  // prettier-ignore
-  const [minNights, setMinNights] = useState(
-    DEFAULT_FILTER_SETTINGS.minDuration
-  );
-  // prettier-ignore
-  const [availability, setAvailability] = useState(
-    DEFAULT_FILTER_SETTINGS.minDuration
-  );
-
-  const [listingsPerHost, setListingsPerHost] = useState();
+  useEffect(() => {
+    const loadMetaListingData = async () => {
+      const metaListingsData = await Api.get('listings/metadata');
+      Logger.log(metaListingsData);
+      setMetaListingsData(metaListingsData.data);
+    };
+    loadMetaListingData();
+  }, []);
 
   const getMaxPrice = (currentPrice) => {
     return currentPrice === RANGEMAX ? metaListingsData.maxPrice : currentPrice;
@@ -48,61 +41,121 @@ const FilterBox = ({ listings, setFilters, metaListingsData }) => {
       : metaListingsData.maxPrice;
   };
 
-  useEffect(() => {
-    // NOTE: availability and minNights share scales
-    const filterSettings = {
-      priceMin: priceRange[0],
-      priceMax: getMaxPrice(priceRange[1]),
-      minNights: DURATION_SCALE[minNights],
-      availability: DURATION_SCALE[availability],
-      listingsPerHost: listingsPerHost,
-    };
-    setFilters(filterSettings);
-  }, [priceRange, minNights, availability, listingsPerHost]);
+  const changeSettings = (name, value) => {
+    let temp = { ...filterSettings };
+    if (name === 'priceRange') {
+      // since returns array
+      temp = {
+        ...temp,
+        ['priceMin']: value[0],
+        ['priceMax']: getMaxPrice(value[1]),
+      };
+    } else if (name === 'location' || name === 'roomType') {
+      temp = {
+        ...temp,
+        [name]: value.join(','),
+      };
+    } else if (name === 'availability' || name === 'minNights') {
+      temp = {
+        ...temp,
+        [name]: DURATION_SCALE[value],
+      };
+    } else {
+      temp = {
+        ...temp,
+        [name]: value,
+      };
+    }
+    setFilterSettings(temp);
+    setFilters(temp);
+  };
+
+  // prettier-ignore
+  const calculateReverseScale = (val) => {
+    return parseInt(
+      Object.keys(DURATION_SCALE).find((i) => DURATION_SCALE[i] === val)
+    );
+  };
+
+  const defaultProps = {
+    propagateValue: changeSettings,
+  };
 
   const priceRangeProps = {
+    ...defaultProps,
     min: metaListingsData.minPrice,
     max: setPriceRangeMax(),
-    valueA: DEFAULT_FILTER_SETTINGS.minPrice,
-    valueB: DEFAULT_FILTER_SETTINGS.maxPrice,
-    propagateValue: setPriceRange,
+    valueA: filterSettings.priceMin,
+    valueB: filterSettings.priceMax,
     text: 'Price Range (' + CURRENCY + ')',
+    name: 'priceRange',
   };
 
   const minNightsProps = {
+    ...defaultProps,
     min: 1,
     max: 9,
-    initialValue: DEFAULT_FILTER_SETTINGS.minDuration,
-    propagateValue: setMinNights,
+    initialValue: calculateReverseScale(filterSettings.minNights),
     text: 'Min. number of nights',
     enableMarks: DURATION_MARKS(),
     scale: (x) => DURATION_SCALE[x],
+    name: 'minNights',
   };
 
   const availabilityProps = {
+    ...defaultProps,
     min: 1,
     max: 9,
-    initialValue: DEFAULT_FILTER_SETTINGS.minDuration,
-    propagateValue: setAvailability,
+    initialValue: calculateReverseScale(filterSettings.availablility),
     text: 'Min. Availability',
     enableMarks: DURATION_MARKS(),
     scale: (x) => DURATION_SCALE[x],
+    name: 'availability',
   };
 
   const listingsPerHostProps = {
+    ...defaultProps,
     min: 1,
     max: 10,
-    initialValue: 1,
-    propagateValue: setListingsPerHost,
+    initialValue: filterSettings.listingsPerHost,
     text: 'Min. Number of listings per host',
+    name: 'listingsPerHost',
+  };
+
+  const neighbourhoodProps = {
+    ...defaultProps,
+    values:
+      metaListingsData && metaListingsData.neighbourhoods
+        ? metaListingsData.neighbourhoods
+        : [],
+    text: 'Neighbourhoods',
+    name: 'location',
+  };
+
+  const roomTypeProps = {
+    ...defaultProps,
+    values:
+      metaListingsData && metaListingsData.roomTypes
+        ? metaListingsData.roomTypes
+        : [],
+    text: 'Room Types',
+    name: 'roomType',
   };
 
   return (
     <>
-      <RangeSlider {...priceRangeProps} />
-      <SimpleSlider {...minNightsProps} />
-      <SimpleSlider {...availabilityProps} />
-      <SimpleSlider {...listingsPerHostProps} />
+      {metaListingsData && !_.isEmpty(metaListingsData) ? (
+        <>
+          <RangeSlider {...priceRangeProps} />
+          <SimpleSlider {...minNightsProps} />
+          <SimpleSlider {...availabilityProps} />
+          <SimpleSlider {...listingsPerHostProps} />
+          <SimpleSelect {...neighbourhoodProps} />
+          <SimpleSelect {...roomTypeProps} />
+        </>
+      ) : (
+        <CircularProgress />
+      )}
     </>
   );
 };

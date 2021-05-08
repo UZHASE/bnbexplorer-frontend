@@ -1,11 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Slider, Typography } from '@material-ui/core';
-import { RANGEMAX } from '../../constants/FilterSettings';
+import { RANGEMAX } from '../../constants/filterSettings';
 
-const RangeSlider = ({ min, max, valueA, valueB, propagateValue, text }) => {
+const RangeSlider = ({
+  min,
+  max,
+  valueA,
+  valueB,
+  propagateValue,
+  text,
+  name,
+}) => {
   const [range, setRange] = useState([valueA, valueB]);
   const [debouncedRange, setDebouncedRange] = useState([valueA, valueB]);
-
+  const ref = useRef(false);
   const handleRangeChange = (event, value) => {
     setRange(value);
   };
@@ -20,7 +28,11 @@ const RangeSlider = ({ min, max, valueA, valueB, propagateValue, text }) => {
   }, [range]);
 
   useEffect(() => {
-    if (range) propagateValue(debouncedRange);
+    if (range && ref.current) {
+      propagateValue(name, debouncedRange);
+    } else {
+      ref.current = true;
+    }
   }, [debouncedRange]);
 
   const labelReturner = (value) => {

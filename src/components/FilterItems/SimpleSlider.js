@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Slider, Typography } from '@material-ui/core';
 
 const SimpleSlider = ({
@@ -9,9 +9,11 @@ const SimpleSlider = ({
   text,
   enableMarks = false,
   scale = (x) => x,
+  name,
 }) => {
   const [value, setValue] = useState(initialValue);
   const [debouncedValue, setDebouncedValue] = useState(initialValue);
+  const ref = useRef(false);
 
   const handleValueChange = (event, value) => {
     setValue(value);
@@ -27,7 +29,11 @@ const SimpleSlider = ({
   }, [value]);
 
   useEffect(() => {
-    if (value) propagateValue(debouncedValue);
+    if (value && ref.current) {
+      propagateValue(name, debouncedValue);
+    } else {
+      ref.current = true;
+    }
   }, [debouncedValue]);
 
   return (
