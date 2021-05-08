@@ -99,7 +99,7 @@ const FilterBox = ({ listings, setFilters }) => {
     ...defaultProps,
     min: 1,
     max: 9,
-    initialValue: calculateReverseScale(filterSettings.availablility),
+    initialValue: calculateReverseScale(filterSettings.availability),
     text: 'Min. Availability',
     enableMarks: DURATION_MARKS(),
     scale: (x) => DURATION_SCALE[x],

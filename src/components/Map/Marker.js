@@ -69,7 +69,13 @@ const HoverBox = ({ place }) => {
 
 const AnyReactComponent = (props) => {
   const { id, setListing, key, type } = props;
-  const color = type && type === 'marker' ? 'primary' : 'secondary';
+  // const color = type && type === 'marker' ? 'primary' : 'secondary';
+  const color = {
+    marker: 'rgba(40,40,220,0.95)',
+    listings: 'rgba(244,67,54,0.85)',
+    recommendations: '#d500f9',
+    selected: 'rgba(255,255,0,1)',
+  };
 
   const clickHandler = (id) => {
     if (setListing) {
@@ -83,12 +89,12 @@ const AnyReactComponent = (props) => {
       key={key}
     >
       <RoomIcon
-        color={color}
         key={key}
         style={{
           position: 'relative',
           cursor: 'pointer',
           zIndex: type === 'marker' ? 400 : 'unset',
+          color: color[type],
         }}
         onClick={() => clickHandler(id)}
       />
