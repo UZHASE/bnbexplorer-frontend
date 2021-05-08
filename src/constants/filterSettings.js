@@ -14,7 +14,7 @@ export const DEFAULT_FILTER_SETTINGS = {
   priceMin: 50,
   priceMax: 100,
   minNights: 5,
-  availablility: 5,
+  availability: 90,
   listingsPerHost: 1,
 };
 

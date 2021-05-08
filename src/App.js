@@ -28,9 +28,9 @@ function App() {
   const [listing, setListing] = useState();
   const [placeSearch, setPlaceSearch] = useState();
   const [filterSettings, setFilterSettings] = useState();
-  const [metaListingsData, setMetaListingsData] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [reviews, setReviews] = useState();
+  const [recommendations, setRecommendations] = useState([]);
 
   useEffect(() => {
     const loadListings = async () => {
@@ -45,25 +45,27 @@ function App() {
     if (filterSettings) loadListings();
   }, [filterSettings]);
 
-  // TODO maybe
-  // useEffect(() => {
-  //   window.addEventListener('keydown', handleEscapeEvent);
-  // }, []);
-  //
-  // const handleEscapeEvent = (e) => {
-  //   if (e.key === 'Escape') {
-  //     setShowModal(false);
-  //     Logger.log('escape press registered');
-  //   }
-  // };
-
   const clickListing = async (key) => {
+    //listing
     const listingResponse = await Api.get(`listings/${key}`);
+    const listingResponseData = listingResponse.data;
     Logger.log('clicked on listing: ', listingResponse);
-    setListing(listingResponse.data);
+    setListing(listingResponseData);
+    //reviews
     const reviewResponse = await Api.get(`listings/${key}/reviews`);
-    Logger.log('review fetched: ', reviewResponse);
+    Logger.log('review fetched: ', reviewResponse.data);
     setReviews(reviewResponse.data);
+    //recommendations
+    const params = {
+      listingId: key,
+      hostId: listingResponseData.hostId,
+      ...filterSettings,
+    };
+    delete params.listingsPerHost; //TODO
+    const recommendationResponse = await Api.get(`listings/recommendations`, {
+      params,
+    });
+    setRecommendations(recommendationResponse.data);
   };
 
   const onSearchValueChange = (searchResults) => {
@@ -95,6 +97,8 @@ function App() {
             listings={listings}
             setListing={clickListing}
             placeSearch={placeSearch}
+            recommendations={recommendations}
+            selected={listing}
           />
         ) : (
           <CircularProgress />
