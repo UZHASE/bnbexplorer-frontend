@@ -8,12 +8,12 @@ import {
   DURATION_MARKS,
   DURATION_SCALE,
   RANGEMAX,
-  DEFAULT_FILTER_QUERY_SETTINGS,
 } from '../constants/filterSettings';
 import SimpleSelect from './FilterItems/SimpleSelect';
 import { CircularProgress } from '@material-ui/core';
 import Api from '../lib/Http/Api';
 import Log from '../services/helper/Log';
+import { calculateReverseScale } from '../services/filterService';
 
 const FilterBox = ({ listings, setFilters }) => {
   const Logger = new Log('FilterBox.js');
@@ -23,9 +23,9 @@ const FilterBox = ({ listings, setFilters }) => {
 
   useEffect(() => {
     const loadMetaListingData = async () => {
-      const metaListingsData = await Api.get('listings/metadata');
-      Logger.log(metaListingsData);
-      setMetaListingsData(metaListingsData.data);
+      const response = await Api.get('listings/metadata');
+      Logger.log(response);
+      setMetaListingsData(response.data);
     };
     loadMetaListingData();
   }, []);
@@ -44,7 +44,7 @@ const FilterBox = ({ listings, setFilters }) => {
   const changeSettings = (name, value) => {
     let temp = { ...filterSettings };
     if (name === 'priceRange') {
-      // since returns array
+      // destructure array
       temp = {
         ...temp,
         ['priceMin']: value[0],
@@ -68,13 +68,6 @@ const FilterBox = ({ listings, setFilters }) => {
     }
     setFilterSettings(temp);
     setFilters(temp);
-  };
-
-  // prettier-ignore
-  const calculateReverseScale = (val) => {
-    return parseInt(
-      Object.keys(DURATION_SCALE).find((i) => DURATION_SCALE[i] === val)
-    );
   };
 
   const defaultProps = {
