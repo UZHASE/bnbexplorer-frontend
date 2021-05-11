@@ -6,7 +6,7 @@ import {
   Switch,
   Tooltip,
 } from '@material-ui/core';
-import GoogleMap from 'google-map-react/dist/index';
+// import GoogleMap from 'google-map-react/dist/index';
 import Api from '../../lib/Http/Api';
 import AnyReactComponent from './Marker';
 import {
@@ -15,6 +15,7 @@ import {
   switchesTooltips,
 } from '../../services/mapService';
 
+const GoogleMap = require('google-map-react/dist/index');
 const emptyProp = { positions: [], options: {} };
 
 const Map = (props) => {
