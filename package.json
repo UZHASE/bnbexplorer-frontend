@@ -24,8 +24,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false --coverage --testResultsProcessor jest-sonar-reporter",
-    "eject": "react-scripts eject",
-    "heroku-postbuild": "cd node_modules/google-map-react && npm install && npm build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
