@@ -6,7 +6,7 @@ import {
   Switch,
   Tooltip,
 } from '@material-ui/core';
-import GoogleMapReact from '../../GoogleMapReact/src';
+import GoogleMapReact from 'google-map-react';
 import Api from '../../lib/Http/Api';
 import AnyReactComponent from './Marker';
 import {
