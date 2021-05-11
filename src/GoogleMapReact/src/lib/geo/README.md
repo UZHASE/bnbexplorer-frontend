@@ -1,1 +1,0 @@
-### The code uses mapboxgl so that coordinate transformations do not depend on the library
