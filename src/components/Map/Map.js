@@ -6,7 +6,7 @@ import {
   Switch,
   Tooltip,
 } from '@material-ui/core';
-import GoogleMapReact from 'google-map-react';
+import GoogleMap from 'google-map-react/dist/index';
 import Api from '../../lib/Http/Api';
 import AnyReactComponent from './Marker';
 import {
@@ -117,7 +117,7 @@ const Map = (props) => {
     <>
       <Accordion>
         <div style={{ minHeight: '50vh', width: '100%' }}>
-          <GoogleMapReact
+          <GoogleMap
             yesIWantToUseGoogleMapApiInternals
             bootstrapURLKeys={{
               key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -179,7 +179,7 @@ const Map = (props) => {
                 type={'selected'}
               />
             ) : null}
-          </GoogleMapReact>
+          </GoogleMap>
         </div>
       </Accordion>
       <Accordion style={{ display: 'flex' }}>
