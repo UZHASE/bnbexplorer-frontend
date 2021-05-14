@@ -4,8 +4,10 @@ ADD . /bnbexplorer-frontend/
 
 WORKDIR /bnbexplorer-frontend
 
-RUN npm install
-
-RUN npm install --unsafe-perm git+https://github.com/fabiank0/google-map-react.git && npm install microbundle-crl && cd node_modules/google-map-react && npm run-script build & cd ..
+RUN npm install \
+    && npm install --unsafe-perm git+https://github.com/fabiank0/google-map-react.git
+RUN cd node_modules/google-map-react \
+    && npm install microbundle-crl \
+    && npm run-script build
 
 CMD ["npm", "start"]
