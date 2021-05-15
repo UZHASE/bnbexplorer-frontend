@@ -1,7 +1,11 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { Typography, CircularProgress } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+
 import ListingInfoItem from './ListingInfoItem';
+import { Carousel } from 'react-responsive-carousel';
+import './listingDetails.scss';
 
 const ListingDetails = (props) => {
   const { listing, onClick, showReviews } = props;
@@ -48,7 +52,6 @@ const ListingDetails = (props) => {
           style={{
             marginTop: '12px',
             height: 'calc(100% - 12px)',
-            background: 'lightgray',
             borderRadius: '5px',
             width: 'calc(100% + 8px)',
           }}
@@ -60,13 +63,10 @@ const ListingDetails = (props) => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              overflow: 'hidden',
             }}
           >
-            {listing.img ? (
-              <img alt='img' source={listing.img} />
-            ) : (
-              <CircularProgress />
-            )}
+            <ImageCarousel listing={listing} />
           </Grid>
         </Grid>
       </Grid>
@@ -74,3 +74,21 @@ const ListingDetails = (props) => {
   );
 };
 export default ListingDetails;
+
+const ImageCarousel = ({ listing }) => {
+  if (listing && listing.images && listing.images.length > 0) {
+    return (
+      <Carousel autoPlay showArrows={true}>
+        {listing.images.map((e) => {
+          return (
+            <div key={e}>
+              <img className='carousel-image' src={e} alt='image' />
+            </div>
+          );
+        })}
+      </Carousel>
+    );
+  } else {
+    return <p>No Images Found</p>;
+  }
+};
