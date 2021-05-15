@@ -17,9 +17,9 @@ import background from './img/oliver-niblett-wh-7GeXxItI-unsplash.jpg';
 import Searchbar from './components/Searchbar';
 import Log from './services/helper/Log.js';
 import './App.css';
-import Api from './lib/Http/Api';
 import FilterBox from './components/FilterBox';
 import ReviewModal from './components/ReviewModal';
+import { clickListingHandler, loadListingsData } from './services/appService';
 
 function App() {
   const Logger = new Log('App.js');
@@ -31,49 +31,27 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [reviews, setReviews] = useState();
   const [recommendations, setRecommendations] = useState([]);
+  const [showReviews, setShowReviews] = useState(true);
 
   useEffect(() => {
-    const loadListings = async () => {
-      const response = await Api.get('listings', {
-        params: {
-          ...filterSettings,
-        },
-      });
-      Logger.log(response, 'res');
-      setListings(response.data);
+    const loadListings = async (filters) => {
+      setListings(await loadListingsData(filters));
     };
-    if (filterSettings) loadListings();
+    if (filterSettings) loadListings(filterSettings);
   }, [filterSettings]);
 
   const clickListing = async (key) => {
-    //listing
-    const listingResponse = await Api.get(`listings/${key}`);
-    const listingResponseData = listingResponse.data;
-    Logger.log('clicked on listing: ', listingResponse);
+    const {
+      listingResponseData,
+      reviewResponseData,
+      recommendationResponseData,
+    } = await clickListingHandler(key, filterSettings);
+    Logger.log('clicked on listing: ', listingResponseData);
+
     setListing(listingResponseData);
-    //reviews
-    const reviewResponse = await Api.get(`listings/${key}/reviews`);
-    Logger.log('review fetched: ', reviewResponse.data);
-    setReviews(reviewResponse.data);
-    //recommendations
-    const params = {
-      listingId: key,
-      hostId: listingResponseData.hostId,
-      ...filterSettings,
-    };
-    delete params.listingsPerHost; //TODO
-    const recommendationResponse = await Api.get(`listings/recommendations`, {
-      params,
-    });
-    setRecommendations(recommendationResponse.data);
-  };
-
-  const onSearchValueChange = (searchResults) => {
-    setPlaceSearch(searchResults);
-  };
-
-  const onFilterSettingsChange = (filterSettings) => {
-    setFilterSettings(filterSettings);
+    setReviews(reviewResponseData);
+    setRecommendations(recommendationResponseData);
+    setShowReviews(reviewResponseData && reviewResponseData.length >= 1);
   };
 
   return (
@@ -118,18 +96,25 @@ function App() {
               style={{ padding: '0px 12px 0px 0px', marginBottom: '12px' }}
             >
               <Grid item xs={12} style={{ paddingRight: '0' }}>
-                <Searchbar onSearchValueChange={onSearchValueChange} />
+                <Searchbar
+                  onSearchValueChange={(searchResults) =>
+                    setPlaceSearch(searchResults)
+                  }
+                />
               </Grid>
               <Grid item xs={4}>
                 <FilterBox
                   listings={listings}
-                  setFilters={onFilterSettingsChange}
+                  setFilters={(filterSettings) =>
+                    setFilterSettings(filterSettings)
+                  }
                 />
               </Grid>
               <Grid item xs={8}>
                 {listing ? (
                   <ListingDetails
                     listing={listing}
+                    showReviews={showReviews}
                     onClick={() => setShowModal(!showModal)}
                   />
                 ) : null}

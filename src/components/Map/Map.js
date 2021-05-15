@@ -97,6 +97,8 @@ const Map = (props) => {
           setPlaces(results);
         }
       });
+    } else {
+      setPlaces([]);
     }
   }, [placeSearch]);
 
@@ -116,7 +118,10 @@ const Map = (props) => {
   return (
     <>
       <Accordion>
-        <div style={{ minHeight: '50vh', width: '100%' }}>
+        <div
+          style={{ minHeight: '50vh', width: '100%' }}
+          id='map-container-inner'
+        >
           <GoogleMap
             yesIWantToUseGoogleMapApiInternals
             bootstrapURLKeys={{

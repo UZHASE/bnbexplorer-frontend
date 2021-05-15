@@ -1,0 +1,29 @@
+$hover-container-max-height: 130px;
+$hover-container-width: 190px;
+
+.hidden {
+  visibility: hidden;
+  z-index: 0;
+}
+
+.current-container {
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 6px;
+  box-shadow: 0 2px 7px 1px rgb(0 0 0 / 30%);
+  width: $hover-container-width;
+  max-height: $hover-container-max-height;
+  padding: 12px;
+  z-index: 1000;
+  position: relative;
+
+  // default fold is right and down
+  &.fold-left {
+    position: absolute;
+    left: -$hover-container-width;
+  }
+
+  &.fold-top {
+    position: absolute;
+    // top offset solved dynamically due to non-fixed height
+  }
+}
