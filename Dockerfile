@@ -4,6 +4,6 @@ ADD . /bnbexplorer-frontend/
 
 WORKDIR /bnbexplorer-frontend
 
-RUN npm install
+RUN npm i
 
 CMD ["npm", "start"]
