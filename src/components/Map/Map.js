@@ -97,6 +97,8 @@ const Map = (props) => {
           setPlaces(results);
         }
       });
+    } else {
+      setPlaces([]);
     }
   }, [placeSearch]);
 

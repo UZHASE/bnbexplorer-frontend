@@ -4,7 +4,7 @@ import { Typography, CircularProgress } from '@material-ui/core';
 import ListingInfoItem from './ListingInfoItem';
 
 const ListingDetails = (props) => {
-  const { listing, onClick } = props;
+  const { listing, onClick, showReviews } = props;
   return (
     <Grid
       container
@@ -34,7 +34,11 @@ const ListingDetails = (props) => {
           spacing={3}
           style={{ marginTop: '8px', marginLeft: '10px' }}
         >
-          <ListingInfoItem listing={listing} onClick={onClick} />
+          <ListingInfoItem
+            listing={listing}
+            onClick={onClick}
+            showReviews={showReviews}
+          />
         </Grid>
       </Grid>
       <Grid item xs={6}>

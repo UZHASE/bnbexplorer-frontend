@@ -13,14 +13,14 @@ const Searchbar = (props) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedVal(val);
-    }, 1000);
+    }, 500);
     return () => {
       clearTimeout(timer);
     };
   }, [val]);
 
   useEffect(() => {
-    if (val) onSearchValueChange(debouncedVal);
+    onSearchValueChange(debouncedVal);
   }, [debouncedVal]);
 
   return (
