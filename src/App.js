@@ -69,7 +69,7 @@ function App() {
         <AppBar
           position='static'
           color='primary'
-          style={{ backgroundColor: 'rgba(120,130,140,0.7)' }}
+          style={{ backgroundColor: 'rgba(240,146,70, 0.5)' }}
         >
           <Typography variant='h2' align='center' style={{ color: 'white' }}>
             BnB explorer
