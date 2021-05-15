@@ -60,14 +60,19 @@ function App() {
         backgroundImage: `url(${background})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
-        height: '100vh',
+        minHeight: '100vh',
         margin: 0,
+        backgroundColor: 'black',
       }}
     >
       <Container maxWidth='lg'>
-        <AppBar position='static'>
-          <Typography variant='h3' align='center'>
-            BnB Explorer
+        <AppBar
+          position='static'
+          color='primary'
+          style={{ backgroundColor: 'rgba(120,130,140,0.7)' }}
+        >
+          <Typography variant='h2' align='center' style={{ color: 'white' }}>
+            BnB explorer
           </Typography>
         </AppBar>
         {listings ? (
@@ -93,7 +98,11 @@ function App() {
             <Grid
               container
               spacing={3}
-              style={{ padding: '0px 12px 0px 0px', marginBottom: '12px' }}
+              style={{
+                padding: '0px 12px 0px 0px',
+                marginBottom: '12px',
+                maxHeight: '500px',
+              }}
             >
               <Grid item xs={12} style={{ paddingRight: '0' }}>
                 <Searchbar
