@@ -12,19 +12,15 @@ import {
 import SimpleSelect from './FilterItems/SimpleSelect';
 import { CircularProgress } from '@material-ui/core';
 import Api from '../lib/Http/Api';
-import Log from '../services/helper/Log';
 import { calculateReverseScale } from '../services/filterService';
 
 const FilterBox = ({ listings, setFilters }) => {
-  const Logger = new Log('FilterBox.js');
-
   const [filterSettings, setFilterSettings] = useState(DEFAULT_FILTER_SETTINGS);
   const [metaListingsData, setMetaListingsData] = useState({});
 
   useEffect(() => {
     const loadMetaListingData = async () => {
       const response = await Api.get('listings/metadata');
-      Logger.log(response);
       setMetaListingsData(response.data);
     };
     loadMetaListingData();
@@ -136,7 +132,7 @@ const FilterBox = ({ listings, setFilters }) => {
   };
 
   return (
-    <>
+    <div id='filterbox-component'>
       {metaListingsData && !_.isEmpty(metaListingsData) ? (
         <>
           <RangeSlider {...priceRangeProps} />
@@ -149,7 +145,7 @@ const FilterBox = ({ listings, setFilters }) => {
       ) : (
         <CircularProgress />
       )}
-    </>
+    </div>
   );
 };
 
