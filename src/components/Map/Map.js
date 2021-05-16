@@ -39,7 +39,6 @@ const Map = (props) => {
   const [rodent, setRodent] = useState();
   const [apiData, setApiData] = useState();
   const [places, setPlaces] = useState([]);
-  // const [recommendations, setRecommendations] = useState([]);
 
   const crimeData = getMappedCrimeData(crime);
   const rodentData = getMappedRodentData(rodent);
