@@ -143,7 +143,7 @@ const FilterBox = ({ listings, setFilters }) => {
           <SimpleSelect {...roomTypeProps} />
         </>
       ) : (
-        <CircularProgress />
+        <CircularProgress id='circularProgress-FilterBox' />
       )}
     </div>
   );
