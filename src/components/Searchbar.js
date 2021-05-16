@@ -20,7 +20,7 @@ const Searchbar = (props) => {
   }, [val]);
 
   useEffect(() => {
-    onSearchValueChange(debouncedVal);
+    if (onSearchValueChange) onSearchValueChange(debouncedVal);
   }, [debouncedVal]);
 
   return (
