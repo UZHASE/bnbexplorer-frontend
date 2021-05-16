@@ -25,7 +25,7 @@ const Searchbar = (props) => {
 
   return (
     <TextField
-      id='searchbar-component'
+      id='searchbar-component-input'
       fullWidth
       variant='outlined'
       placeholder='Search'
