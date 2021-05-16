@@ -16,7 +16,7 @@ export const clickListingHandler = async (key, filterParams) => {
   // //recommendations
   const params = {
     listingId: key,
-    hostId: listingResponseData.host.id, //TODO host.id
+    hostId: listingResponseData.host.id,
     ...filterParams,
   };
   let recommendationResponseData = [];
@@ -25,9 +25,11 @@ export const clickListingHandler = async (key, filterParams) => {
       params,
     });
     recommendationResponseData = recommendationResponse.data;
+    if (recommendationResponseData.length < 1) {
+      throw new Error();
+    }
   } catch (e) {
-    //TODO until merge PR
-    // if less than 5 are returned, this catches a value error
+    // remove all host data from query
     delete params.hostId;
     delete params.listingsPerHost;
     const recommendationResponse = await Api.get(`listings/recommendations`, {
