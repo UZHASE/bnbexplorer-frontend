@@ -93,12 +93,10 @@ const Map = (props) => {
       };
       service.textSearch(request, (results, status) => {
         if (status === 200 || status === 'OK') {
-          console.log('MAP::: place results:', results); // TODO CLEANUP
           setPlaces(results);
         }
       });
     } else {
-      console.log('MAP::: no place results'); // TODO CLEANUP
       setPlaces([]);
     }
   }, [placeSearch]);

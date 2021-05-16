@@ -12,8 +12,6 @@ export const getElementPositionData = (elementId) => {
   };
 };
 
-// import { getElementPositionData } from './marker.helperService';
-
 export const getHoverBoxStyleData = (isHidden, placeId) => {
   let foldLeft = false;
   let foldTop = false;
@@ -32,9 +30,6 @@ export const getHoverBoxStyleData = (isHidden, placeId) => {
     const mapMidVertical = mapWidth / 2;
     const mapMidHorizontal = mapHeight / 2;
 
-    console.log(mapOffsetLeft, mapOffsetTop, mapHeight, mapWidth);
-    // TODO CLEANUP
-
     // get place marker data
     const {
       left: markerOffsetLeft,
@@ -44,7 +39,7 @@ export const getHoverBoxStyleData = (isHidden, placeId) => {
     const relativeMarkerPositionTop = markerOffsetTop - mapOffsetTop;
 
     // determine whether default fold (down, right) needs to be changed based on
-    // relative position of marker to map mids
+    // relative position of marker to map midpoints
     foldLeft = relativeMarkerPositionLeft > mapMidVertical;
     foldTop = relativeMarkerPositionTop > mapMidHorizontal;
 
