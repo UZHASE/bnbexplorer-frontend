@@ -38,7 +38,7 @@ const SimpleSlider = ({
   }, [debouncedValue]);
 
   return (
-    <div className={'simple-slider'}>
+    <div className={'simple-slider'} id={`simple-slider-${name}`}>
       {text ? <Typography variant={'overline'}>{text}</Typography> : null}
       <Slider
         value={value}

@@ -54,8 +54,8 @@ const SimpleSelect = ({ values, text, propagateValue, name }) => {
     <FormControl className={classes.formControl}>
       {text ? <Typography variant={'overline'}>{text}</Typography> : null}
       <Select
-        labelId='demo-mutiple-name-label'
-        id='demo-mutiple-name'
+        labelId={`multi-select-${name}-label`}
+        id={`multi-select-${name}`}
         multiple
         value={vals}
         onChange={handleChange}
