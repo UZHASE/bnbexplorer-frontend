@@ -31,7 +31,8 @@ const MenuProps = {
     },
   },
 };
-function getStyles(e, values, theme) {
+
+export function getStyles(e, values, theme) {
   return {
     fontWeight:
       values.indexOf(e) === -1
