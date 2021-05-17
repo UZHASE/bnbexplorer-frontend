@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import React from 'react';
 import { configure } from '@testing-library/dom';
 import FilterBox from '../components/FilterBox';
@@ -14,28 +14,76 @@ test('No data renders CircularProgress', () => {
   expect(linkElement).toBeInTheDocument();
 });
 
-test('filterbox changesettings', async () => {
+test('filterbox:set metalistingsdata called', async () => {
   jest.spyOn(Api, 'get').mockResolvedValueOnce({
-    data: res,
+    data: metaListingsDataFull,
+  });
+  jest.spyOn(Api, 'get').mockResolvedValueOnce({
+    data: metaListingsDataFull,
   });
 
-  FilterBox.loadMetaListingData = jest.fn().mockResolvedValue({ data: res });
+  FilterBox.loadMetaListingData = jest
+    .fn()
+    .mockResolvedValue({ data: metaListingsDataFull });
+  await act(async () => {
+    const wrapper = mount(<FilterBox />);
+    await wrapper.setProps();
+  });
 
-  const wrapper = mount(<FilterBox />);
-  await wrapper.setProps();
-  await wrapper.update()
-  const p = wrapper
+  expect(Api.get).toHaveBeenCalled();
 });
 
+test('filterbox:set metalistingsdata called incomplete data', async () => {
+  jest.spyOn(Api, 'get').mockResolvedValueOnce({
+    data: metaListingsDataIncomplete,
+  });
+  jest.spyOn(Api, 'get').mockResolvedValueOnce({
+    data: metaListingsDataIncomplete,
+  });
 
-const res = {
+  FilterBox.loadMetaListingData = jest
+    .fn()
+    .mockResolvedValue({ data: metaListingsDataIncomplete });
+  await act(async () => {
+    const wrapper = mount(<FilterBox />);
+    await wrapper.setProps();
+  });
+
+  expect(Api.get).toHaveBeenCalled();
+});
+
+test('filterbox:set metalistingsdata called no metalisting data', async () => {
+  jest.spyOn(Api, 'get').mockResolvedValueOnce({
+    data: {},
+  });
+  jest.spyOn(Api, 'get').mockResolvedValueOnce({
+    data: {},
+  });
+
+  FilterBox.loadMetaListingData = jest.fn().mockResolvedValue({ data: {} });
+  await act(async () => {
+    const wrapper = mount(<FilterBox />);
+    await wrapper.setProps();
+  });
+
+  expect(Api.get).toHaveBeenCalled();
+});
+
+const metaListingsDataFull = {
   maxListingsPerHost: 327,
   maxPrice: 9999,
   minListingsPerHost: 1,
   minPrice: 0,
   neighbourhoods: (5)[
     ('Brooklyn', 'Manhattan', 'Queens', 'Staten Island', 'Bronx')
-    ],
+  ],
   numOfListings: 9705,
   roomTypes: (3)[('Private room', 'Entire home/apt', 'Shared room')],
+};
+
+const metaListingsDataIncomplete = {
+  maxListingsPerHost: 327,
+  minListingsPerHost: 1,
+  minPrice: 0,
+  numOfListings: 9705,
 };
