@@ -39,7 +39,11 @@ const SimpleSlider = ({
 
   return (
     <div className={'simple-slider'} id={`simple-slider-${name}`}>
-      {text ? <Typography variant={'overline'}>{text}</Typography> : null}
+      {text ? (
+        <Typography id={`simple-slider-${name}-slider`} variant={'overline'}>
+          {text}
+        </Typography>
+      ) : null}
       <Slider
         value={value}
         onChange={handleValueChange}
