@@ -69,6 +69,24 @@ test('filterbox:set metalistingsdata called no metalisting data', async () => {
   expect(Api.get).toHaveBeenCalled();
 });
 
+test('filterbox: change settings', async () => {
+  jest.spyOn(Api, 'get').mockResolvedValueOnce({
+    data: {},
+  });
+  jest.spyOn(Api, 'get').mockResolvedValueOnce({
+    data: {},
+  });
+
+  FilterBox.loadMetaListingData = jest.fn().mockResolvedValue({ data: {} });
+  await act(async () => {
+    const wrapper = mount(<FilterBox />);
+    const instance = wrapper.instance()
+    await wrapper.setProps();
+  });
+
+  expect(Api.get).toHaveBeenCalled();
+});
+
 const metaListingsDataFull = {
   maxListingsPerHost: 327,
   maxPrice: 9999,

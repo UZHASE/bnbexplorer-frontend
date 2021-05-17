@@ -7,12 +7,15 @@ import {
   DEFAULT_FILTER_SETTINGS,
   DURATION_MARKS,
   DURATION_SCALE,
-  RANGEMAX,
 } from '../constants/filterSettings';
 import SimpleSelect from './FilterItems/SimpleSelect';
 import { CircularProgress } from '@material-ui/core';
 import Api from '../lib/Http/Api';
 import { calculateReverseScale } from '../services/filterService';
+import {
+  handleSettingsChange,
+  setPriceRangeMax,
+} from '../services/filterboxService';
 
 const FilterBox = ({ setFilters }) => {
   const [filterSettings, setFilterSettings] = useState(DEFAULT_FILTER_SETTINGS);
@@ -26,42 +29,14 @@ const FilterBox = ({ setFilters }) => {
     loadMetaListingData();
   }, []);
 
-  const getMaxPrice = (currentPrice) => {
-    return currentPrice === RANGEMAX ? metaListingsData.maxPrice : currentPrice;
-  };
-
-  const setPriceRangeMax = () => {
-    return metaListingsData.maxPrice &&
-      metaListingsData.maxPrice.toString().length > 3
-      ? RANGEMAX
-      : metaListingsData.maxPrice;
-  };
-
   const changeSettings = (name, value) => {
-    let temp = { ...filterSettings };
-    if (name === 'priceRange') {
-      // destructure array
-      temp = {
-        ...temp,
-        ['priceMin']: value[0],
-        ['priceMax']: getMaxPrice(value[1]),
-      };
-    } else if (name === 'location' || name === 'roomType') {
-      temp = {
-        ...temp,
-        [name]: value.join(','),
-      };
-    } else if (name === 'availability' || name === 'minNights') {
-      temp = {
-        ...temp,
-        [name]: DURATION_SCALE[value],
-      };
-    } else {
-      temp = {
-        ...temp,
-        [name]: value,
-      };
-    }
+    //prettier-ignore
+    const temp = handleSettingsChange(
+      name,
+      value,
+      filterSettings,
+      metaListingsData
+    );
     setFilterSettings(temp);
     setFilters(temp);
   };
@@ -73,7 +48,7 @@ const FilterBox = ({ setFilters }) => {
   const priceRangeProps = {
     ...defaultProps,
     min: metaListingsData.minPrice,
-    max: setPriceRangeMax(),
+    max: setPriceRangeMax(metaListingsData),
     valueA: filterSettings.priceMin,
     valueB: filterSettings.priceMax,
     text: 'Price Range (' + CURRENCY + ')',
