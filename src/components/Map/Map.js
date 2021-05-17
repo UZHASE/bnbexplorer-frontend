@@ -39,7 +39,6 @@ const Map = (props) => {
   const [rodent, setRodent] = useState();
   const [apiData, setApiData] = useState();
   const [places, setPlaces] = useState([]);
-  // const [recommendations, setRecommendations] = useState([]);
 
   const crimeData = getMappedCrimeData(crime);
   const rodentData = getMappedRodentData(rodent);
@@ -137,7 +136,8 @@ const Map = (props) => {
             onGoogleApiLoaded={({ map, maps }) => apiHasLoaded(map, maps)}
           >
             {!toggle.recommendations
-              ? listings.map((e) => {
+              ? listings &&
+                listings.map((e) => {
                   return (
                     <AnyReactComponent
                       lat={e.latitude}
@@ -150,30 +150,32 @@ const Map = (props) => {
                   );
                 })
               : null}
-            {places.map((e) => {
-              return (
-                <AnyReactComponent
-                  lng={getMiddlePosition(e.geometry.viewport.La)}
-                  lat={getMiddlePosition(e.geometry.viewport.Ua)}
-                  key={e.place_id}
-                  id={e.place_id}
-                  type={'marker'}
-                  place={e}
-                />
-              );
-            })}
-            {recommendations.map((e) => {
-              return (
-                <AnyReactComponent
-                  lat={e.latitude}
-                  lng={e.longitude}
-                  key={e.id}
-                  setListing={setListing}
-                  id={e.id}
-                  type={'recommendations'}
-                />
-              );
-            })}
+            {places &&
+              places.map((e) => {
+                return (
+                  <AnyReactComponent
+                    lng={getMiddlePosition(e.geometry.viewport.La)}
+                    lat={getMiddlePosition(e.geometry.viewport.Ua)}
+                    key={e.place_id}
+                    id={e.place_id}
+                    type={'marker'}
+                    place={e}
+                  />
+                );
+              })}
+            {recommendations &&
+              recommendations.map((e) => {
+                return (
+                  <AnyReactComponent
+                    lat={e.latitude}
+                    lng={e.longitude}
+                    key={e.id}
+                    setListing={setListing}
+                    id={e.id}
+                    type={'recommendations'}
+                  />
+                );
+              })}
             {selected ? (
               <AnyReactComponent
                 lat={selected.latitude}
@@ -198,7 +200,7 @@ const Map = (props) => {
           }}
         >
           <Switches
-            disabled={recommendations.length < 1}
+            disabled={recommendations && recommendations.length < 1}
             inputs={['recommendations']}
             label={'Show Recommendations Only'}
           />

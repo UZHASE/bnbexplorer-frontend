@@ -20,11 +20,12 @@ const Searchbar = (props) => {
   }, [val]);
 
   useEffect(() => {
-    onSearchValueChange(debouncedVal);
+    if (onSearchValueChange) onSearchValueChange(debouncedVal);
   }, [debouncedVal]);
 
   return (
     <TextField
+      id='searchbar-component-input'
       fullWidth
       variant='outlined'
       placeholder='Search'

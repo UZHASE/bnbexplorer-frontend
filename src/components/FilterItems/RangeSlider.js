@@ -36,12 +36,16 @@ const RangeSlider = ({
   }, [debouncedRange]);
 
   const labelReturner = (value) => {
-    return value === RANGEMAX ? <div>{value}+</div> : <div>{value}</div>;
+    return value === RANGEMAX ? <div>{`${value}+`}</div> : <div>{value}</div>;
   };
 
   return (
-    <div className={'range-slider'}>
-      {text ? <Typography variant={'overline'}>{text}</Typography> : null}
+    <div className={'range-slider'} id={`range-slider-${name}`}>
+      {text ? (
+        <Typography id={`range-slider-${name}-label`} variant={'overline'}>
+          {text}
+        </Typography>
+      ) : null}
       <Slider
         value={range}
         onChange={handleRangeChange}

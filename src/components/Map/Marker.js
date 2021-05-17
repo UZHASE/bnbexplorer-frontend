@@ -76,7 +76,7 @@ const AnyReactComponent = (props) => {
   };
 
   return (
-    <div>
+    <div id={`map-marker-${id}-${type}`}>
       <div
         style={{
           position: 'absolute',
@@ -95,6 +95,7 @@ const AnyReactComponent = (props) => {
             color: color[type],
           }}
           onClick={() => clickHandler(id)}
+          id={`map-marker-${id}-icon-${type}`}
         />
         {props.$hover && type === 'marker' ? (
           <HoverBox
