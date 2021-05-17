@@ -8,6 +8,14 @@ import Api from '../lib/Http/Api';
 configure({ testIdAttribute: 'id' });
 // make actual Ids available as testIds
 
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
+afterEach(() => {
+  jest.resetAllMocks();
+});
+
 test('No data renders CircularProgress', () => {
   render(<FilterBox />);
   const linkElement = screen.getByTestId('circularProgress-FilterBox');
@@ -15,12 +23,12 @@ test('No data renders CircularProgress', () => {
 });
 
 test('filterbox:set metalistingsdata called', async () => {
-  jest.spyOn(Api, 'get').mockResolvedValueOnce({
+  jest.spyOn(Api, 'get').mockResolvedValue({
     data: metaListingsDataFull,
   });
-  jest.spyOn(Api, 'get').mockResolvedValueOnce({
-    data: metaListingsDataFull,
-  });
+  // jest.spyOn(Api, 'get').mockResolvedValueOnce({
+  //   data: metaListingsDataFull,
+  // });
 
   FilterBox.loadMetaListingData = jest
     .fn()
@@ -34,54 +42,49 @@ test('filterbox:set metalistingsdata called', async () => {
 });
 
 test('filterbox:set metalistingsdata called incomplete data', async () => {
-  jest.spyOn(Api, 'get').mockResolvedValueOnce({
-    data: metaListingsDataIncomplete,
-  });
-  jest.spyOn(Api, 'get').mockResolvedValueOnce({
+  jest.setTimeout(10000);
+  jest.spyOn(Api, 'get').mockResolvedValue({
     data: metaListingsDataIncomplete,
   });
 
-  FilterBox.loadMetaListingData = jest
-    .fn()
-    .mockResolvedValue({ data: metaListingsDataIncomplete });
-  await act(async () => {
+  // FilterBox.loadMetaListingData = jest
+  //   .fn()
+  //   .mockResolvedValue({ data: metaListingsDataIncomplete });
+  act(() => {
     const wrapper = mount(<FilterBox />);
-    await wrapper.setProps();
+    wrapper.setProps();
   });
 
   expect(Api.get).toHaveBeenCalled();
 });
 
 test('filterbox:set metalistingsdata called no metalisting data', async () => {
-  jest.spyOn(Api, 'get').mockResolvedValueOnce({
-    data: {},
-  });
-  jest.spyOn(Api, 'get').mockResolvedValueOnce({
+  jest.spyOn(Api, 'get').mockResolvedValue({
     data: {},
   });
 
   FilterBox.loadMetaListingData = jest.fn().mockResolvedValue({ data: {} });
-  await act(async () => {
+  act(() => {
     const wrapper = mount(<FilterBox />);
-    await wrapper.setProps();
+    wrapper.setProps();
   });
 
   expect(Api.get).toHaveBeenCalled();
 });
 
 test('filterbox: change settings', async () => {
-  jest.spyOn(Api, 'get').mockResolvedValueOnce({
-    data: {},
-  });
-  jest.spyOn(Api, 'get').mockResolvedValueOnce({
+  // jest.spyOn(Api, 'get').mockResolvedValueOnce({
+  //   data: {},
+  // });
+  jest.spyOn(Api, 'get').mockResolvedValue({
     data: {},
   });
 
-  FilterBox.loadMetaListingData = jest.fn().mockResolvedValue({ data: {} });
-  await act(async () => {
+  // FilterBox.loadMetaListingData = jest.fn().mockResolvedValue({ data: {} });
+  act(() => {
     const wrapper = mount(<FilterBox />);
-    const instance = wrapper.instance()
-    await wrapper.setProps();
+    const instance = wrapper.instance();
+    wrapper.setProps();
   });
 
   expect(Api.get).toHaveBeenCalled();

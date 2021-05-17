@@ -18,12 +18,12 @@ test('renders header', () => {
   expect(linkElement).toBeInTheDocument();
 });
 
-test('Does not get listings if no filter settings are present', async () => {
+test('Does not get listings if no filter settings are present', () => {
   App.loadListingsData = jest.fn().mockResolvedValue({ data: listingsData });
 
-  await act(async () => {
+  act(() => {
     const wrapper = mount(<App />);
-    await wrapper.setProps();
+    wrapper.setProps();
   });
   expect(App.loadListingsData).not.toHaveBeenCalled();
 });
