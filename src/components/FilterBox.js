@@ -7,65 +7,36 @@ import {
   DEFAULT_FILTER_SETTINGS,
   DURATION_MARKS,
   DURATION_SCALE,
-  RANGEMAX,
 } from '../constants/filterSettings';
 import SimpleSelect from './FilterItems/SimpleSelect';
 import { CircularProgress } from '@material-ui/core';
 import Api from '../lib/Http/Api';
-import Log from '../services/helper/Log';
 import { calculateReverseScale } from '../services/filterService';
+import {
+  handleSettingsChange,
+  setPriceRangeMax,
+} from '../services/filterboxService';
 
-const FilterBox = ({ listings, setFilters }) => {
-  const Logger = new Log('FilterBox.js');
-
+const FilterBox = ({ setFilters }) => {
   const [filterSettings, setFilterSettings] = useState(DEFAULT_FILTER_SETTINGS);
   const [metaListingsData, setMetaListingsData] = useState({});
 
   useEffect(() => {
     const loadMetaListingData = async () => {
       const response = await Api.get('listings/metadata');
-      Logger.log(response);
       setMetaListingsData(response.data);
     };
     loadMetaListingData();
   }, []);
 
-  const getMaxPrice = (currentPrice) => {
-    return currentPrice === RANGEMAX ? metaListingsData.maxPrice : currentPrice;
-  };
-
-  const setPriceRangeMax = () => {
-    return metaListingsData.maxPrice &&
-      metaListingsData.maxPrice.toString().length > 3
-      ? RANGEMAX
-      : metaListingsData.maxPrice;
-  };
-
   const changeSettings = (name, value) => {
-    let temp = { ...filterSettings };
-    if (name === 'priceRange') {
-      // destructure array
-      temp = {
-        ...temp,
-        ['priceMin']: value[0],
-        ['priceMax']: getMaxPrice(value[1]),
-      };
-    } else if (name === 'location' || name === 'roomType') {
-      temp = {
-        ...temp,
-        [name]: value.join(','),
-      };
-    } else if (name === 'availability' || name === 'minNights') {
-      temp = {
-        ...temp,
-        [name]: DURATION_SCALE[value],
-      };
-    } else {
-      temp = {
-        ...temp,
-        [name]: value,
-      };
-    }
+    //prettier-ignore
+    const temp = handleSettingsChange(
+      name,
+      value,
+      filterSettings,
+      metaListingsData
+    );
     setFilterSettings(temp);
     setFilters(temp);
   };
@@ -77,7 +48,7 @@ const FilterBox = ({ listings, setFilters }) => {
   const priceRangeProps = {
     ...defaultProps,
     min: metaListingsData.minPrice,
-    max: setPriceRangeMax(),
+    max: setPriceRangeMax(metaListingsData),
     valueA: filterSettings.priceMin,
     valueB: filterSettings.priceMax,
     text: 'Price Range (' + CURRENCY + ')',
@@ -136,20 +107,20 @@ const FilterBox = ({ listings, setFilters }) => {
   };
 
   return (
-    <>
+    <div id='filterbox-component'>
       {metaListingsData && !_.isEmpty(metaListingsData) ? (
         <>
-          <RangeSlider {...priceRangeProps} />
+          <RangeSlider {...priceRangeProps} id='pricerange-slider' />
           <SimpleSlider {...minNightsProps} />
           <SimpleSlider {...availabilityProps} />
-          <SimpleSlider {...listingsPerHostProps} />
+          <SimpleSlider {...listingsPerHostProps} id='listings-slider' />
           <SimpleSelect {...neighbourhoodProps} />
           <SimpleSelect {...roomTypeProps} />
         </>
       ) : (
-        <CircularProgress />
+        <CircularProgress id='circularProgress-FilterBox' />
       )}
-    </>
+    </div>
   );
 };
 

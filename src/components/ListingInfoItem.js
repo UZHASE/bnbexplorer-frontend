@@ -21,6 +21,7 @@ const ListingInfoItem = (props) => {
         <Grid
           item
           xs={4}
+          id='listing-info-item-review-has-review'
           style={{
             display: 'flex',
             flexDirection: 'row',
@@ -46,6 +47,7 @@ const ListingInfoItem = (props) => {
       return (
         <Grid
           item
+          id='listing-info-item-review-no-review'
           xs={4}
           style={{
             display: 'flex',
@@ -68,12 +70,18 @@ const ListingInfoItem = (props) => {
     return (
       <React.Fragment key={Object.keys(e)}>
         <Grid item xs={4}>
-          <Typography style={{ fontWeight: '900' }}>
+          <Typography
+            style={{ fontWeight: '900' }}
+            id={`listing-info-item-${Object.keys(e)}-label`}
+          >
             {Object.keys(e)}:
           </Typography>
         </Grid>
         <Grid item xs={8}>
-          <Typography style={{ fontWeight: '300' }}>
+          <Typography
+            style={{ fontWeight: '300' }}
+            id={`listing-info-item-${Object.keys(e)}-value`}
+          >
             {Object.values(e)}
           </Typography>
         </Grid>

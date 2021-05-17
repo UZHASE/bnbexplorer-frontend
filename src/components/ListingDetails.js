@@ -9,69 +9,74 @@ import './listingDetails.scss';
 
 const ListingDetails = (props) => {
   const { listing, onClick, showReviews } = props;
-  return (
-    <Grid
-      container
-      spacing={3}
-      style={{
-        border: '1px solid grey',
-        borderRadius: '5px',
-      }}
-    >
+  if (listing) {
+    return (
       <Grid
-        item
-        xs={12}
+        container
+        spacing={3}
+        id='listing-details-container'
         style={{
+          border: '1px solid grey',
           borderRadius: '5px',
-          backgroundColor: '#E8E8E8',
-          borderBottom: '1px solid grey',
         }}
       >
-        <Typography variant='h6' align='center'>
-          {listing.name}
-        </Typography>
-      </Grid>
-
-      <Grid item xs={6}>
         <Grid
-          container
-          spacing={3}
-          style={{ marginTop: '8px', marginLeft: '10px' }}
-        >
-          <ListingInfoItem
-            listing={listing}
-            onClick={onClick}
-            showReviews={showReviews}
-          />
-        </Grid>
-      </Grid>
-      <Grid item xs={6}>
-        <Grid
-          container
-          spacing={3}
+          item
+          xs={12}
           style={{
-            marginTop: '12px',
-            height: 'calc(100% - 12px)',
             borderRadius: '5px',
-            width: 'calc(100% + 8px)',
+            backgroundColor: '#E8E8E8',
+            borderBottom: '1px solid grey',
           }}
         >
+          <Typography variant='h6' align='center'>
+            {listing.name}
+          </Typography>
+        </Grid>
+
+        <Grid item xs={6}>
           <Grid
-            item
-            xs={12}
+            container
+            spacing={3}
+            style={{ marginTop: '8px', marginLeft: '10px' }}
+          >
+            <ListingInfoItem
+              listing={listing}
+              onClick={onClick}
+              showReviews={showReviews}
+            />
+          </Grid>
+        </Grid>
+        <Grid item xs={6}>
+          <Grid
+            container
+            spacing={3}
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              overflow: 'hidden',
+              marginTop: '12px',
+              height: 'calc(100% - 12px)',
+              borderRadius: '5px',
+              width: 'calc(100% + 8px)',
             }}
           >
-            <ImageCarousel listing={listing} />
+            <Grid
+              item
+              xs={12}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: 'hidden',
+              }}
+            >
+              <ImageCarousel listing={listing} />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
-  );
+    );
+  } else {
+    return <div id='listing-details-no-content' />;
+  }
 };
 export default ListingDetails;
 
@@ -81,7 +86,7 @@ const ImageCarousel = ({ listing }) => {
       <Carousel autoPlay showArrows={true}>
         {listing.images.map((e) => {
           return (
-            <div key={e}>
+            <div key={e} id={`listing-image-${e}`}>
               <img className='carousel-image' src={e} alt='image' />
             </div>
           );

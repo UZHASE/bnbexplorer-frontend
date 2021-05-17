@@ -10,6 +10,7 @@ const SimpleSlider = ({
   enableMarks = false,
   scale = (x) => x,
   name,
+  id,
 }) => {
   const [value, setValue] = useState(initialValue);
   const [debouncedValue, setDebouncedValue] = useState(initialValue);
@@ -37,8 +38,12 @@ const SimpleSlider = ({
   }, [debouncedValue]);
 
   return (
-    <div className={'simple-slider'}>
-      {text ? <Typography variant={'overline'}>{text}</Typography> : null}
+    <div className={'simple-slider'} id={`simple-slider-${name}`}>
+      {text ? (
+        <Typography id={`simple-slider-${name}-slider`} variant={'overline'}>
+          {text}
+        </Typography>
+      ) : null}
       <Slider
         value={value}
         onChange={handleValueChange}
@@ -47,6 +52,7 @@ const SimpleSlider = ({
         max={max}
         marks={enableMarks}
         scale={scale}
+        id={id}
       />
     </div>
   );
