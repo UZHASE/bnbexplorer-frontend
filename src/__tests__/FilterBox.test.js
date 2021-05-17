@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
+import React from 'react';
 import { configure } from '@testing-library/dom';
 import FilterBox from '../components/FilterBox';
+
 configure({ testIdAttribute: 'id' });
 // make actual Ids available as testIds
 

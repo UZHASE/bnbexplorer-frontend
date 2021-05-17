@@ -10,6 +10,7 @@ const SimpleSlider = ({
   enableMarks = false,
   scale = (x) => x,
   name,
+  id,
 }) => {
   const [value, setValue] = useState(initialValue);
   const [debouncedValue, setDebouncedValue] = useState(initialValue);
@@ -47,6 +48,7 @@ const SimpleSlider = ({
         max={max}
         marks={enableMarks}
         scale={scale}
+        id={id}
       />
     </div>
   );

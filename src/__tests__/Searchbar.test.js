@@ -25,9 +25,7 @@ test('renders searchbar', () => {
 });
 
 test('renders searchbar with input changes', async () => {
-  const { container } = render(
-    <Searchbar  />,
-  );
+  const { container } = render(<Searchbar />);
   const input = getByTestId(container, 'searchbar-component-input');
   expect(input.value === '');
   await userEvent.type(

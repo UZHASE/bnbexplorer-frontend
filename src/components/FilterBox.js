@@ -14,7 +14,7 @@ import { CircularProgress } from '@material-ui/core';
 import Api from '../lib/Http/Api';
 import { calculateReverseScale } from '../services/filterService';
 
-const FilterBox = ({ listings, setFilters }) => {
+const FilterBox = ({ setFilters }) => {
   const [filterSettings, setFilterSettings] = useState(DEFAULT_FILTER_SETTINGS);
   const [metaListingsData, setMetaListingsData] = useState({});
 
@@ -135,10 +135,10 @@ const FilterBox = ({ listings, setFilters }) => {
     <div id='filterbox-component'>
       {metaListingsData && !_.isEmpty(metaListingsData) ? (
         <>
-          <RangeSlider {...priceRangeProps} />
+          <RangeSlider {...priceRangeProps} id='pricerange-slider' />
           <SimpleSlider {...minNightsProps} />
           <SimpleSlider {...availabilityProps} />
-          <SimpleSlider {...listingsPerHostProps} />
+          <SimpleSlider {...listingsPerHostProps} id='listings-slider' />
           <SimpleSelect {...neighbourhoodProps} />
           <SimpleSelect {...roomTypeProps} />
         </>
