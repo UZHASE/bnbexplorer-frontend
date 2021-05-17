@@ -40,7 +40,7 @@ const RangeSlider = ({
   };
 
   return (
-    <div className={'range-slider'}>
+    <div className={'range-slider'} id={`range-slider-${name}`}>
       {text ? <Typography variant={'overline'}>{text}</Typography> : null}
       <Slider
         value={range}
