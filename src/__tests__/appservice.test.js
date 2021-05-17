@@ -1,12 +1,8 @@
-import { render, screen } from '@testing-library/react';
 import { configure } from '@testing-library/dom';
 import { clickListingHandler, loadListingsData } from '../services/appService';
-import axios from 'axios';
 import Api from '../lib/Http/Api';
-import apiClient from '../lib/Http/Api';
 
 configure({ testIdAttribute: 'id' });
-// jest.mock('axios');
 
 const defaultFilterSettings = {
   priceMin: 50,
