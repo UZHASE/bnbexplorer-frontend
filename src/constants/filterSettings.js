@@ -1,3 +1,6 @@
+// key: index of slider mark,
+// value: scaled up value
+// achieves a less cluttered slider by introducing well-defined marks and a custom scale
 export const DURATION_SCALE = {
   1: 1,
   2: 3,
@@ -18,15 +21,7 @@ export const DEFAULT_FILTER_SETTINGS = {
   listingsPerHost: 1,
 };
 
-export const DURATION_MARKS = () => {
-  return Object.keys(DURATION_SCALE).map((e) => {
-    return {
-      value: e,
-      label: e % 2 === 0 ? DURATION_SCALE[e].toString() : '',
-    };
-  });
-};
-
+// the maximum value (price) for the pricerange slider that is shown
 export const RANGEMAX = 500;
 
 export const CURRENCY = '$';
