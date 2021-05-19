@@ -3,3 +3,5 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=uzhase_bnbexplorer-frontend&metric=coverage)](https://sonarcloud.io/dashboard?id=uzhase_bnbexplorer-frontend)
 
 # bnbexplorer-frontend
+
+[Documentation](https://uzhase.github.io/bnbexplorer-frontend/index.html)
