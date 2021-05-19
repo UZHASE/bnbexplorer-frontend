@@ -1,5 +1,22 @@
 import { DURATION_SCALE, RANGEMAX } from '../constants/filterSettings';
 
+
+/**
+ @module filterboxService
+ */
+
+/**
+ * Returns
+ * @method
+ * @param   {string}  name Name that was returned from a Slider/Select component
+ * @param   {string | array}  value New value that was returned from a Slider/Select component
+ * @param   {filterSettings}  filterSettings current Filter settings configuration
+ * @param   {metaListingsData}  metaListingsData todo
+
+ *
+ * @returns {number}
+ *           key in DURATION_SCALE
+ */
 //prettier-ignore
 export const handleSettingsChange = (
   name,
