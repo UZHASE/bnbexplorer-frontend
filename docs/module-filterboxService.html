@@ -64,7 +64,7 @@
     
 
     
-    <h4 class="name" id=".handleSettingsChange"><span class="type-signature">(static) </span>handleSettingsChange<span class="signature">(name, value, filterSettings, metaListingsData)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    <h4 class="name" id=".getMaxPrice"><span class="type-signature">(static) </span>getMaxPrice<span class="signature">(currentPrice, metaListingsData)</span><span class="type-signature"> &rarr; {number}</span></h4>
     
 
     
@@ -72,7 +72,191 @@
 
 
 <div class="description">
-    <p>Returns</p>
+    <p>Determines value of the max price filter setting for the query in the backend.
+This is done to be able to visually restrict the price range in the sliders,
+i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymore.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>currentPrice</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Value that was returned from the Price RangeSlider component</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>metaListingsData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#metaListingsData">metaListingsData</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>meta information about listings in backend</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="services_filterboxService.js.html">services/filterboxService.js</a>, <a href="services_filterboxService.js.html#line64">line 64</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>actual value for the maximum price for the backend query</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".handleSettingsChange"><span class="type-signature">(static) </span>handleSettingsChange<span class="signature">(name, value, filterSettings, metaListingsData)</span><span class="type-signature"> &rarr; {<a href="global.html#filterSettings">filterSettings</a>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Handles new incoming values for any of the filter components that the user can interact with.</p>
 </div>
 
 
@@ -196,7 +380,7 @@
 
             
 
-            <td class="description last"><p>todo</p></td>
+            <td class="description last"><p>meta information about listings in backend</p></td>
         </tr>
 
     
@@ -237,7 +421,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="services_filterboxService.js.html">services/filterboxService.js</a>, <a href="services_filterboxService.js.html#line21">line 21</a>
+        <a href="services_filterboxService.js.html">services/filterboxService.js</a>, <a href="services_filterboxService.js.html#line20">line 20</a>
     </li></ul></dd>
     
 
@@ -266,7 +450,191 @@
 
         
 <div class="param-desc">
-    <p>key in DURATION_SCALE</p>
+    <p>Updated filter settings</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="global.html#filterSettings">filterSettings</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".setPriceRangeMax"><span class="type-signature">(static) </span>setPriceRangeMax<span class="signature">(currentPrice, metaListingsData)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Determines value of the max price filter setting for the query in the backend.
+This is done to be able to visually restrict the price range in the sliders,
+i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymore.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>currentPrice</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Value that was returned from the Price RangeSlider component</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>metaListingsData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#metaListingsData">metaListingsData</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>meta information about listings in backend</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="services_filterboxService.js.html">services/filterboxService.js</a>, <a href="services_filterboxService.js.html#line79">line 79</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>actual value for the maximum price for the backend query</p>
 </div>
 
 
@@ -311,7 +679,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed May 19 2021 14:54:48 GMT+0200 (Central European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed May 19 2021 15:11:47 GMT+0200 (Central European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

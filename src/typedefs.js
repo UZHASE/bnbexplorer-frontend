@@ -58,10 +58,10 @@
  *          Global metadata about the listings stored in the backend that
  *          are needed for setting the default filter values
  * @property {array} areas
- * @property {number} maxListingsPerHost
+ * @property {number} minPrice
  * @property {number} maxPrice
  * @property {number} minListingsPerHost
- * @property {number} minPrice
+ * @property {number} maxListingsPerHost
  * @property {array} neighbourhoods
  * @property {number} numOfListings
  * @property {array} roomTypes
