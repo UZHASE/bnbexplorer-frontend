@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: appService</title>
+    <title>JSDoc: Class: Log</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: appService</h1>
+    <h1 class="page-title">Class: Log</h1>
 
     
 
@@ -28,6 +28,9 @@
 
 <header>
     
+        <h2><span class="attribs"><span class="type-signature"></span></span>Log<span class="signature">(component)</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description"><p>Provides an interface to the console.log function</p></div>
         
     
 </header>
@@ -37,7 +40,138 @@
     
         
 
+    
+    <h2>Constructor</h2>
+    
+
+    
+    <h4 class="name" id="Log"><span class="type-signature"></span>new Log<span class="signature">(component)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
         
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>component</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The component's name</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="services_helper_Log.js.html">services/helper/Log.js</a>, <a href="services_helper_Log.js.html#line5">line 5</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     </div>
 
@@ -64,7 +198,7 @@
     
 
     
-    <h4 class="name" id=".clickListingHandler"><span class="type-signature">(static) </span>clickListingHandler<span class="signature">(key, filterParams)</span><span class="type-signature"> &rarr; {<a href="global.html#ListingData">ListingData</a>}</span></h4>
+    <h4 class="name" id="log"><span class="type-signature"></span>log<span class="signature">(msg, prefix)</span><span class="type-signature"></span></h4>
     
 
     
@@ -72,8 +206,7 @@
 
 
 <div class="description">
-    <p>Returns an object containing the fetched listing information,
-the corresponding reviews and recommendations that were calculated based on the listing that was clicked on.</p>
+    <p>Produce logging output</p>
 </div>
 
 
@@ -109,13 +242,13 @@ the corresponding reviews and recommendations that were calculated based on the 
 
         <tr>
             
-                <td class="name"><code>key</code></td>
+                <td class="name"><code>msg</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
             
@@ -125,20 +258,20 @@ the corresponding reviews and recommendations that were calculated based on the 
 
             
 
-            <td class="description last"><p>Unique id of a listing</p></td>
+            <td class="description last"><p>Data to be logged</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>filterParams</code></td>
+                <td class="name"><code>prefix</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="global.html#filterSettings">filterSettings</a></span>
+<span class="param-type">string</span>
 
 
             
@@ -148,7 +281,7 @@ the corresponding reviews and recommendations that were calculated based on the 
 
             
 
-            <td class="description last"><p>Filter parameters</p></td>
+            <td class="description last"><p>Optional, for additional descriptive information</p></td>
         </tr>
 
     
@@ -189,7 +322,7 @@ the corresponding reviews and recommendations that were calculated based on the 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="services_appService.js.html">services/appService.js</a>, <a href="services_appService.js.html#line20">line 20</a>
+        <a href="services_helper_Log.js.html">services/helper/Log.js</a>, <a href="services_helper_Log.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -214,188 +347,6 @@ the corresponding reviews and recommendations that were calculated based on the 
 
 
 
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>ListingData
-Nested object containing the fields listingResponseData, reviewResponseData, recommendationResponseData</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="global.html#ListingData">ListingData</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id=".loadListingsData"><span class="type-signature">(static) </span>loadListingsData<span class="signature">(filterSettings)</span><span class="type-signature"> &rarr; {array}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Returns the fetched listings information from the api given the filter parameters.</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>filterSettings</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Filter parameters</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="services_appService.js.html">services/appService.js</a>, <a href="services_appService.js.html#line61">line 61</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>An array containing listing objects, or if an exception was raised while trying to fetch the data, an empty array is returned.</p>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">array</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 

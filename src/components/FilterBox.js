@@ -5,13 +5,15 @@ import SimpleSlider from './FilterItems/SimpleSlider';
 import {
   CURRENCY,
   DEFAULT_FILTER_SETTINGS,
-  DURATION_MARKS,
   DURATION_SCALE,
 } from '../constants/filterSettings';
 import SimpleSelect from './FilterItems/SimpleSelect';
 import { CircularProgress } from '@material-ui/core';
 import Api from '../lib/Http/Api';
-import { calculateReverseScale } from '../services/filterService';
+import {
+  calculateReverseScale,
+  DURATION_MARKS,
+} from '../services/filterService';
 import {
   handleSettingsChange,
   setPriceRangeMax,

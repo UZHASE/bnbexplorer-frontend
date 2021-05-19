@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: filterboxService</title>
+    <title>JSDoc: Module: markerService</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: filterboxService</h1>
+    <h1 class="page-title">Module: markerService</h1>
 
     
 
@@ -64,7 +64,7 @@
     
 
     
-    <h4 class="name" id=".getMaxPrice"><span class="type-signature">(static) </span>getMaxPrice<span class="signature">(currentPrice, metaListingsData)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    <h4 class="name" id=".composeId"><span class="type-signature">(static) </span>composeId<span class="signature">(id, isHidden)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
     
 
     
@@ -72,9 +72,10 @@
 
 
 <div class="description">
-    <p>Determines value of the max price filter setting for the query in the backend.
-This is done to be able to visually restrict the price range in the sliders,
-i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymore.</p>
+    <p>Based on the visibility of an element, determine the suffix of the html-id.
+This is needed since some elements have variable height based on their content,
+thus if that height is to be used in a calculation it has to be read from an already rendered html element.
+This function provides the id for the visible and hidden variant of such an element.</p>
 </div>
 
 
@@ -110,13 +111,13 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
 
         <tr>
             
-                <td class="name"><code>currentPrice</code></td>
+                <td class="name"><code>id</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
             
@@ -126,20 +127,20 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
 
             
 
-            <td class="description last"><p>Value that was returned from the Price RangeSlider component</p></td>
+            <td class="description last"><p>Identifier for the HTML element</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>metaListingsData</code></td>
+                <td class="name"><code>isHidden</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="global.html#metaListingsData">metaListingsData</a></span>
+<span class="param-type">boolean</span>
 
 
             
@@ -149,7 +150,7 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
 
             
 
-            <td class="description last"><p>meta information about listings in backend</p></td>
+            <td class="description last"><p>Determines if the element is a visible component</p></td>
         </tr>
 
     
@@ -190,7 +191,7 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="services_filterboxService.js.html">services/filterboxService.js</a>, <a href="services_filterboxService.js.html#line64">line 64</a>
+        <a href="services_markerService.js.html">services/markerService.js</a>, <a href="services_markerService.js.html#line96">line 96</a>
     </li></ul></dd>
     
 
@@ -219,7 +220,7 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
 
         
 <div class="param-desc">
-    <p>actual value for the maximum price for the backend query</p>
+    <p>data required to determine the style of a Hoverbox component</p>
 </div>
 
 
@@ -230,7 +231,7 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
     </dt>
     <dd>
         
-<span class="param-type">number</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -248,7 +249,7 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
     
 
     
-    <h4 class="name" id=".handleSettingsChange"><span class="type-signature">(static) </span>handleSettingsChange<span class="signature">(name, value, filterSettings, metaListingsData)</span><span class="type-signature"> &rarr; {<a href="global.html#filterSettings">filterSettings</a>}</span></h4>
+    <h4 class="name" id=".getElementPositionData"><span class="type-signature">(static) </span>getElementPositionData<span class="signature">(elementId)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -256,7 +257,7 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
 
 
 <div class="description">
-    <p>Handles new incoming values for any of the filter components that the user can interact with.</p>
+    <p>Function returns the positions of a HTML element in relation to the viewport</p>
 </div>
 
 
@@ -292,7 +293,7 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>elementId</code></td>
             
 
             <td class="type">
@@ -308,79 +309,7 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
 
             
 
-            <td class="description last"><p>Name that was returned from a Slider/Select component</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>value</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-|
-
-<span class="param-type">array</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>New value that was returned from a Slider/Select component</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>filterSettings</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#filterSettings">filterSettings</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>current Filter settings configuration</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>metaListingsData</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#metaListingsData">metaListingsData</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>meta information about listings in backend</p></td>
+            <td class="description last"><p>Identifier for the HTML element</p></td>
         </tr>
 
     
@@ -421,7 +350,7 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="services_filterboxService.js.html">services/filterboxService.js</a>, <a href="services_filterboxService.js.html#line20">line 20</a>
+        <a href="services_markerService.js.html">services/markerService.js</a>, <a href="services_markerService.js.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -450,7 +379,7 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
 
         
 <div class="param-desc">
-    <p>Updated filter settings</p>
+    <p>positionalData</p>
 </div>
 
 
@@ -461,7 +390,7 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
     </dt>
     <dd>
         
-<span class="param-type"><a href="global.html#filterSettings">filterSettings</a></span>
+<span class="param-type">Object</span>
 
 
     </dd>
@@ -479,7 +408,7 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
     
 
     
-    <h4 class="name" id=".setPriceRangeMax"><span class="type-signature">(static) </span>setPriceRangeMax<span class="signature">(metaListingsData)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    <h4 class="name" id=".getHoverBoxStyleData"><span class="type-signature">(static) </span>getHoverBoxStyleData<span class="signature">(isHidden, placeId)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -487,7 +416,10 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
 
 
 <div class="description">
-    <p>Limits the maximum price to RANGEMAX for the slider component for visual clarity.</p>
+    <p>Compares the viewport position data of the map marker identified by the placeId parameter with the map itself.
+This allows the function to determine in which quadrant of the map the HoverBox will appear,
+and hence can determine at which side (left/right, top/bottom)
+it is to be rendered to avoid the HoverBox from clipping outside of the map component.</p>
 </div>
 
 
@@ -523,13 +455,13 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
 
         <tr>
             
-                <td class="name"><code>metaListingsData</code></td>
+                <td class="name"><code>isHidden</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="global.html#metaListingsData">metaListingsData</a></span>
+<span class="param-type">boolean</span>
 
 
             
@@ -539,7 +471,30 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
 
             
 
-            <td class="description last"><p>meta information about listings in backend</p></td>
+            <td class="description last"><p>Determines if the element is a visible component</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>placeId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Identifier for the HTML element</p></td>
         </tr>
 
     
@@ -580,7 +535,7 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="services_filterboxService.js.html">services/filterboxService.js</a>, <a href="services_filterboxService.js.html#line75">line 75</a>
+        <a href="services_markerService.js.html">services/markerService.js</a>, <a href="services_markerService.js.html#line37">line 37</a>
     </li></ul></dd>
     
 
@@ -609,7 +564,7 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
 
         
 <div class="param-desc">
-    <p>Maximum price to restrict the slider component</p>
+    <p>data required to determine the style of a Hoverbox component</p>
 </div>
 
 
@@ -620,7 +575,7 @@ i.e. if the slider is at the RANGEMAX the maximum price is not restricted anymor
     </dt>
     <dd>
         
-<span class="param-type">number</span>
+<span class="param-type">Object</span>
 
 
     </dd>

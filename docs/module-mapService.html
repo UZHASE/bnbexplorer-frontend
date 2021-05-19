@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: appService</title>
+    <title>JSDoc: Module: mapService</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: appService</h1>
+    <h1 class="page-title">Module: mapService</h1>
 
     
 
@@ -64,7 +64,7 @@
     
 
     
-    <h4 class="name" id=".clickListingHandler"><span class="type-signature">(static) </span>clickListingHandler<span class="signature">(key, filterParams)</span><span class="type-signature"> &rarr; {<a href="global.html#ListingData">ListingData</a>}</span></h4>
+    <h4 class="name" id=".getMappedCrimeData"><span class="type-signature">(static) </span>getMappedCrimeData<span class="signature">(crimeData)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -72,8 +72,7 @@
 
 
 <div class="description">
-    <p>Returns an object containing the fetched listing information,
-the corresponding reviews and recommendations that were calculated based on the listing that was clicked on.</p>
+    <p>Returns the crime data formatted for the google-map-react library to produce a heatmap.</p>
 </div>
 
 
@@ -109,13 +108,13 @@ the corresponding reviews and recommendations that were calculated based on the 
 
         <tr>
             
-                <td class="name"><code>key</code></td>
+                <td class="name"><code>crimeData</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">array</span>
 
 
             
@@ -125,30 +124,7 @@ the corresponding reviews and recommendations that were calculated based on the 
 
             
 
-            <td class="description last"><p>Unique id of a listing</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>filterParams</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#filterSettings">filterSettings</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Filter parameters</p></td>
+            <td class="description last"><p>Information about crime locations</p></td>
         </tr>
 
     
@@ -189,7 +165,7 @@ the corresponding reviews and recommendations that were calculated based on the 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="services_appService.js.html">services/appService.js</a>, <a href="services_appService.js.html#line20">line 20</a>
+        <a href="services_mapService.js.html">services/mapService.js</a>, <a href="services_mapService.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -218,8 +194,7 @@ the corresponding reviews and recommendations that were calculated based on the 
 
         
 <div class="param-desc">
-    <p>ListingData
-Nested object containing the fields listingResponseData, reviewResponseData, recommendationResponseData</p>
+    <p>formatted heatmap data containing the position and graphic settings or an empty Object if crimeData is not available</p>
 </div>
 
 
@@ -230,7 +205,7 @@ Nested object containing the fields listingResponseData, reviewResponseData, rec
     </dt>
     <dd>
         
-<span class="param-type"><a href="global.html#ListingData">ListingData</a></span>
+<span class="param-type">Object</span>
 
 
     </dd>
@@ -248,7 +223,7 @@ Nested object containing the fields listingResponseData, reviewResponseData, rec
     
 
     
-    <h4 class="name" id=".loadListingsData"><span class="type-signature">(static) </span>loadListingsData<span class="signature">(filterSettings)</span><span class="type-signature"> &rarr; {array}</span></h4>
+    <h4 class="name" id=".getMappedRodentData"><span class="type-signature">(static) </span>getMappedRodentData<span class="signature">(rodentData)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -256,7 +231,7 @@ Nested object containing the fields listingResponseData, reviewResponseData, rec
 
 
 <div class="description">
-    <p>Returns the fetched listings information from the api given the filter parameters.</p>
+    <p>Returns the rodent data formatted for the google-map-react library to produce a heatmap.</p>
 </div>
 
 
@@ -292,13 +267,13 @@ Nested object containing the fields listingResponseData, reviewResponseData, rec
 
         <tr>
             
-                <td class="name"><code>filterSettings</code></td>
+                <td class="name"><code>rodentData</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">array</span>
 
 
             
@@ -308,7 +283,7 @@ Nested object containing the fields listingResponseData, reviewResponseData, rec
 
             
 
-            <td class="description last"><p>Filter parameters</p></td>
+            <td class="description last"><p>Information about rodent encounter locations</p></td>
         </tr>
 
     
@@ -349,7 +324,7 @@ Nested object containing the fields listingResponseData, reviewResponseData, rec
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="services_appService.js.html">services/appService.js</a>, <a href="services_appService.js.html#line61">line 61</a>
+        <a href="services_mapService.js.html">services/mapService.js</a>, <a href="services_mapService.js.html#line38">line 38</a>
     </li></ul></dd>
     
 
@@ -378,7 +353,7 @@ Nested object containing the fields listingResponseData, reviewResponseData, rec
 
         
 <div class="param-desc">
-    <p>An array containing listing objects, or if an exception was raised while trying to fetch the data, an empty array is returned.</p>
+    <p>formatted heatmap data containing the position and graphic settings or an empty Object if rodentData is not available</p>
 </div>
 
 
@@ -389,7 +364,7 @@ Nested object containing the fields listingResponseData, reviewResponseData, rec
     </dt>
     <dd>
         
-<span class="param-type">array</span>
+<span class="param-type">Object</span>
 
 
     </dd>
