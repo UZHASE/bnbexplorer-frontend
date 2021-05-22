@@ -4,9 +4,7 @@ configure({ testIdAttribute: 'id' });
 // make actual IDs available as testIds
 import ListingDetails from '../components/ListingDetails';
 
-// setup
-
-// mock data
+// MOCK DATA
 const listing = {
   area: 'Forest Hills',
   availability: 140,
@@ -43,16 +41,23 @@ const listingWithImages = {
 };
 
 const clickHandler = () => {
+  // empty handler
   console.log('test-click registered');
 };
 
-// tests
+// TESTS
 test('call ListingDetails without props', () => {
+  /*
+  Test verifies that Listing details component is renderable without any focused listing
+   */
   render(<ListingDetails />);
   expect(screen.getByTestId('listing-details-no-content')).toBeInTheDocument();
 });
 
 test('call ListingDetails with props, no reviews', () => {
+  /*
+  Test verifies that ListingDetails can be rendered for a listing that has no reviews
+   */
   render(
     <ListingDetails
       listing={listing}
@@ -76,6 +81,9 @@ test('call ListingDetails with props, no reviews', () => {
 });
 
 test('call ListingDetails with props, has reviews', () => {
+  /*
+  Test verifies that ListingDetails can render for a listing that has reviews
+   */
   render(
     <ListingDetails
       listing={listing}
@@ -99,6 +107,9 @@ test('call ListingDetails with props, has reviews', () => {
 });
 
 test('call ListingDetails with props, has Images', () => {
+  /*
+  Test verifies that images are rendered, if the focused listing has any
+   */
   render(<ListingDetails listing={listingWithImages} />);
   // check for the existence of the images in the carousel
   expect(

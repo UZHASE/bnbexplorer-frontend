@@ -5,6 +5,7 @@ import Map from '../components/Map/Map';
 configure({ testIdAttribute: 'id' });
 // make actual Ids available as testIds
 
+// MOCK DATA
 const listings = [
   { id: 652371, latitude: 40.75743, longitude: -73.96939 },
   { id: 652648, latitude: 40.74189, longitude: -73.97833 },
@@ -62,27 +63,43 @@ const recommendations = [
   },
 ];
 
+// TESTS
 test('renders empty map', () => {
+  /*
+  Test verifies that the Map component can be rendered without listings
+   */
   render(<Map />);
   expect(screen.getByTestId('map-container-inner')).toBeInTheDocument();
 });
 
 test('renders map with listings', () => {
+  /*
+  Test verifies that the Map component can be rendered with listings
+   */
   render(<Map listings={listings} />);
   expect(screen.getByTestId('map-container-inner')).toBeInTheDocument();
+  // verify that marker for a listing is present
   expect(screen.getByTestId('map-marker-652371-listings')).toBeInTheDocument();
 });
 
 test('renders map with recommendations', () => {
+  /*
+  Test verifies that the Map component can be rendered with recommendations
+   */
   render(<Map listings={listings} recommendations={recommendations} />);
   expect(screen.getByTestId('map-container-inner')).toBeInTheDocument();
+  // verify that a recommendation marker is present
   expect(
     screen.getByTestId('map-marker-3199681-recommendations'),
   ).toBeInTheDocument();
 });
 
 test('renders map with selected', () => {
+  /*
+  Test verifies that the Map component can render a selected listing marker
+   */
   render(<Map selected={selected} />);
+  // verify by style that is expected of a selected listing marker
   expect(screen.getByTestId('map-marker-3199681-icon-selected')).toHaveStyle(
     'color: rgb(255, 255, 0)',
   );
