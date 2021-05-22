@@ -12,6 +12,7 @@ import AnyReactComponent from './Marker';
 import {
   getMappedRodentData,
   getMappedCrimeData,
+  getMappedComplaintData,
   switchesTooltips,
 } from '../../services/mapService';
 
@@ -37,15 +38,18 @@ const Map = (props) => {
   });
   const [crime, setCrime] = useState();
   const [rodent, setRodent] = useState();
+  const [complaints, setComplaints] = useState();
   const [apiData, setApiData] = useState();
   const [places, setPlaces] = useState([]);
 
   const crimeData = getMappedCrimeData(crime);
   const rodentData = getMappedRodentData(rodent);
+  const complaintData = getMappedComplaintData(complaints);
 
   const data = [
     toggle.crime ? crimeData : emptyProp,
     toggle.rodent ? rodentData : emptyProp,
+    toggle.complaints ? complaintData : emptyProp,
   ];
 
   const Switches = (props) => {
@@ -63,7 +67,7 @@ const Map = (props) => {
             }
             style={{ marginLeft: '16px' }}
             disabled={
-              props.disabled ? props.disabled : !crime && !rodent ? true : false
+              props.disabled ? props.disabled : !crime && !rodent && !complaints
             }
           />
         </Tooltip>
@@ -74,9 +78,11 @@ const Map = (props) => {
   useEffect(() => {
     const loadData = async () => {
       const crimeRes = await Api.get('layers/crime');
-      const healtRes = await Api.get('layers/health');
+      const healthRes = await Api.get('layers/health');
+      const complaintRes = await Api.get('layers/complaints');
       setCrime(crimeRes.data.entries);
-      setRodent(healtRes.data.entries);
+      setRodent(healthRes.data.entries);
+      setComplaints(complaintRes.data.entries);
     };
     loadData();
   }, []);
@@ -206,7 +212,7 @@ const Map = (props) => {
           />
 
           <div>
-            <Switches inputs={['crime', 'rodent', 'transit']} />
+            <Switches inputs={['crime', 'rodent', 'complaints', 'transit']} />
           </div>
         </FormGroup>
       </Accordion>
