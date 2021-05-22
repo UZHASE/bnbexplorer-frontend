@@ -3,5 +3,38 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=uzhase_bnbexplorer-frontend&metric=coverage)](https://sonarcloud.io/dashboard?id=uzhase_bnbexplorer-frontend)
 
 # BnB Explorer Frontend
+
 ## Open Project [Documentation](https://github.com/UZHASE/bnbexplorer-docker/wiki)
+
 - Source code documentation can be found [here](https://uzhase.github.io/bnbexplorer-frontend/index.html)
+
+## Running with Docker
+
+The recommended way to run this project is to run it in a [Docker container](https://www.docker.com/). Thus, the following commands need to be entered in the root directory.
+
+```bash
+# building the frontend image
+docker build -t frontend .
+
+# starting the container
+docker run frontend
+```
+
+## Local Project Setup
+
+### Preconditions
+
+- To install the project, [npm](https://www.npmjs.com/get-npm) and [node](https://nodejs.org/en/download/package-manager/) are needed
+- The application was tested with Node 14, though other versions may work as well
+
+### Installation & Running the app
+
+To install and run the project locally, enter these commands in the root directory:
+
+```bash
+# install the project
+npm i
+
+# run the project
+npm start
+```
