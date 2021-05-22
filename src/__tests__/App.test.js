@@ -13,12 +13,16 @@ const listingsData = [
 ];
 
 test('renders header', () => {
+  //test that when the app component gets mounted, that the header is rendered with the text
+  //if this test fails, there is a major issue with the app
   render(<App />);
   const linkElement = screen.getByText('BnB explorer');
   expect(linkElement).toBeInTheDocument();
 });
 
 test('Does not get listings if no filter settings are present', () => {
+  //filter setting set the API call, so if none are present the App should not try to load listings
+  //i.e. the function should not be called.
   App.loadListingsData = jest.fn().mockResolvedValue({ data: listingsData });
 
   act(() => {

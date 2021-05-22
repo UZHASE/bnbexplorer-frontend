@@ -49,8 +49,11 @@ const FilterBox = ({ setFilters }) => {
 
   const priceRangeProps = {
     ...defaultProps,
-    min: metaListingsData.minPrice,
-    max: setPriceRangeMax(metaListingsData),
+    min:
+      metaListingsData && metaListingsData.minPrice
+        ? metaListingsData.minPrice
+        : 0,
+    max: metaListingsData ? setPriceRangeMax(metaListingsData) : 100,
     valueA: filterSettings.priceMin,
     valueB: filterSettings.priceMax,
     text: 'Price Range (' + CURRENCY + ')',
