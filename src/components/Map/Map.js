@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import GoogleMap from 'google-map-react/dist/index.js';
 import Api from '../../lib/Http/Api';
-import AnyReactComponent from './Marker';
+import Marker from './Marker';
 import {
   getMappedRodentData,
   getMappedCrimeData,
@@ -145,7 +145,7 @@ const Map = (props) => {
               ? listings &&
                 listings.map((e) => {
                   return (
-                    <AnyReactComponent
+                    <Marker
                       lat={e.latitude}
                       lng={e.longitude}
                       key={e.id}
@@ -159,7 +159,7 @@ const Map = (props) => {
             {places &&
               places.map((e) => {
                 return (
-                  <AnyReactComponent
+                  <Marker
                     lng={getMiddlePosition(e.geometry.viewport.La)}
                     lat={getMiddlePosition(e.geometry.viewport.Ua)}
                     key={e.place_id}
@@ -172,7 +172,7 @@ const Map = (props) => {
             {recommendations &&
               recommendations.map((e) => {
                 return (
-                  <AnyReactComponent
+                  <Marker
                     lat={e.latitude}
                     lng={e.longitude}
                     key={e.id}
@@ -183,7 +183,7 @@ const Map = (props) => {
                 );
               })}
             {selected ? (
-              <AnyReactComponent
+              <Marker
                 lat={selected.latitude}
                 lng={selected.longitude}
                 key={selected.id}

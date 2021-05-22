@@ -1,12 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { configure } from '@testing-library/dom';
 import { mount } from 'enzyme';
+import Marker from '../components/Map/Marker';
+import RoomIcon from '@material-ui/icons/Room';
 configure({ testIdAttribute: 'id' });
 // make actual Ids available as testIds
-
-import AnyReactComponent from '../components/Map/Marker';
-import RoomIcon from '@material-ui/icons/Room';
-
 // setup
 
 // mock
@@ -31,43 +29,43 @@ const markerProps = {
 
 // tests
 test('Marker, type: marker (search result)', () => {
-  render(<AnyReactComponent {...markerProps} />);
+  render(<Marker {...markerProps} />);
   expect(
-    screen.getByTestId(`map-marker-${markerProps.id}-${markerProps.type}`)
+    screen.getByTestId(`map-marker-${markerProps.id}-${markerProps.type}`),
   ).toBeInTheDocument();
 });
 
 test('Marker, type: recommendation', () => {
   let temp = markerProps;
   temp.type = 'recommendation';
-  render(<AnyReactComponent {...temp} />);
+  render(<Marker {...temp} />);
   expect(
-    screen.getByTestId(`map-marker-${temp.id}-${temp.type}`)
+    screen.getByTestId(`map-marker-${temp.id}-${temp.type}`),
   ).toBeInTheDocument();
 });
 
 test('Marker, type: listing', () => {
   let temp = markerProps;
   temp.type = 'listing';
-  render(<AnyReactComponent {...temp} />);
+  render(<Marker {...temp} />);
   expect(
-    screen.getByTestId(`map-marker-${temp.id}-${temp.type}`)
+    screen.getByTestId(`map-marker-${temp.id}-${temp.type}`),
   ).toBeInTheDocument();
 });
 
 test('Marker, type: selected', () => {
   let temp = markerProps;
   temp.type = 'selected';
-  render(<AnyReactComponent {...temp} />);
+  render(<Marker {...temp} />);
   expect(
-    screen.getByTestId(`map-marker-${temp.id}-${temp.type}`)
+    screen.getByTestId(`map-marker-${temp.id}-${temp.type}`),
   ).toBeInTheDocument();
 });
 
 test('Marker, simulate click', () => {
   let temp = markerProps;
   temp.type = 'listing';
-  const wrapper = mount(<AnyReactComponent {...temp} />);
+  const wrapper = mount(<Marker {...temp} />);
   wrapper.find(RoomIcon).simulate('click');
   expect(setListingHandler).toHaveBeenCalledTimes(1);
 });
@@ -75,7 +73,7 @@ test('Marker, simulate click', () => {
 test('Marker, simulate click, no handler', () => {
   let temp = markerProps;
   temp.type = 'listing';
-  const wrapper = mount(<AnyReactComponent {...temp} />);
+  const wrapper = mount(<Marker {...temp} />);
   // will reach handler -> verify that method 'clickHandler' is triggered
   wrapper.find(RoomIcon).simulate('click');
   expect(setListingHandler).toHaveBeenCalledTimes(1);
