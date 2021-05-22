@@ -60,7 +60,7 @@ const HoverBox = ({ place, placeId, isHidden, id }) => {
   );
 };
 
-const AnyReactComponent = (props) => {
+const Marker = (props) => {
   const { id, setListing, type, place } = props;
   const color = {
     marker: 'rgba(40,40,220,0.95)',
@@ -69,9 +69,9 @@ const AnyReactComponent = (props) => {
     selected: 'rgba(255,255,0,1)',
   };
 
-  const clickHandler = (id) => {
+  const clickHandler = (listingId) => {
     if (setListing) {
-      setListing(id);
+      setListing(listingId);
     }
   };
 
@@ -121,4 +121,4 @@ const AnyReactComponent = (props) => {
   );
 };
 
-export default AnyReactComponent;
+export default Marker;

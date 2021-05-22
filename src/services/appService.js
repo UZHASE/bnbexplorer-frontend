@@ -38,10 +38,10 @@ export const clickListingHandler = async (key, filterParams) => {
     // thus, remove the host information and try again.
     delete params.hostId;
     delete params.listingsPerHost;
-    const recommendationResponse = await Api.get(`listings/recommendations`, {
+    const recommendationResponse_2 = await Api.get(`listings/recommendations`, {
       params,
     });
-    recommendationResponseData = recommendationResponse.data;
+    recommendationResponseData = recommendationResponse_2.data;
   }
   return {
     listingResponseData,

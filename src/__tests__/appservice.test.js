@@ -49,7 +49,8 @@ const listingsResponseData = [
 ];
 
 test('clickListingHandler returns listing, review & recommendations', () => {
-  // Api.get = jest.fn().mockResolvedValue({ data: resp });
+  // check that when a listing is clicked, clickListingHandler will lead to a
+  // data request for this listing, reviews and also recommendations
 
   //listing get
   jest.spyOn(Api, 'get').mockResolvedValueOnce({
@@ -72,22 +73,29 @@ test('clickListingHandler returns listing, review & recommendations', () => {
   );
 });
 
-test('clickListingHandler returns listing, review & recommendations catches no recommendations', () => {
-  //listing get
+test('clickListingHandler returns listing, review & recommendations and catches no recommendations', () => {
+  // check that when a listing is clicked, clickListingHandler will lead to a
+  // data request, and if recommendations had an error, i.e. filters too restricted, an empty array is returned
+  // and subsequently a new call will be made to with less strict filter criteria
+
+  //first the listings call
   jest.spyOn(Api, 'get').mockResolvedValueOnce({
     data: listingResponseData,
   });
-  //reviews get
+  //second is for the reviews
   jest.spyOn(Api, 'get').mockResolvedValueOnce({
     data: reviewResponseData,
   });
+  //recommendations returns [] => error or too strict
   jest.spyOn(Api, 'get').mockResolvedValueOnce({
     data: [],
   });
+  //try again with less strict filter criteria
   jest.spyOn(Api, 'get').mockResolvedValueOnce({
     data: recommendationResponseData,
   });
 
+  // 1234 is a random listingId here
   return clickListingHandler('1234', defaultFilterSettings).then((data) =>
     expect(data).toEqual({
       listingResponseData,
@@ -97,7 +105,8 @@ test('clickListingHandler returns listing, review & recommendations catches no r
   );
 });
 
-test('loadListingData', () => {
+test('loadListingData with filter Settings', () => {
+  // check that the method loadListingData calls the api which in turn returns the data with the listing
   jest.spyOn(Api, 'get').mockResolvedValueOnce({
     data: listingsResponseData,
   });
@@ -107,6 +116,8 @@ test('loadListingData', () => {
 });
 
 test('loadListingData catches error', () => {
+  // check that when the method loadListingData calls the api,
+  // and the api throws an error, that still an empty array is returned.
   jest.spyOn(Api, 'get').mockResolvedValueOnce();
   return loadListingsData(defaultFilterSettings).then((data) =>
     expect(data).toEqual([]),
