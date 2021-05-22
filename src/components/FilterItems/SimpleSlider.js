@@ -16,8 +16,8 @@ const SimpleSlider = ({
   const [debouncedValue, setDebouncedValue] = useState(initialValue);
   const ref = useRef(false);
 
-  const handleValueChange = (event, value) => {
-    setValue(value);
+  const handleValueChange = (event, val) => {
+    setValue(val);
   };
 
   useEffect(() => {

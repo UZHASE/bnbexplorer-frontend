@@ -114,9 +114,7 @@ function App() {
               <Grid item xs={4}>
                 <FilterBox
                   listings={listings}
-                  setFilters={(filterSettings) =>
-                    setFilterSettings(filterSettings)
-                  }
+                  setFilters={(filterParams) => setFilterSettings(filterParams)}
                 />
               </Grid>
               <Grid item xs={8}>

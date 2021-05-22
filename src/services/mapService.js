@@ -67,7 +67,7 @@ export const getMappedComplaintData = (complaintData) => {
         options: {
           radius: 20,
           opacity: 0.6,
-          gradient: ['rgba(240, 40, 120,0)', 'rgba(240, 40, 120, 1)'],
+          gradient: ['rgba(240, 40, 120, 0)', 'rgba(240, 40, 120, 1)'],
         },
       }
     : {};
