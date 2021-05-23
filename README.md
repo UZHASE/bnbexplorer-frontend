@@ -8,11 +8,25 @@
 
 - Source code documentation can be found [here](https://uzhase.github.io/bnbexplorer-frontend/index.html)
 
+
+***
+## .env File
+For the submission of the project, the ```.env``` file is already included in the zipped project deliverable.
+Otherwise, to use the project, a ```.env``` file is required, containing the following two entries.
+
+```bash
+REACT_APP_API_URL= #your backend URL
+REACT_APP_GOOGLE_MAPS_API_KEY= #your google api key here
+```
+
+Additionally, [Google places](https://developers.google.com/maps/documentation/places/web-service/overview)
+and [Maps JS API](https://developers.google.com/maps/documentation/javascript/overview) need to be enabled for your API key.
+
+
 ***
 ## Running with Docker
 
 To run the full project, including the backend, the setup guidelines can be found [here](https://github.com/UZHASE/bnbexplorer-docker).
-
 ***
 
 The recommended way to run the frontend of the project is to run it in a [Docker container](https://www.docker.com/). <br>
@@ -25,7 +39,6 @@ docker build -t frontend .
 # starting the container
 docker run -p 3000:3000 frontend
 ```
-
 ***
 ## Local Project Setup
 
