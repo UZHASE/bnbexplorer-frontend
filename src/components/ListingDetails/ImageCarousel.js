@@ -1,11 +1,10 @@
 import { Carousel } from 'react-responsive-carousel';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 /**
  * ImageCarousel shows images and adds buttons to switch images.
- *
  * @component
+ * @prop {listingDetails} listing Information about a listing
  */
 const ImageCarousel = ({ listing }) => {
   if (listing && listing.images && listing.images.length > 0) {
@@ -23,15 +22,6 @@ const ImageCarousel = ({ listing }) => {
   } else {
     return <p>No Images Found</p>;
   }
-};
-
-ImageCarousel.propTypes = {
-  /**
-   * listingDetails
-   */
-  listing: PropTypes.shape({
-    images: PropTypes.array,
-  }),
 };
 
 export default ImageCarousel;

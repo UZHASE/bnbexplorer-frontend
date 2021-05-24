@@ -2,7 +2,6 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import PropTypes from 'prop-types';
 
 import ListingInfoItem from './ListingInfoItem';
 import './listingDetails.scss';
@@ -83,12 +82,6 @@ const ListingDetails = (props) => {
   } else {
     return <div id='listing-details-no-content' />;
   }
-};
-
-ListingDetails.propTypes = {
-  listing: PropTypes.object,
-  onClick: PropTypes.func,
-  showReviews: PropTypes.bool,
 };
 
 export default ListingDetails;
