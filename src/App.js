@@ -13,13 +13,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import Map from './components/Map/Map';
 import ListingDetails from './components/ListingDetails/ListingDetails';
-import background from './img/oliver-niblett-wh-7GeXxItI-unsplash.jpg';
 import Searchbar from './components/Searchbar';
 import Log from './services/helper/Log.js';
-import './App.css';
 import FilterBox from './components/FilterBox';
 import ReviewModal from './components/ReviewModal';
 import { clickListingHandler, loadListingsData } from './services/appService';
+import './App.scss';
 
 function App() {
   const Logger = new Log('App.js');
@@ -58,16 +57,7 @@ function App() {
   };
 
   return (
-    <div
-      style={{
-        backgroundImage: `url(${background})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        minHeight: '100vh',
-        margin: 0,
-        backgroundColor: 'black',
-      }}
-    >
+    <div className='app-container'>
       <Container maxWidth='lg'>
         <AppBar
           position='static'
@@ -98,15 +88,7 @@ function App() {
             <Typography>Details</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Grid
-              container
-              spacing={3}
-              style={{
-                padding: '0px 12px 0px 0px',
-                marginBottom: '12px',
-                maxHeight: '500px',
-              }}
-            >
+            <Grid container spacing={3} className='accordion-details-controls'>
               <Grid item xs={12} style={{ paddingRight: '0' }}>
                 <Searchbar
                   onSearchValueChange={(searchResults) =>

@@ -1,0 +1,20 @@
+.review-grid {
+  display: flex;
+  flex-direction: row;
+
+  &.with-review {
+    cursor: pointer;
+    color: #66ccff;
+  }
+
+  .review-icon {
+    margin-right: 5px;
+  }
+  .review-typography {
+    font-weight: 900;
+
+    &.with-review {
+      text-decoration: underline;
+    }
+  }
+}

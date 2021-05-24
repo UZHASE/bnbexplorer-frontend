@@ -37,36 +37,15 @@ const HoverBox = (props) => {
         top: markerOffsetTopComputed,
       }}
     >
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          marginBottom: '4px',
-          fontFamily: 'Roboto, Arial, sans-serif',
-        }}
-      >
+      <div className='hoverbox-container-inner'>
         <img
           src={place.icon}
           alt={place.name}
-          style={{ width: '16px', height: '16px', marginRight: '8px' }}
+          className='hoverbox-container-inner-icon'
         />
-        <div
-          style={{
-            fontStyle: 'normal',
-            fontWeight: '500',
-            fontSize: '14px',
-            fontStretch: '100%',
-            maxHeight: '60px',
-            overflow: 'hidden',
-            hyphens: 'auto',
-          }}
-        >
-          {place.name}
-        </div>
+        <div className='hoverbox-container-inner-label'>{place.name}</div>
       </div>
-      <span style={{ fontSize: '13px', fontWeight: '400' }}>
-        {place.formatted_address}
-      </span>
+      <span className='hoverbox-address'>{place.formatted_address}</span>
     </Container>
   );
 };
@@ -98,20 +77,11 @@ const Marker = (props) => {
 
   return (
     <div id={`map-marker-${id}-${type}`}>
-      <div
-        style={{
-          position: 'absolute',
-          left: '-12px',
-          top: '-12px',
-        }}
-        key={id}
-        id={id}
-      >
+      <div className='marker-container-inner' key={id} id={id}>
         <RoomIcon
           key={id}
+          className='marker-container-inner-room-icon'
           style={{
-            position: 'relative',
-            cursor: 'pointer',
             zIndex: type === 'marker' ? 400 : 'unset',
             color: color[type],
           }}
