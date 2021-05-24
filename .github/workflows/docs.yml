@@ -20,7 +20,10 @@ jobs:
           node-version: '14'
       
       - name: Dependencies
-        run: sudo npm i -g react parcel-bundler
+        run: |
+              sudo npm i 
+              sudo npm i -g react
+              sudo npm i -g parcel-bundler
         
       - name: Build
         uses: andstor/jsdoc-action@v1
