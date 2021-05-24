@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - dev
   workflow_dispatch:
   
 
@@ -27,11 +28,6 @@ jobs:
               sudo npm i -g better-docs
               sudo npm i -g react-dom
         
-      - name: Build
-        uses: brunokrauss/jsdoc-action@1
-        with:
-            jsdoc-path: 'src'
-
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
