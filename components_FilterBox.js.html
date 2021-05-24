@@ -1,0 +1,259 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> components/FilterBox.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">BnB Explorer Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-appService.html">appService</a></li><li><a href="module-filterboxService.html">filterboxService</a></li><li><a href="module-filterService.html">filterService</a></li><li><a href="module-mapService.html">mapService</a></li><li><a href="module-markerService.html">markerService</a></li></ul><h3>Classes</h3><ul><li><a href="Log.html">Log</a></li></ul><h3>Components</h3><ul><li><a href="FilterBox.html">FilterBox</a></li><li><a href="HoverBox.html">HoverBox</a></li><li><a href="ImageCarousel.html">ImageCarousel</a></li><li><a href="ListingDetails.html">ListingDetails</a></li><li><a href="ListingInfoItem.html">ListingInfoItem</a></li><li><a href="Map.html">Map</a></li><li><a href="Marker.html">Marker</a></li><li><a href="RangeSlider.html">RangeSlider</a></li><li><a href="ReviewModal.html">ReviewModal</a></li><li><a href="Searchbar.html">Searchbar</a></li><li><a href="SimpleSelect.html">SimpleSelect</a></li><li><a href="SimpleSlider.html">SimpleSlider</a></li></ul><h3><a href="global.html">Global</a></h3></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>components/FilterBox.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from 'react';
+import _ from 'lodash';
+import RangeSlider from './FilterItems/RangeSlider';
+import SimpleSlider from './FilterItems/SimpleSlider';
+import {
+  CURRENCY,
+  DEFAULT_FILTER_SETTINGS,
+  DURATION_SCALE,
+} from '../constants/filterSettings';
+import SimpleSelect from './FilterItems/SimpleSelect';
+import { CircularProgress } from '@material-ui/core';
+import Api from '../lib/Http/Api';
+import {
+  calculateReverseScale,
+  DURATION_MARKS,
+} from '../services/filterService';
+import {
+  handleSettingsChange,
+  setPriceRangeMax,
+} from '../services/filterboxService';
+
+/**
+ * A parent component that contains various filter components in the form of sliders and selectors.
+ *
+ * @component
+ * @prop {function} setFilters A function handler to propagate filter Settings from its children component to its parent component.
+ */
+const FilterBox = (props) => {
+  const { setFilters } = props;
+  const [filterSettings, setFilterSettings] = useState(DEFAULT_FILTER_SETTINGS);
+  const [metaListingsData, setMetaListingsData] = useState({});
+
+  useEffect(() => {
+    const loadMetaListingData = async () => {
+      const response = await Api.get('listings/metadata');
+      setMetaListingsData(response.data);
+    };
+    loadMetaListingData();
+  }, []);
+
+  const changeSettings = (name, value) => {
+    //prettier-ignore
+    const newSettings = handleSettingsChange(
+      name,
+      value,
+      filterSettings,
+      metaListingsData
+    );
+    setFilterSettings(newSettings);
+    setFilters(newSettings);
+  };
+
+  const defaultProps = {
+    propagateValue: changeSettings,
+  };
+
+  const priceRangeProps = {
+    ...defaultProps,
+    min:
+      metaListingsData &amp;&amp; metaListingsData.minPrice
+        ? metaListingsData.minPrice
+        : 0,
+    max: metaListingsData ? setPriceRangeMax(metaListingsData) : 100,
+    valueA: filterSettings.priceMin,
+    valueB: filterSettings.priceMax,
+    text: 'Price Range (' + CURRENCY + ')',
+    name: 'priceRange',
+  };
+
+  const minNightsProps = {
+    ...defaultProps,
+    min: 1,
+    max: 9,
+    initialValue: calculateReverseScale(filterSettings.minNights),
+    text: 'Min. number of nights',
+    enableMarks: DURATION_MARKS(),
+    scale: (x) => DURATION_SCALE[x],
+    name: 'minNights',
+  };
+
+  const availabilityProps = {
+    ...defaultProps,
+    min: 1,
+    max: 9,
+    initialValue: calculateReverseScale(filterSettings.availability),
+    text: 'Min. Availability',
+    enableMarks: DURATION_MARKS(),
+    scale: (x) => DURATION_SCALE[x],
+    name: 'availability',
+  };
+
+  const listingsPerHostProps = {
+    ...defaultProps,
+    min: 1,
+    max: 10,
+    initialValue: filterSettings.listingsPerHost,
+    text: 'Min. Number of listings per host',
+    name: 'listingsPerHost',
+  };
+
+  const neighbourhoodProps = {
+    ...defaultProps,
+    values:
+      metaListingsData &amp;&amp; metaListingsData.neighbourhoods
+        ? metaListingsData.neighbourhoods
+        : [],
+    text: 'Neighbourhoods',
+    name: 'location',
+  };
+
+  const roomTypeProps = {
+    ...defaultProps,
+    values:
+      metaListingsData &amp;&amp; metaListingsData.roomTypes
+        ? metaListingsData.roomTypes
+        : [],
+    text: 'Room Types',
+    name: 'roomType',
+  };
+
+  return (
+    &lt;div id='filterbox-component'>
+      {metaListingsData &amp;&amp; !_.isEmpty(metaListingsData) ? (
+        &lt;>
+          &lt;RangeSlider {...priceRangeProps} id='pricerange-slider' />
+          &lt;SimpleSlider {...minNightsProps} />
+          &lt;SimpleSlider {...availabilityProps} />
+          &lt;SimpleSlider {...listingsPerHostProps} id='listings-slider' />
+          &lt;SimpleSelect {...neighbourhoodProps} />
+          &lt;SimpleSelect {...roomTypeProps} />
+        &lt;/>
+      ) : (
+        &lt;CircularProgress id='circularProgress-FilterBox' />
+      )}
+    &lt;/div>
+  );
+};
+
+export default FilterBox;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>
