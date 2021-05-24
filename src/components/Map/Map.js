@@ -18,6 +18,16 @@ import {
 
 const emptyProp = { positions: [], options: {} };
 
+/**
+ * A Map component that includes the visualization of New York and listing location markers.
+ *
+ * @component
+ * @prop {array} listings The listings to be shown on the map
+ * @prop {function} setListing An event handler when a listing is clicked on
+ * @prop {string} placeSearch The propagated search value from the Searchbar
+ * @prop {array} recommendations Recommended listings based on the selected listing
+ * @prop {Object} selected The currently clicked on listing
+ */
 const Map = (props) => {
   const defaultProps = {
     center: { lat: 40.72, lng: -74 },
@@ -46,12 +56,14 @@ const Map = (props) => {
   const rodentData = getMappedRodentData(rodent);
   const complaintData = getMappedComplaintData(complaints);
 
+  //compose heatmap data
   const data = [
     toggle.crime ? crimeData : emptyProp,
     toggle.rodent ? rodentData : emptyProp,
     toggle.complaints ? complaintData : emptyProp,
   ];
 
+  // switches to toggle heatmaps and recommendations
   const Switches = (props) => {
     return props.inputs.map((e, idx) => {
       return (
@@ -88,6 +100,8 @@ const Map = (props) => {
   }, []);
 
   useEffect(() => {
+    // if a searchterm was entered, call google places api to look
+    // for matches that are close to new york
     if (placeSearch) {
       const { map, maps } = apiData;
       const service = new maps.places.PlacesService(map);
@@ -112,6 +126,7 @@ const Map = (props) => {
   };
 
   const apiHasLoaded = (map, maps) => {
+    // google maps internal functions
     setApiData({ map, maps });
   };
 

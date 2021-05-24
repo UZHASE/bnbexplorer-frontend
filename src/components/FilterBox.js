@@ -19,7 +19,14 @@ import {
   setPriceRangeMax,
 } from '../services/filterboxService';
 
-const FilterBox = ({ setFilters }) => {
+/**
+ * A parent component that contains various filter components in the form of sliders and selectors.
+ *
+ * @component
+ * @prop {function} setFilters A function handler to propagate filter Settings from its children component to its parent component.
+ */
+const FilterBox = (props) => {
+  const { setFilters } = props;
   const [filterSettings, setFilterSettings] = useState(DEFAULT_FILTER_SETTINGS);
   const [metaListingsData, setMetaListingsData] = useState({});
 
@@ -33,14 +40,14 @@ const FilterBox = ({ setFilters }) => {
 
   const changeSettings = (name, value) => {
     //prettier-ignore
-    const temp = handleSettingsChange(
+    const newSettings = handleSettingsChange(
       name,
       value,
       filterSettings,
       metaListingsData
     );
-    setFilterSettings(temp);
-    setFilters(temp);
+    setFilterSettings(newSettings);
+    setFilters(newSettings);
   };
 
   const defaultProps = {

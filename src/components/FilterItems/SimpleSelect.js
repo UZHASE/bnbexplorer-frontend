@@ -41,7 +41,17 @@ export function getStyles(e, values, theme) {
   };
 }
 
-const SimpleSelect = ({ values, text, propagateValue, name }) => {
+/**
+ * A reusable select component
+ *
+ * @component
+ * @prop {array} values An array containing the values that can be selected
+ * @prop {string} [text] Label of the select component
+ * @prop {func} propagateValue A function handler to propagate values changes to the parent
+ * @prop {string} name Name of the attribute which will be propagated to its parent component
+ */
+const SimpleSelect = (props) => {
+  const { values, text, propagateValue, name } = props;
   const [vals, setVals] = React.useState(values);
   const classes = useStyles();
   const theme = useTheme();

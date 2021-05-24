@@ -6,10 +6,21 @@ import classNames from 'classnames';
 import './Marker.scss';
 import { getHoverBoxStyleData, composeId } from '../../services/markerService';
 
-const HoverBox = ({ place, placeId, isHidden, id }) => {
+/**
+ * A visual component that is shown when the user hovers above a searched place on the map.
+ *
+ * @component
+ * @prop {Object} place The information about the place which is currently being hovered on
+ * @prop {string} placeId An HTML element id of the pin which belongs to the searched place that is being hovered on
+ * @prop {boolean} isHidden Determines the visibility of the component.
+ * @prop {string} id The id of the Hoverbox
+ */
+const HoverBox = (props) => {
+  const { place, placeId, isHidden, id } = props;
+  //prettier-ignore
   const { foldLeft, foldTop, markerOffsetTopComputed } = getHoverBoxStyleData(
     isHidden,
-    placeId
+    placeId,
   );
 
   return (
@@ -60,6 +71,16 @@ const HoverBox = ({ place, placeId, isHidden, id }) => {
   );
 };
 
+/**
+ * A pin on top of the map component, for all listings, recommendations
+ * and currently selected listing, as well as searchresults.
+ *
+ * @component
+ * @prop {number} id The id of a place to which the marker belongs
+ * @prop {function} setListing A function callback to set the clicked on listing as the selected listing
+ * @prop {string} type If the marker belongs to a listing, recommendation, search place or is selected
+ * @prop {Object} [place] The information about the place which is currently being hovered on
+ */
 const Marker = (props) => {
   const { id, setListing, type, place } = props;
   const color = {

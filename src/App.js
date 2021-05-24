@@ -34,6 +34,7 @@ function App() {
   const [showReviews, setShowReviews] = useState(true);
 
   useEffect(() => {
+    // load listings on mount and when filter settings change
     const loadListings = async (filters) => {
       setListings(await loadListingsData(filters));
     };
@@ -41,6 +42,7 @@ function App() {
   }, [filterSettings]);
 
   const clickListing = async (key) => {
+    // load the corresponding data for a listing when it is clicked upon
     const {
       listingResponseData,
       reviewResponseData,
@@ -51,6 +53,7 @@ function App() {
     setListing(listingResponseData);
     setReviews(reviewResponseData);
     setRecommendations(recommendationResponseData);
+    // reviews might be an empty array
     setShowReviews(reviewResponseData && reviewResponseData.length >= 1);
   };
 

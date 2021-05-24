@@ -8,9 +8,13 @@ import './listingDetails.scss';
 import ImageCarousel from './ImageCarousel';
 
 /**
- * ListingDetails
+ * A parent component which is responsible for passing down detailed information
+ * about a selected listing to its children components.
  *
  * @component
+ * @prop {listingDetails} listing Information about a listing
+ * @prop {function} onClick A handler for a click Event
+ * @prop {boolean} showReviews If reviews are to be shown
  */
 const ListingDetails = (props) => {
   const { listing, onClick, showReviews } = props;
