@@ -20,7 +20,7 @@ jobs:
           source_dir: ./src
           output_dir: ./docs
           config_file: jsdoc.conf.json
-          template: parcel-bundler better-docs
+          template: parcel-bundler, better-docs
           front_page: README.md
 
       - name: Deploy
