@@ -13,9 +13,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
       
       - name: Dependencies
-        run: npm i parcel-bundler react
+        run: |
+              npm i react
+              npm i parcel-bundler
         
       - name: Build
         uses: andstor/jsdoc-action@v1
