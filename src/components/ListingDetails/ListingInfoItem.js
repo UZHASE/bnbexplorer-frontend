@@ -3,6 +3,15 @@ import React from 'react';
 import { Typography } from '@material-ui/core';
 import RateReviewIcon from '@material-ui/icons/RateReview';
 
+/**
+ * A child component inside ListingDetails which renders a piece of detailed information about a selected listing.
+ * Additionally, it includes the callback button for showing reviews.
+ *
+ * @component
+ * @prop {listingDetails} listing Information about a listing
+ * @prop {function} onClick A handler for a click Event
+ * @prop {boolean} showReviews If reviews are to be shown
+ */
 const ListingInfoItem = (props) => {
   const { listing, onClick, showReviews } = props;
 

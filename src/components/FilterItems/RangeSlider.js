@@ -2,18 +2,24 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Slider, Typography } from '@material-ui/core';
 import { RANGEMAX } from '../../constants/filterSettings';
 
-const RangeSlider = ({
-  min,
-  max,
-  valueA,
-  valueB,
-  propagateValue,
-  text,
-  name,
-}) => {
+/**
+ * A reusable range-slider component. It contains two movable marks
+ * that define the range and uses term debouncing to propagate the value.
+ *
+ * @component
+ * @prop {number} min
+ * @prop {number} max
+ * @prop {number} valueA Initial lower value
+ * @prop {number} valueB Initial higher value
+ * @prop {func} propagateValue A function handler to propagate values changes to the parent
+ * @prop {string} [text] Label of the slider
+ * @prop {string} name Name of the attribute which will be propagated to its parent component
+ */
+const RangeSlider = (props) => {
+  const { min, max, valueA, valueB, propagateValue, text, name } = props;
   const [range, setRange] = useState([valueA, valueB]);
   const [debouncedRange, setDebouncedRange] = useState([valueA, valueB]);
-  const ref = useRef(false);
+  const ref = useRef(false); //prevents a rerender on mount
   const handleRangeChange = (event, value) => {
     setRange(value);
   };
@@ -36,6 +42,9 @@ const RangeSlider = ({
   }, [debouncedRange]);
 
   const labelReturner = (value) => {
+    //if value equals rangemax render it with a +
+    // to indicate that the range is not limited at the top end.
+    // (Due to the slider, the value cannot be larger than rangemax)
     return value === RANGEMAX ? <div>{`${value}+`}</div> : <div>{value}</div>;
   };
 

@@ -1,20 +1,35 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Slider, Typography } from '@material-ui/core';
 
-const SimpleSlider = ({
-  min,
-  max,
-  initialValue,
-  propagateValue,
-  text,
-  enableMarks = false,
-  scale = (x) => x,
-  name,
-  id,
-}) => {
+/**
+ * A reusable slider component that contains term debouncing to propagate its value.
+ *
+ * @component
+ * @prop {number} min
+ * @prop {number} max
+ * @prop {number} initialValue
+ * @prop {func} propagateValue A function handler to propagate values changes to the parent
+ * @prop {string} [text] Label of the slider
+ * @prop {boolean} [enableMarks] If marks are to be shown
+ * @prop {func} [scale] A function to determine the relation between the values to be shown and the marks (only applicable if marks are present)
+ * @prop {string} name Name of the attribute which will be propagated to its parent component
+ * @prop {number | string} id a particular ID
+ */
+const SimpleSlider = (props) => {
+  const {
+    min,
+    max,
+    initialValue,
+    propagateValue,
+    text,
+    enableMarks = false,
+    scale = (x) => x,
+    name,
+    id,
+  } = props;
   const [value, setValue] = useState(initialValue);
   const [debouncedValue, setDebouncedValue] = useState(initialValue);
-  const ref = useRef(false);
+  const ref = useRef(false); //prevents a rerender on mount
 
   const handleValueChange = (event, val) => {
     setValue(val);
