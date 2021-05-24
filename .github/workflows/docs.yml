@@ -19,7 +19,11 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-              
+          
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      
       - name: Build
         uses: fabiank0/jsdoc-action@v2
         with:
@@ -27,6 +31,10 @@ jobs:
           output_dir: ./docs
           config_file: jsdoc.conf.json
           front_page: README.md
+        
+      - name: List files in the repository2
+        run: |
+          ls ${{ github.workspace }}
         
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
