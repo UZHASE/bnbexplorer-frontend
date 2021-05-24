@@ -23,8 +23,8 @@ jobs:
       - name: Build
         uses: fabiank0/jsdoc-action@master
         with:
-          source_dir: src
-          output_dir: docs
+          source_dir: ./src
+          output_dir: ./docs
           config_file: jsdoc.conf.json
           template: better-docs
           front_page: README.md
