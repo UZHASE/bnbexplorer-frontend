@@ -32,7 +32,7 @@ jobs:
         uses: fabiank0/jsdoc-action@master
         with:
           source_dir: ./src
-          output_dir: ./docs
+          output_dir: ./documentation
           template: better-docs
           config_file: jsdoc.conf.json
           front_page: README.md
@@ -45,4 +45,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
+          publish_dir: ./documentation
