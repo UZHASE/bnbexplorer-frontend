@@ -27,7 +27,7 @@ jobs:
           
       - name: List files in the repository
         run: |
-          ls ${{ github.workspace/node_modules }}
+          ls ${{ github.workspace }}/node_modules
       
       - name: Build
         uses: fabiank0/jsdoc-action@master
