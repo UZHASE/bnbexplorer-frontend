@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { configure } from '@testing-library/dom';
 configure({ testIdAttribute: 'id' });
 // make actual IDs available as testIds
-import ListingDetails from '../components/ListingDetails';
+import ListingDetails from '../components/ListingDetails/ListingDetails';
 
 // MOCK DATA
 const listing = {

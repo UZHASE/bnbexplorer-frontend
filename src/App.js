@@ -12,7 +12,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import Map from './components/Map/Map';
-import ListingDetails from './components/ListingDetails';
+import ListingDetails from './components/ListingDetails/ListingDetails';
 import background from './img/oliver-niblett-wh-7GeXxItI-unsplash.jpg';
 import Searchbar from './components/Searchbar';
 import Log from './services/helper/Log.js';
