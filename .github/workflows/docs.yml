@@ -25,10 +25,11 @@ jobs:
           ls ${{ github.workspace }}
       
       - name: Build
-        uses: fabiank0/jsdoc-action@v2
+        uses: fabiank0/jsdoc-action@master
         with:
           source_dir: ./src
           output_dir: ./docs
+          template: better-docs
           config_file: jsdoc.conf.json
           front_page: README.md
         
