@@ -15,6 +15,7 @@ import {
   getMappedComplaintData,
   switchesTooltips,
 } from '../../services/mapService';
+import './Map.scss';
 
 const emptyProp = { positions: [], options: {} };
 
@@ -211,21 +212,12 @@ const Map = (props) => {
         </div>
       </Accordion>
       <Accordion style={{ display: 'flex' }}>
-        <FormGroup
-          row
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginRight: '16px',
-            width: '100%',
-          }}
-        >
+        <FormGroup row className='form-group-switches'>
           <Switches
             disabled={recommendations && recommendations.length < 1}
             inputs={['recommendations']}
             label={'Show Recommendations Only'}
           />
-
           <div>
             <Switches inputs={['crime', 'rodent', 'complaints', 'transit']} />
           </div>
