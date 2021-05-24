@@ -4,9 +4,14 @@ import { Typography } from '@material-ui/core';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 import ListingInfoItem from './ListingInfoItem';
-import { Carousel } from 'react-responsive-carousel';
 import './listingDetails.scss';
+import ImageCarousel from './ImageCarousel';
 
+/**
+ * ListingDetails
+ *
+ * @component
+ */
 const ListingDetails = (props) => {
   const { listing, onClick, showReviews } = props;
   if (listing) {
@@ -78,22 +83,5 @@ const ListingDetails = (props) => {
     return <div id='listing-details-no-content' />;
   }
 };
-export default ListingDetails;
 
-const ImageCarousel = ({ listing }) => {
-  if (listing && listing.images && listing.images.length > 0) {
-    return (
-      <Carousel autoPlay showArrows={true}>
-        {listing.images.map((e) => {
-          return (
-            <div key={e} id={`listing-image-${e}`}>
-              <img className='carousel-image' src={e} alt='image' />
-            </div>
-          );
-        })}
-      </Carousel>
-    );
-  } else {
-    return <p>No Images Found</p>;
-  }
-};
+export default ListingDetails;
