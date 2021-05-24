@@ -1,0 +1,32 @@
+.review-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &-inner {
+    .review-modal-container {
+      background-color: white;
+      max-width: 95vw;
+      border-radius: 8px;
+      box-shadow: 0 2px 7px 1px rgb(0 0 0 / 30%);
+      padding-bottom: 16px;
+
+      .review-modal-label-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        padding-top: 12px;
+
+        .close-icon {
+          margin-top: 5px;
+          cursor: pointer;
+        }
+      }
+
+      .review-modal-scroll-area {
+        height: 70vh !important;
+        width: 70vw !important;
+      }
+    }
+  }
+}

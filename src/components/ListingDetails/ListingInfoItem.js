@@ -2,6 +2,7 @@ import Grid from '@material-ui/core/Grid';
 import React from 'react';
 import { Typography } from '@material-ui/core';
 import RateReviewIcon from '@material-ui/icons/RateReview';
+import './ListingInfoItem.scss';
 
 /**
  * A child component inside ListingDetails which renders a piece of detailed information about a selected listing.
@@ -31,25 +32,13 @@ const ListingInfoItem = (props) => {
           item
           xs={4}
           id='listing-info-item-review-has-review'
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            cursor: 'pointer',
-            color: '#66ccff',
-          }}
+          className='review-grid with-review'
           onClick={onClick}
         >
-          <>
-            <RateReviewIcon style={{ marginRight: '5px' }} />
-            <Typography
-              style={{
-                fontWeight: '900',
-                textDecoration: 'underline',
-              }}
-            >
-              Reviews
-            </Typography>
-          </>
+          <RateReviewIcon className='review-icon' />
+          <Typography className='review-typography with-review'>
+            Reviews
+          </Typography>
         </Grid>
       );
     } else {
@@ -58,18 +47,9 @@ const ListingInfoItem = (props) => {
           item
           id='listing-info-item-review-no-review'
           xs={4}
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-          }}
+          className='review-grid'
         >
-          <Typography
-            style={{
-              fontWeight: '900',
-            }}
-          >
-            No Reviews
-          </Typography>
+          <Typography className='review-typography'>No Reviews</Typography>
         </Grid>
       );
     }
