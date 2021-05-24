@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - dev
   workflow_dispatch:
   
 
@@ -21,11 +20,13 @@ jobs:
           node-version: '14'
           
       - name: Install Dependencies
-        run: npm i
+        run: |
+            sudo npm i
+            sudo npm i -g parcel-bundler
           
       - name: List files in the repository
         run: |
-          ls ${{ github.workspace }}
+          ls ${{ github.workspace }}/node_modules
       
       - name: Build
         uses: fabiank0/jsdoc-action@master
