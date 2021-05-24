@@ -10,7 +10,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -19,14 +19,15 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-      
-      - name: Dependencies
-        run: |
-              sudo npm i 
-              sudo npm i -g react
-              sudo npm i -g parcel-bundler
-              sudo npm i -g better-docs
-              sudo npm i -g react-dom
+              
+      - name: Build
+        uses: fabiank0/jsdoc-action@v1.3
+        with:
+          source_dir: src
+          output_dir: docs
+          config_file: jsdoc.conf.json
+          template: better-docs
+          front_page: README.md
         
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
