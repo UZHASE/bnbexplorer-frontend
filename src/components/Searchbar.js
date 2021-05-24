@@ -1,14 +1,17 @@
 import { TextField } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 
+/**
+ * A searchbar component that includes term debouncing to propagate to its parent component,
+ * i.e. only when the user has stopped typing for 500ms the term is propagated further.
+ *
+ * @component
+ * @prop {function} onSearchValueChange A function handler to propagate the value
+ */
 const Searchbar = (props) => {
-  /*
-  use term debouncing, such that only a request is sent, when the user stops typing for one second
-   */
-
+  const { onSearchValueChange } = props;
   const [val, setVal] = useState('');
   const [debouncedVal, setDebouncedVal] = useState('');
-  const { onSearchValueChange } = props;
 
   useEffect(() => {
     const timer = setTimeout(() => {
