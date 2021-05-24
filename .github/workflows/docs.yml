@@ -24,15 +24,13 @@ jobs:
               sudo npm i 
               sudo npm i -g react
               sudo npm i -g parcel-bundler
+              sudo npm i -g better-docs
+              sudo npm i -g react-dom
         
       - name: Build
-        uses: andstor/jsdoc-action@v1
+        uses: brunokrauss/jsdoc-action@1
         with:
-          source_dir: ./src
-          output_dir: ./docs
-          config_file: jsdoc.conf.json
-          template: better-docs
-          front_page: README.md
+            jsdoc-path: 'src'
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
