@@ -5,11 +5,10 @@ on:
     branches:
       - main
   workflow_dispatch:
-  
 
 jobs:
   deploy:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -24,25 +23,11 @@ jobs:
             sudo npm i
             sudo npm i -g parcel-bundler
           
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}/node_modules
-      
-      - name: Build
-        uses: fabiank0/jsdoc-action@master
-        with:
-          source_dir: ./src
-          output_dir: ./documentation
-          template: better-docs
-          config_file: jsdoc.conf.json
-          front_page: README.md
-        
-      - name: List files in the repository2
-        run: |
-          ls ${{ github.workspace }}
-        
+      - name: build docs
+        run: sudo npm run docs
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./documentation
+          publish_dir: ./docs2
